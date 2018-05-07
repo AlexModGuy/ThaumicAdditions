@@ -1,0 +1,221 @@
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            name = "forge"
+            url = "http://files.minecraftforge.net/maven"
+        }
+		maven {
+            name = "sonatype"
+            url = "https://oss.sonatype.org/content/repositories/snapshots/"
+        }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+		classpath 'de.undercouch:gradle-download-task:3.4.2'
+    }
+}
+
+plugins {
+    id 'com.matthewprenger.cursegradle' version '1.0.8'
+	id 'se.bjurr.gitchangelog.git-changelog-gradle-plugin' version '1.50'
+}
+
+apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'de.undercouch.download'
+
+ext.configFile = file "build.txt"
+
+configFile.withReader {
+    def prop = new Properties()
+    prop.load(it)
+    project.ext.config = new ConfigSlurper().parse prop
+}
+
+version = "${config.mod_version}"
+group = "com.pengu.${config.mod_id}"
+archivesBaseName = "${config.mod_id_fancy}-${config.minecraft_version}"
+
+sourceCompatibility = targetCompatibility = "1.8"
+compileJava {
+    sourceCompatibility = targetCompatibility = "1.8"
+}
+
+minecraft {
+    version = "${config.minecraft_version}-${config.forge_version}"
+    runDir = "run"
+    mappings = "${config.mcp}"
+    makeObfSourceJar = false
+	replace 'required-after:hammercore', "required-after:hammercore@[${config.hc_version},)"
+    replace '@VERSION@', "${config.mod_version}"
+	replace '@FINGERPRINT@', project.findProperty('signSHA1')
+}
+
+repositories {
+	mavenCentral()
+    maven {
+        name = "thiakil"
+        url = "http://maven.thiakil.com"
+    }
+    maven {
+        name = "CurseForge"
+        url = "https://minecraft.curseforge.com/api/maven/"
+    }
+    maven {
+        name = "jei"
+        url =  "http://dvs1.progwml6.com/files/maven"
+    }
+	maven {
+		name = "HWYLA"
+		url = "http://tehnut.info/maven"
+	}
+}
+
+dependencies {
+	deobfCompile "hammer-core:HammerCore-${config.minecraft_version}:${config.hc_version}:deobf"
+	deobfCompile "mcp.mobius.waila:Hwyla:1.8.24-B39_1.12"
+	deobfCompile "com.azanor.baubles:Baubles:1.12-1.5.2"
+	
+    deobfCompile "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}:api"
+    runtime "mezz.jei:jei_${config.minecraft_version}:${config.jei_version}"
+}
+
+processResources
+{
+    inputs.property "version", project.version
+    inputs.property "mcversion", config.minecraft_version
+    from(sourceSets.main.resources.srcDirs) {
+        include 'mcmod.info'
+		include 'pack.mcmeta'
+        expand 'version':project.version, 'mcversion':project.minecraft.version
+    }
+    from(sourceSets.main.resources.srcDirs) {
+        exclude 'mcmod.info'
+		exclude 'pack.mcmeta'
+    }
+	rename "mod_id_at.cfg", "META-INF/${config.mod_id}_at.cfg"
+}
+
+task DownloadThaumcraft(type: Download) {
+    src 'https://minecraft.curseforge.com/projects/thaumcraft/files/2558648/download'
+    dest new File("libs/Thaumcraft-1.12.2-6.1.BETA13.jar")
+    overwrite false
+}
+
+task deobfJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'deobf'
+    manifest {
+        attributes 'FMLAT': "${config.mod_id}_at.cfg"
+    }
+}
+
+task srcJar(type: Jar, dependsOn: classes) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+	manifest {
+        attributes 'FMLAT': "${config.mod_id}_at.cfg"
+    }
+}
+
+jar {
+	manifest {
+		attributes 'FMLAT': "${config.mod_id}_at.cfg"
+	}
+}
+
+artifacts {
+    archives deobfJar
+	archives srcJar
+}
+
+curseforge {
+	apiKey = System.env.CURSEFORGE_API_KEY != null ? System.env.CURSEFORGE_API_KEY : '0'
+	project {
+		id = "${config.cf_project}"
+		changelogType = 'html'
+		changelog = file("changelog.html")
+		releaseType = "${config.release_type}"
+		addGameVersion "${config.minecraft_version}"
+		mainArtifact(jar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} - ${config.mod_version}"
+		}
+		addArtifact(deobfJar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} (Deobfuscated) - ${config.mod_version}"
+		}
+		addArtifact(srcJar) {
+		  displayName = "[${config.minecraft_version}] ${config.mod_name} (Sources) - ${config.mod_version}"
+		}
+		relations {
+            requiredLibrary 'Hammer-Core'
+        }
+	}
+}
+
+task signJar(type: SignJar, dependsOn: reobfJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = jar.archivePath
+    outputFile = jar.archivePath
+}
+
+task signDeobfJar(type: SignJar, dependsOn: deobfJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = deobfJar.archivePath
+    outputFile = deobfJar.archivePath
+}
+
+task signSrcJar(type: SignJar, dependsOn: srcJar) {
+    onlyIf {
+        project.hasProperty('keyStore')
+    }
+    keyStore = project.findProperty('keyStore')
+    alias = project.findProperty('keyStoreAlias')
+    storePass = project.findProperty('keyStorePass')
+    keyPass = project.findProperty('keyStoreKeyPass')
+    inputFile = srcJar.archivePath
+    outputFile = srcJar.archivePath
+}
+
+task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
+    file = new File("changelog.html")
+    untaggedName = "Version ${project.version}"
+    fromCommit = "${config.start_git_commit}"
+    toRef =  "HEAD"
+    gitHubIssuePattern = "nonada123";
+    templateContent = """
+{{#tags}}
+<h1>Changes:</h1>
+  <ul>
+    {{#commits}}
+    <li> <a href="${config.gitCommit}" target=_blank> {{{message}}}</a>
+</li>
+    {{/commits}}
+  </ul>
+{{/tags}}
+"""
+}
+
+build.dependsOn signJar
+build.dependsOn signDeobfJar
+build.dependsOn signSrcJar
+tasks.build.dependsOn makeChangelog
+
+afterEvaluate {
+	tasks["eclipse"].dependsOn.add(DownloadThaumcraft);
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signJar)
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signDeobfJar)
+	tasks["curseforge${config.cf_project}"].dependsOn.add(signSrcJar)
+	tasks["curseforge${config.cf_project}"].dependsOn.add(makeChangelog)
+}

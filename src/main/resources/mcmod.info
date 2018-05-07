@@ -1,0 +1,10 @@
+[
+	{
+	  "modid": "",
+	  "name": "",
+	  "description": "",
+	  "version": "${version}",
+	  "mcversion": "${mcversion}",
+	  "authorList": ["APengu"]
+	}
+]
