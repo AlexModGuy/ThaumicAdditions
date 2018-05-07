@@ -219,6 +219,7 @@ build.dependsOn signSrcJar
 tasks.build.dependsOn makeChangelog
 
 afterEvaluate {
+    tasks["setupCIWorkspace"].dependsOn.add(DownloadThaumcraft);
     tasks["eclipse"].dependsOn.add(DownloadThaumcraft);
     tasks["build"].dependsOn.add(DownloadThaumcraft);
 	tasks["eclipse"].dependsOn.add(DownloadThaumicJEI);
