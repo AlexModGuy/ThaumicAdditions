@@ -102,6 +102,12 @@ task DownloadThaumcraft(type: Download) {
     overwrite false
 }
 
+task DownloadThaumicJEI(type: Download) {
+    src 'https://minecraft.curseforge.com/projects/thaumic-jei/files/2555794/download'
+    dest new File("libs/ThaumicJEI-1.12.2-1.2.2-5.jar")
+    overwrite false
+}
+
 task deobfJar(type: Jar) {
     from sourceSets.main.output
     classifier = 'deobf'
@@ -213,7 +219,10 @@ build.dependsOn signSrcJar
 tasks.build.dependsOn makeChangelog
 
 afterEvaluate {
-	tasks["eclipse"].dependsOn.add(DownloadThaumcraft);
+    tasks["eclipse"].dependsOn.add(DownloadThaumcraft);
+    tasks["build"].dependsOn.add(DownloadThaumcraft);
+	tasks["eclipse"].dependsOn.add(DownloadThaumicJEI);
+    tasks["build"].dependsOn.add(DownloadThaumicJEI);
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signJar)
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signDeobfJar)
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signSrcJar)
