@@ -1,0 +1,21 @@
+## Thaumic Additions English Translation (by EndieDargon)
+
+itemGroup.thaumadditions=Thaumic Additions: Reconstructed
+
+
+##BLOCKS##
+
+tile.thaumadditions:crafting_furnace.name=Crafting Furnace
+
+##########
+
+
+##ITEMS##
+
+item.thaumadditions:mithrillium_nugget.name=Mithrillium Nugget
+item.thaumadditions:adaminite_nugget.name=Adaminite Nugget
+item.thaumadditions:mithrillium_ingot.name=Mithrillium Ingot
+item.thaumadditions:adaminite_ingot.name=Adaminite Ingot
+item.thaumadditions:mithminite_ingot.name=Mithminite Ingot
+
+#########
