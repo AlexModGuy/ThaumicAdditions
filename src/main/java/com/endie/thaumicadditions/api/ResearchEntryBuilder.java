@@ -37,8 +37,8 @@ public class ResearchEntryBuilder
 	
 	public ResearchEntryBuilder setPosition(int x, int y)
 	{
-		entry.setDisplayRow(x);
-		entry.setDisplayColumn(y);
+		entry.setDisplayColumn(x);
+		entry.setDisplayRow(y);
 		return this;
 	}
 	

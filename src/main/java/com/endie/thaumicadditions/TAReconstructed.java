@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import com.endie.thaumicadditions.init.BlocksTAR;
 import com.endie.thaumicadditions.init.ItemsTAR;
 import com.endie.thaumicadditions.init.KnowledgeTAR;
+import com.endie.thaumicadditions.init.RecipesTAR;
 import com.endie.thaumicadditions.proxy.CommonProxy;
 import com.pengu.hammercore.HammerCore;
 import com.pengu.hammercore.common.SimpleRegistration;
@@ -71,6 +72,7 @@ public class TAReconstructed
 	{
 		proxy.init();
 		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, BACK_OVER);
+		RecipesTAR.init.call();
 	}
 	
 	@EventHandler
