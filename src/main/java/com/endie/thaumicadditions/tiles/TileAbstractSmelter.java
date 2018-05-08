@@ -1,8 +1,15 @@
 package com.endie.thaumicadditions.tiles;
 
+import com.endie.thaumicadditions.inventory.container.ContainerAbstractSmelter;
+import com.endie.thaumicadditions.inventory.gui.GuiAbstractSmelter;
+import com.pengu.hammercore.common.inventory.InventoryDummy;
+import com.pengu.hammercore.tile.TileSyncableTickable;
+
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.init.SoundEvents;
+import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
@@ -25,16 +32,16 @@ import thaumcraft.client.fx.FXDispatcher;
 import thaumcraft.common.blocks.essentia.BlockSmelter;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.utils.BlockStateUtils;
-import thaumcraft.common.tiles.TileThaumcraftInventory;
 import thaumcraft.common.tiles.devices.TileBellows;
 import thaumcraft.common.tiles.essentia.TileAlembic;
 import thaumcraft.common.tiles.essentia.TileSmelter;
 
-public abstract class TileOpenSmelter extends TileThaumcraftInventory
+public abstract class TileAbstractSmelter extends TileSyncableTickable implements ISidedInventory
 {
 	private static final int[] slots_bottom = new int[] { 1 };
 	private static final int[] slots_top = new int[0];
 	private static final int[] slots_sides = new int[] { 0 };
+	public InventoryDummy inv = new InventoryDummy(2);
 	public AspectList aspects = new AspectList();
 	public int vis;
 	private int maxVis = 256;
@@ -46,47 +53,63 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 	int count = 0;
 	int bellows = -1;
 	
-	public TileOpenSmelter()
-	{
-		super(2);
-	}
+	/**
+	 * The efficiency of this smelter. <br>
+	 * 0.8F for basic smelter (20% loss); <br>
+	 * 0.85F for thaumic smelter (15% loss); <br>
+	 * 0.95F for void smelter (5% loss);
+	 */
+	public abstract float getEfficiency();
+	
+	/**
+	 * The speed of this smelter. <br>
+	 * 15 for basic smelter; <br>
+	 * 10 for thaumic smelter; <br>
+	 * 15 for void smelter;
+	 */
+	public abstract int getSpeed();
 	
 	@Override
-	public void readSyncNBT(NBTTagCompound nbttagcompound)
+	public void readNBT(NBTTagCompound nbt)
 	{
-		this.furnaceBurnTime = nbttagcompound.getShort("BurnTime");
-	}
-	
-	@Override
-	public NBTTagCompound writeSyncNBT(NBTTagCompound nbttagcompound)
-	{
-		nbttagcompound.setShort("BurnTime", (short) this.furnaceBurnTime);
-		return nbttagcompound;
-	}
-	
-	@Override
-	public void readFromNBT(NBTTagCompound nbtCompound)
-	{
-		super.readFromNBT(nbtCompound);
-		this.speedBoost = nbtCompound.getBoolean("speedBoost");
-		this.furnaceCookTime = nbtCompound.getShort("CookTime");
-		this.currentItemBurnTime = TileEntityFurnace.getItemBurnTime((ItemStack) this.getStackInSlot(1));
-		this.aspects.readFromNBT(nbtCompound);
+		this.speedBoost = nbt.getBoolean("speedBoost");
+		this.furnaceCookTime = nbt.getShort("CookTime");
+		this.aspects.readFromNBT(nbt);
 		this.vis = this.aspects.visSize();
+		this.furnaceBurnTime = nbt.getShort("BurnTime");
+		this.currentItemBurnTime = nbt.getShort("CurrentBurnTime");
 	}
 	
 	@Override
-	public NBTTagCompound writeToNBT(NBTTagCompound nbtCompound)
+	public void writeNBT(NBTTagCompound nbt)
 	{
-		nbtCompound = super.writeToNBT(nbtCompound);
-		nbtCompound.setBoolean("speedBoost", this.speedBoost);
-		nbtCompound.setShort("CookTime", (short) this.furnaceCookTime);
-		this.aspects.writeToNBT(nbtCompound);
-		return nbtCompound;
+		nbt.setShort("BurnTime", (short) this.furnaceBurnTime);
+		nbt.setShort("CurrentBurnTime", (short) this.currentItemBurnTime);
+		nbt.setBoolean("speedBoost", this.speedBoost);
+		nbt.setShort("CookTime", (short) this.furnaceCookTime);
+		this.aspects.writeToNBT(nbt);
 	}
 	
 	@Override
-	public void update()
+	public boolean hasGui()
+	{
+		return true;
+	}
+	
+	@Override
+	public Object getClientGuiElement(EntityPlayer player)
+	{
+		return new GuiAbstractSmelter(player.inventory, this);
+	}
+	
+	@Override
+	public Object getServerGuiElement(EntityPlayer player)
+	{
+		return new ContainerAbstractSmelter(player.inventory, this);
+	}
+	
+	@Override
+	public void tick()
 	{
 		boolean flag = this.furnaceBurnTime > 0;
 		boolean flag1 = false;
@@ -103,10 +126,8 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 			}
 			int speed = this.getSpeed();
 			if(this.speedBoost)
-			{
-				speed = (int) ((double) speed * 0.8);
-			}
-			if(this.count % speed == 0 && this.aspects.size() > 0)
+				speed = (int) (speed * 0.8);
+			if(this.count % (speed / 2) == 0 && this.aspects.size() > 0)
 			{
 				for(Aspect aspect : this.aspects.getAspects())
 				{
@@ -133,7 +154,7 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 			{
 				if(this.canSmelt())
 				{
-					this.currentItemBurnTime = this.furnaceBurnTime = TileEntityFurnace.getItemBurnTime((ItemStack) this.getStackInSlot(1));
+					this.currentItemBurnTime = this.furnaceBurnTime = TileEntityFurnace.getItemBurnTime(this.getStackInSlot(1));
 					if(this.furnaceBurnTime > 0)
 					{
 						BlockSmelter.setFurnaceState(this.world, this.getPos(), true);
@@ -200,7 +221,7 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 		{
 			return false;
 		}
-		this.smeltTime = (int) ((float) (vs * 2) * (1.0f - 0.125f * (float) this.bellows));
+		this.smeltTime = (int) (vs * 2 * (1.0f - 0.125f * this.bellows));
 		return true;
 	}
 	
@@ -210,35 +231,19 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 		try
 		{
 			if(BlockStateUtils.getFacing(this.getBlockMetadata()) == EnumFacing.NORTH)
-			{
 				faces = new EnumFacing[] { EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.WEST };
-			}
 			if(BlockStateUtils.getFacing(this.getBlockMetadata()) == EnumFacing.SOUTH)
-			{
 				faces = new EnumFacing[] { EnumFacing.NORTH, EnumFacing.EAST, EnumFacing.WEST };
-			}
 			if(BlockStateUtils.getFacing(this.getBlockMetadata()) == EnumFacing.EAST)
-			{
 				faces = new EnumFacing[] { EnumFacing.SOUTH, EnumFacing.NORTH, EnumFacing.WEST };
-			}
 			if(BlockStateUtils.getFacing(this.getBlockMetadata()) == EnumFacing.WEST)
-			{
 				faces = new EnumFacing[] { EnumFacing.SOUTH, EnumFacing.EAST, EnumFacing.NORTH };
-			}
 		} catch(Exception exception)
 		{
 			// empty catch block
 		}
 		this.bellows = TileBellows.getBellows(this.world, this.pos, faces);
 	}
-	
-	private int getType()
-	{
-		return this.getBlockType() == BlocksTC.smelterBasic ? 0 : (this.getBlockType() == BlocksTC.smelterThaumium ? 1 : 2);
-	}
-	
-	public abstract float getEfficiency();
-	public abstract int getSpeed();
 	
 	public void smeltItem()
 	{
@@ -258,6 +263,15 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 						al.reduce(a, 1);
 						++flux;
 					}
+				} else if(this.getEfficiency() > 1.0F) // Gain extra vis?
+				{
+					int qq = al.getAmount(a);
+					for(int q = 0; q < qq; ++q)
+					{
+						if(this.world.rand.nextFloat() + 1 >= (a == Aspect.FLUX ? this.getEfficiency() * 0.66f : this.getEfficiency()))
+							continue;
+						al.add(a, 1 + world.rand.nextInt(qq));
+					}
 				}
 				this.aspects.add(a, al.getAmount(a));
 			}
@@ -269,27 +283,25 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 					for(EnumFacing face : EnumFacing.HORIZONTALS)
 					{
 						IBlockState vent = this.world.getBlockState(this.getPos().offset(face));
-						if(vent.getBlock() != BlocksTC.smelterVent || BlockStateUtils.getFacing(vent) != face.getOpposite() || (double) this.world.rand.nextFloat() >= 0.333)
+						if(vent.getBlock() != BlocksTC.smelterVent || BlockStateUtils.getFacing(vent) != face.getOpposite() || this.world.rand.nextFloat() >= 0.333)
 							continue;
 						this.world.addBlockEvent(this.getPos(), this.getBlockType(), 1, face.getOpposite().ordinal());
 						continue block2;
 					}
 					++pp;
 				}
-				AuraHelper.polluteAura(this.getWorld(), this.getPos(), pp, true);
+				AuraHelper.polluteAura(getWorld(), getPos(), pp, true);
 			}
-			this.vis = this.aspects.visSize();
-			this.getStackInSlot(0).shrink(1);
-			if(this.getStackInSlot(0).getCount() <= 0)
-			{
-				this.setInventorySlotContents(0, ItemStack.EMPTY);
-			}
+			vis = aspects.visSize();
+			getStackInSlot(0).shrink(1);
+			if(getStackInSlot(0).getCount() <= 0)
+				setInventorySlotContents(0, ItemStack.EMPTY);
 		}
 	}
 	
 	public static boolean isItemFuel(ItemStack par0ItemStack)
 	{
-		return TileEntityFurnace.getItemBurnTime((ItemStack) par0ItemStack) > 0;
+		return TileEntityFurnace.getItemBurnTime(par0ItemStack) > 0;
 	}
 	
 	@Override
@@ -297,9 +309,7 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 	{
 		AspectList al;
 		if(par1 == 0 && (al = ThaumcraftCraftingManager.getObjectTags(stack2)) != null && al.size() > 0)
-		{
 			return true;
-		}
 		return par1 == 1 ? TileSmelter.isItemFuel(stack2) : false;
 	}
 	
@@ -373,7 +383,7 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 			if(this.world.isRemote)
 			{
 				EnumFacing d = EnumFacing.VALUES[j];
-				this.world.playSound((double) this.getPos().getX() + 0.5 + (double) d.getOpposite().getFrontOffsetX(), (double) this.getPos().getY() + 0.5, (double) this.getPos().getZ() + 0.5 + (double) d.getOpposite().getFrontOffsetZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.25f, 2.6f + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.8f, true);
+				this.world.playSound(this.getPos().getX() + 0.5 + d.getOpposite().getFrontOffsetX(), this.getPos().getY() + 0.5, this.getPos().getZ() + 0.5 + d.getOpposite().getFrontOffsetZ(), SoundEvents.BLOCK_LAVA_EXTINGUISH, SoundCategory.BLOCKS, 0.25f, 2.6f + (this.world.rand.nextFloat() - this.world.rand.nextFloat()) * 0.8f, true);
 				for(int a = 0; a < 4; ++a)
 				{
 					float fx = 0.1f - this.world.rand.nextFloat() * 0.2f;
@@ -383,7 +393,7 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 					float fz2 = 0.1f - this.world.rand.nextFloat() * 0.2f;
 					float fy2 = 0.1f - this.world.rand.nextFloat() * 0.2f;
 					int color = 11184810;
-					FXDispatcher.INSTANCE.drawVentParticles((float) this.getPos().getX() + 0.5f + fx + (float) d.getOpposite().getFrontOffsetX(), (float) this.getPos().getY() + 0.5f + fy, (float) this.getPos().getZ() + 0.5f + fz + (float) d.getOpposite().getFrontOffsetZ(), (float) d.getOpposite().getFrontOffsetX() / 4.0f + fx2, (float) d.getOpposite().getFrontOffsetY() / 4.0f + fy2, (float) d.getOpposite().getFrontOffsetZ() / 4.0f + fz2, color);
+					FXDispatcher.INSTANCE.drawVentParticles(this.getPos().getX() + 0.5f + fx + d.getOpposite().getFrontOffsetX(), this.getPos().getY() + 0.5f + fy, this.getPos().getZ() + 0.5f + fz + d.getOpposite().getFrontOffsetZ(), d.getOpposite().getFrontOffsetX() / 4.0f + fx2, d.getOpposite().getFrontOffsetY() / 4.0f + fy2, d.getOpposite().getFrontOffsetZ() / 4.0f + fz2, color);
 				}
 			}
 			return true;
@@ -415,6 +425,102 @@ public abstract class TileOpenSmelter extends TileThaumcraftInventory
 			}
 			++deep;
 		}
+		return false;
+	}
+	
+	@Override
+	public int getSizeInventory()
+	{
+		return inv.getSizeInventory();
+	}
+	
+	@Override
+	public boolean isEmpty()
+	{
+		return inv.isEmpty();
+	}
+	
+	@Override
+	public ItemStack getStackInSlot(int index)
+	{
+		return inv.getStackInSlot(index);
+	}
+	
+	@Override
+	public ItemStack decrStackSize(int index, int count)
+	{
+		return inv.decrStackSize(index, count);
+	}
+	
+	@Override
+	public ItemStack removeStackFromSlot(int index)
+	{
+		return inv.removeStackFromSlot(index);
+	}
+	
+	@Override
+	public void setInventorySlotContents(int index, ItemStack stack)
+	{
+		inv.setInventorySlotContents(index, stack);
+	}
+	
+	@Override
+	public int getInventoryStackLimit()
+	{
+		return inv.getInventoryStackLimit();
+	}
+	
+	@Override
+	public boolean isUsableByPlayer(EntityPlayer player)
+	{
+		return inv.isUsableByPlayer(player, pos);
+	}
+	
+	@Override
+	public void openInventory(EntityPlayer player)
+	{
+		
+	}
+	
+	@Override
+	public void closeInventory(EntityPlayer player)
+	{
+		
+	}
+	
+	@Override
+	public int getField(int id)
+	{
+		return 0;
+	}
+	
+	@Override
+	public void setField(int id, int value)
+	{
+		
+	}
+	
+	@Override
+	public int getFieldCount()
+	{
+		return 0;
+	}
+	
+	@Override
+	public void clear()
+	{
+		inv.clear();
+	}
+	
+	@Override
+	public String getName()
+	{
+		return "";
+	}
+	
+	@Override
+	public boolean hasCustomName()
+	{
 		return false;
 	}
 }

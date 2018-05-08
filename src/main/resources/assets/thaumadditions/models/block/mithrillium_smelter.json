@@ -1,0 +1,9 @@
+{
+    "parent": "thaumadditions:block/orientable",
+    "textures": {
+        "top": "thaumcraft:blocks/smelter_top",
+        "front": "thaumadditions:blocks/smelter_mithrillium/front",
+        "side": "thaumadditions:blocks/smelter_mithrillium/side",
+		"down": "thaumadditions:blocks/mithrillium_block"
+    }
+}

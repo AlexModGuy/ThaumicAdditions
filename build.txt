@@ -1,7 +1,7 @@
 #Project info
-author=APengu
-start_git_commit=d788f3cdb46c0648881b248e5d8f29fa8b2acff4
-git_commit=https://github.com/APengu/???/commit/{{hash}}
+author=EndieDargon
+start_git_commit=b82b47b58abd7a7f66144f2e0fe2269a74fc8d35
+git_commit=https://github.com/EndieDargon/ThaumicAdditions/commit/{{hash}}
 
 #Runtime info
 forge_version=14.23.3.2678

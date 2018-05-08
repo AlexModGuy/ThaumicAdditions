@@ -28,6 +28,10 @@ public class TextureThaumonomiconBG extends AbstractTexture implements ITickable
 	{
 		baseTex = ImageIO.read(resourceManager.getResource(new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_back.jpg")).getInputStream());
 		
+		Graphics2D g = texture.createGraphics();
+		g.drawImage(baseTex, 0, 0, texture.getWidth(), texture.getHeight(), null);
+		g.dispose();
+		
 		deleteGlTexture();
 		TextureUtil.uploadTextureImageAllocate(getGlTextureId(), this.baseTex, blur, clamp);
 	}
@@ -38,16 +42,16 @@ public class TextureThaumonomiconBG extends AbstractTexture implements ITickable
 	@Override
 	public void tick()
 	{
-		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-		if(!(gui instanceof GuiResearchBrowser))
-			return;
-		
-		x++;
-		int time = 10;
-		if(x % time == 0)
-			makeOffset(x / time);
-		if(x >= baseTex.getWidth() * time)
-			x = 0;
+//		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+//		if(!(gui instanceof GuiResearchBrowser))
+//			return;
+//		
+//		x++;
+//		int time = 10;
+//		if(x % time == 0)
+//			makeOffset(x / time);
+//		if(x >= baseTex.getWidth() * time)
+//			x = 0;
 		if(hasChanged)
 		{
 			hasChanged = false;

@@ -219,11 +219,9 @@ build.dependsOn signSrcJar
 tasks.build.dependsOn makeChangelog
 
 afterEvaluate {
-    tasks["setupCIWorkspace"].dependsOn.add(DownloadThaumcraft);
     tasks["eclipse"].dependsOn.add(DownloadThaumcraft);
     tasks["build"].dependsOn.add(DownloadThaumcraft);
 	tasks["eclipse"].dependsOn.add(DownloadThaumicJEI);
-    tasks["build"].dependsOn.add(DownloadThaumicJEI);
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signJar)
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signDeobfJar)
 	tasks["curseforge${config.cf_project}"].dependsOn.add(signSrcJar)

@@ -24,8 +24,8 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
-import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
+import thaumcraft.api.research.ResearchCategory;
 
 @Mod(modid = InfoTAR.MOD_ID, name = InfoTAR.MOD_NAME, version = InfoTAR.MOD_VERSION, certificateFingerprint = "4d7b29cd19124e986da685107d16ce4b49bc0a97", dependencies = "required-after:hammercore;required-after:thaumcraft@[6.1.BETA13,)")
 public class TAReconstructed
@@ -37,6 +37,8 @@ public class TAReconstructed
 	private static final ResourceLocation BACK_OVER = new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_over.png");
 	@SidedProxy(serverSide = "com.endie.thaumicadditions.proxy.CommonProxy", clientSide = "com.endie.thaumicadditions.proxy.ClientProxy")
 	public static CommonProxy proxy;
+	
+	public static ResearchCategory RES_CAT;
 	
 	@EventHandler
 	public void certificateViolation(FMLFingerprintViolationEvent e)
@@ -68,8 +70,7 @@ public class TAReconstructed
 	public void init(FMLInitializationEvent e)
 	{
 		proxy.init();
-		
-		ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, BACK_OVER);
+		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, BACK_OVER);
 	}
 	
 	@EventHandler

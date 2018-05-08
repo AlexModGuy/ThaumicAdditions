@@ -1,11 +1,19 @@
 ## Thaumic Additions English Translation (by EndieDargon)
 
 itemGroup.thaumadditions=Thaumic Additions: Reconstructed
+tc.research_category.THAUMADDITIONS=Thaumic Additions: Reconstructed
 
 
 ##BLOCKS##
 
 tile.thaumadditions:crafting_furnace.name=Crafting Furnace
+tile.thaumadditions:mithrillium_smelter.name=Mithrillium Smeltery
+tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
+tile.thaumadditions:jar_adaminite.name=Adaminite Jar
+tile.thaumadditions:jar_eldritch.name=Void Metal Jar
+tile.thaumadditions:jar_brass.name=Brass Jar
+tile.thaumadditions:jar_thaumium.name=Thaumium Jar
+tile.thaumadditions:jar_mithrillium.name=Mithrillium Jar
 
 ##########
 
@@ -19,3 +27,11 @@ item.thaumadditions:adaminite_ingot.name=Adaminite Ingot
 item.thaumadditions:mithminite_ingot.name=Mithminite Ingot
 
 #########
+
+##RESEARCH##
+
+research_name.thaumadditions:thaumadds=Thaumic Additions
+research_stage.thaumadds.1=I found very strange theory, that seems to will to help me in my thaumic journey. It seems that I will find obvious things later that I can't think of without this strange observation...
+research_stage.thaumadds.2=I will note this down: Thaumic Additions is a magical expansion to my abilities that wills to help me in many possible ways. And how did I find it again?
+
+############

@@ -1,0 +1,60 @@
+{
+    "ambientocclusion": false,
+    "textures": {
+        "side": "thaumadditions:blocks/jar_side_eldritch",
+        "bottom": "thaumcraft:blocks/jar_bottom",
+        "top": "thaumadditions:blocks/jar_top_eldritch",
+        "particle": "thaumadditions:blocks/jar_side_eldritch"
+    },
+    "elements": [
+        {
+            "from": [3,0,3],
+            "to": [13,12,13],
+            "faces": {
+                "up": {
+                    "texture": "#top"
+                },
+                "down": {
+                    "texture": "#bottom",
+                    "cullface": "down"
+                },
+                "west": {
+                    "texture": "#side"
+                },
+                "east": {
+                    "texture": "#side"
+                },
+                "north": {
+                    "texture": "#side"
+                },
+                "south": {
+                    "texture": "#side"
+                }
+            }
+        },
+        {
+            "from": [5,12,5],
+            "to": [11,14,11],
+            "faces": {
+                "up": {
+                    "texture": "#top"
+                },
+                "down": {
+                    "texture": "#top"
+                },
+                "west": {
+                    "texture": "#side"
+                },
+                "east": {
+                    "texture": "#side"
+                },
+                "north": {
+                    "texture": "#side"
+                },
+                "south": {
+                    "texture": "#side"
+                }
+            }
+        }
+    ]
+}
