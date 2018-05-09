@@ -85,11 +85,12 @@ public class BlockTARDevice<T extends TileEntity> extends BlockTARTile<T>
 				world.setBlockState(pos, world.getBlockState(pos).withProperty(IBlockFacing.FACING, face), 3);
 		}
 	}
-	
+
 	@Override
 	public IBlockState getStateFromMeta(int meta)
 	{
 		IBlockState bs = this.getDefaultState();
+		
 		try
 		{
 			if(this instanceof IBlockFacingHorizontal)
@@ -97,21 +98,20 @@ public class BlockTARDevice<T extends TileEntity> extends BlockTARTile<T>
 			if(this instanceof IBlockFacing)
 				bs = bs.withProperty(IBlockFacing.FACING, BlockStateUtils.getFacing(meta));
 			if(this instanceof IBlockEnabled)
-				bs = bs.withProperty(IBlockEnabled.ENABLED, BlockStateUtils.isEnabled(meta));
-		} catch(Exception exception)
+				bs = bs.withProperty(IBlockEnabled.ENABLED, Boolean.valueOf(BlockStateUtils.isEnabled(meta)));
+		} catch(Exception var4)
 		{
-			// empty catch block
 		}
+		
 		return bs;
 	}
 	
 	@Override
 	public int getMetaFromState(IBlockState state)
 	{
-		int i = 0;
-		int b0 = 0;
-		int n = this instanceof IBlockFacingHorizontal ? b0 | (state.getValue(IBlockFacingHorizontal.FACING)).getIndex() : (i = this instanceof IBlockFacing ? b0 | state.getValue(IBlockFacing.FACING).getIndex() : b0);
-		if(this instanceof IBlockEnabled && !state.getValue(IBlockEnabled.ENABLED))
+		byte b0 = 0;
+		int i = this instanceof IBlockFacingHorizontal ? b0 | ((EnumFacing) state.getValue(IBlockFacingHorizontal.FACING)).getIndex() : (this instanceof IBlockFacing ? b0 | ((EnumFacing) state.getValue(IBlockFacing.FACING)).getIndex() : b0);
+		if(this instanceof IBlockEnabled && !((Boolean) state.getValue(IBlockEnabled.ENABLED)).booleanValue())
 			i |= 8;
 		return i;
 	}

@@ -4,6 +4,7 @@ import org.lwjgl.opengl.GL11;
 
 import com.endie.thaumicadditions.InfoTAR;
 import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJarItem;
+import com.endie.thaumicadditions.client.isr.ItemRenderJar;
 import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
 import com.pengu.hammercore.client.render.tesr.TESR;
 import com.pengu.hammercore.client.utils.RenderBlocks;
@@ -97,75 +98,9 @@ public class TESRAbstractJar extends TESR<TileAbstractJarFillable>
 			GL11.glPopMatrix();
 		}
 		if(tile.amount > 0)
-			this.renderLiquidInItem(tile.amount, tile.aspect, tile.getCapacity(), x, y, z);
+			ItemRenderJar.renderLiquidInItem(tile.amount, tile.aspect, tile.getCapacity(), x, y, z);
 		GL11.glEnable(2896);
 		GL11.glEnable(2884);
 		GL11.glPopMatrix();
-	}
-	
-	@Override
-	public void renderItem(ItemStack stack)
-	{
-		int amount = 0;
-		int cap = 250;
-		Aspect aspect = null;
-		
-		if(stack.getItem() instanceof BlockAbstractJarItem)
-		{
-			BlockAbstractJarItem it = (BlockAbstractJarItem) stack.getItem();
-			AspectList al = it.getAspects(stack);
-			if(al != null && al.size() > 0)
-			{
-				aspect = al.getAspectsSortedByAmount()[0];
-				amount = al.getAmount(aspect);
-				cap = it.block.capacity;
-			}
-		}
-		
-		if(amount > 0 && aspect != null)
-		{
-			GL11.glPushMatrix();
-			GL11.glDisable(2884);
-			GL11.glTranslatef(.5F, .01F, .5F);
-			GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			GL11.glDisable(2896);
-			renderLiquidInItem(amount, aspect, cap, 0, 0, 0);
-			GL11.glPopMatrix();
-		}
-	}
-	
-	@Override
-	public void renderItem(ItemStack stack, IBakedModel bakedmodel, TransformType transform)
-	{
-		
-	}
-	
-	public void renderLiquidInItem(int amount, Aspect aspect, int cap, double x, double y, double z)
-	{
-		GL11.glPushMatrix();
-		GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
-		RenderBlocks renderBlocks = RenderBlocks.forMod(InfoTAR.MOD_ID);
-		GL11.glDisable(2896);
-		float level = amount / ((float) cap) * 0.625f;
-		Tessellator t = Tessellator.getInstance();
-		renderBlocks.setRenderBounds(0.25, 0.0625, 0.25, 0.75, 0.0625 + level, 0.75);
-		t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
-		int rgb = aspect.getColor();
-		TextureAtlasSprite icon = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("thaumcraft:blocks/animatedglow");
-		this.bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
-		float r = ColorHelper.getRed(rgb);
-		float g = ColorHelper.getGreen(rgb);
-		float b = ColorHelper.getBlue(rgb);
-		renderBlocks.renderFaceYNeg(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		renderBlocks.renderFaceYPos(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		renderBlocks.renderFaceZNeg(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		renderBlocks.renderFaceZPos(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		renderBlocks.renderFaceXNeg(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		renderBlocks.renderFaceXPos(-0.5, 0.0, -0.5, icon, r, g, b, 200);
-		t.draw();
-		GL11.glEnable(2896);
-		GL11.glPopMatrix();
-		GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 }
