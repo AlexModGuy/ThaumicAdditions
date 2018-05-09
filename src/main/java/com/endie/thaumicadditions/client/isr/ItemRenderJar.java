@@ -69,7 +69,7 @@ public class ItemRenderJar implements iItemRender
 			GL11.glTranslatef(0.0f, 0, 0.315f);
 			if(ModConfig.CONFIG_GRAPHICS.crooked)
 				GL11.glRotatef(rot, 0.0f, 0.0f, 1.0f);
-			UtilsFX.renderQuadCentered(new ResourceLocation("thaumcraft", "textures/models/label.png"), 0.5f, 1.0f, 1.0f, 1.0f, -99, 771, 1.0f);
+			UtilsFX.renderQuadCentered(TESRAbstractJar.TEX_LABEL, 0.5f, 1.0f, 1.0f, 1.0f, -99, 771, 1.0f);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0f, 0, 0.316f);

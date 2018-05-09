@@ -36,11 +36,13 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 {
 	public float efficiency;
 	public int speed;
+	public int capacity;
 	
-	public BlockAbstractSmelter(String name, float efficiency, int speed)
+	public BlockAbstractSmelter(String name, float efficiency, int speed, int capacity)
 	{
 		super(Material.IRON, TileSmelterImpl.class, name);
 		this.efficiency = efficiency;
+		this.capacity = capacity;
 		this.speed = speed;
 		setSoundType(SoundType.METAL);
 		setDefaultState(blockState.getBaseState().withProperty(IBlockFacingHorizontal.FACING, EnumFacing.NORTH).withProperty(IBlockEnabled.ENABLED, false));
@@ -55,7 +57,7 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 	@Override
 	public TileEntity createNewTileEntity(World worldIn, int meta)
 	{
-		return new TileSmelterImpl(efficiency, speed);
+		return new TileSmelterImpl(efficiency, speed, capacity);
 	}
 	
 	@Override

@@ -30,7 +30,7 @@ import thaumcraft.common.config.ModConfig;
 public class TESRAbstractJar extends TESR<TileAbstractJarFillable>
 {
 	private ModelJar model = new ModelJar();
-	private static final ResourceLocation TEX_LABEL = new ResourceLocation("thaumcraft", "textures/models/label.png");
+	public static final ResourceLocation TEX_LABEL = new ResourceLocation("thaumcraft", "textures/models/label.png");
 	private static final ResourceLocation TEX_BRINE = new ResourceLocation("thaumcraft", "textures/models/jarbrine.png");
 	
 	@Override

@@ -21,6 +21,7 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import thaumcraft.api.aspects.Aspect;
@@ -45,7 +46,7 @@ public class TAReconstructed
 	public void certificateViolation(FMLFingerprintViolationEvent e)
 	{
 		LOG.warn("*****************************");
-		LOG.warn("WARNING: Somebody has been tampering with HammerCore jar!");
+		LOG.warn("WARNING: Somebody has been tampering with Thaumic Additions (Reconstructed) jar!");
 		LOG.warn("It is highly recommended that you redownload mod from https://minecraft.curseforge.com/projects/247401 !");
 		LOG.warn("*****************************");
 		HammerCore.invalidCertificates.put(InfoTAR.MOD_ID, "https://minecraft.curseforge.com/projects/232564");
@@ -78,6 +79,7 @@ public class TAReconstructed
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
-		KnowledgeTAR.init();
+		KnowledgeTAR.init.call();
+		KnowledgeTAR.insertAspects.call();
 	}
 }

@@ -7,6 +7,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
 import thaumcraft.api.research.ResearchStage;
 import thaumcraft.api.research.ResearchStage.Knowledge;
+import thaumcraft.common.lib.research.ResearchManager;
 
 public class ResearchStageBuilder
 {
@@ -28,6 +29,28 @@ public class ResearchStageBuilder
 		return setRecipes(Arrays.stream(recipes).map(ResourceLocation::new).collect(Collectors.toList()).toArray(new ResourceLocation[0]));
 	}
 	
+	public ResearchStageBuilder setRequiredCraft(ItemStack... items)
+	{
+		entry.setCraft(items);
+		if(entry.getCraft() != null && entry.getCraft().length > 0)
+		{
+			int[] refs = new int[entry.getCraft().length];
+			int q = 0;
+			ItemStack[] arritemStack = entry.getCraft();
+			int n = arritemStack.length;
+			for(int i = 0; i < n; ++i)
+			{
+				ItemStack stack = arritemStack[i];
+				int code = ResearchManager.createItemStackHash(stack);
+				ResearchManager.craftingReferences.add(code);
+				refs[q] = code;
+				++q;
+			}
+			entry.setCraftReference(refs);
+		}
+		return this;
+	}
+	
 	public ResearchStageBuilder setRecipes(ResourceLocation... recipes)
 	{
 		entry.setRecipes(recipes);
@@ -40,13 +63,7 @@ public class ResearchStageBuilder
 		return this;
 	}
 	
-	public ResearchStageBuilder setCraft(ItemStack... craft)
-	{
-		entry.setCraft(craft);
-		return this;
-	}
-	
-	public ResearchStageBuilder setObtain(ItemStack... obtain)
+	public ResearchStageBuilder setConsumedItems(ItemStack... obtain)
 	{
 		entry.setObtain(obtain);
 		return this;

@@ -2,18 +2,18 @@
 
 itemGroup.thaumadditions=Thaumic Additions: Reconstructed
 tc.research_category.THAUMADDITIONS=Thaumic Additions: Reconstructed
-
+tc.aspect.godium=Godium
 
 ##BLOCKS##
 
 tile.thaumadditions:crafting_furnace.name=Crafting Furnace
 tile.thaumadditions:mithrillium_smelter.name=Mithrillium Smeltery
 tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
-tile.thaumadditions:jar_adaminite.name=Adaminite Jar
-tile.thaumadditions:jar_eldritch.name=Void Metal Jar
-tile.thaumadditions:jar_brass.name=Brass Jar
-tile.thaumadditions:jar_thaumium.name=Thaumium Jar
-tile.thaumadditions:jar_mithrillium.name=Mithrillium Jar
+tile.thaumadditions:jar_brass.name=Brass Warded Jar
+tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
+tile.thaumadditions:jar_eldritch.name=Void Foritified Jar
+tile.thaumadditions:jar_mithrillium.name=Mithrillium Reinforced Jar
+tile.thaumadditions:jar_adaminite.name=Adaminite Foritified Jar
 
 ##########
 
@@ -25,6 +25,8 @@ item.thaumadditions:adaminite_nugget.name=Adaminite Nugget
 item.thaumadditions:mithrillium_ingot.name=Mithrillium Ingot
 item.thaumadditions:adaminite_ingot.name=Adaminite Ingot
 item.thaumadditions:mithminite_ingot.name=Mithminite Ingot
+item.thaumadditions:mithrillium_plate.name=Mithrillium Plate
+item.thaumadditions:adaminite_plate.name=Adaminite Plate
 
 #########
 
@@ -36,10 +38,39 @@ research_stage.thaumadds.2=I will note this down: Thaumic Additions is a magical
 
 research_name.thaumadditions:mithrillium=Mithrillium Metal
 research_stage.mithrillium.1=I think I've found an improvement to Void Metal. This new metal not only restores itself faster, it seems to pulsate with high thaumic vibes. I should experiment more, I know that this metal is worth it.
-research_stage.mithrillium.2=This strange new metal is very unusual, even understanding how void metal works! The book pronounces it's name as "Mithrillium Metal"... I think that it may be a good material to improve my arcane setup. But what exactly can I do with it?
+research_stage.mithrillium.2=Huh! This strange new metal is very unusual, even understanding how void metal works! The book pronounces it's name as "Mithrillium Metal"... I think that it may be a good material to improve my arcane setup. But what exactly can I do with it?
 
 research_name.thaumadditions:adaminite=Adaminite Metal
 research_stage.adaminite.1=Mithrillium metal is a very strange substance, but I am certain that it could be improved even further. I will try to experiment, and maybe I will be able to know where the best is in this world.
 research_stage.adaminite.2=My experiments have succeeded! The book calls this new creation as "Adaminite". I'm going crazy now. I heard of Ichor, the blood of Gods, but I think that this metal is far better than Ichor, even if it exists anywhere in this world.
+
+research_name.thaumadditions:mithrillium_smelter=Mithrillium Smeltery
+research_stage.mithrillium_smelter.1=I have a theory about using mithrillium to upgrade my void smeltery. I think that this upgrade will loose less essentia than void one (about 5% loss).
+research_stage.mithrillium_smelter.2=This was definitely worth it! Mithrillium metal seems to keep all slurry in place converting everything without any loss.
+
+research_name.thaumadditions:adaminite_smelter=Adaminite Smeltery
+research_stage.adaminite_smelter.1=Mithrillium smeltery is definitely the best smeltery already. But maybe I could make it extract extra essentia from slurry? I need to experiment with this a quite a bit.
+research_stage.adaminite_smelter.2=Yes! Adaminite seems to work well with efficiency! Adaminite smelter now has a 20% to increase essentia. This means that I may need to do less smelting.
+
+research_name.thaumadditions:brass_jar=Brass Warded Jars
+research_stage.brass_jar.1=Warded jars are nice and big but they hold only two hundred and fifty vis inside. I may get a slight increase by upgrading it with brass.
+research_stage.brass_jar.2=I did it! Brass Warded Jar holds a little bit more. It's not significant upgrade but I am sure that this may be upgraded even further.
+
+research_name.thaumadditions:thaumium_jar=Thaumium Reinforced Jars
+research_stage.thaumium_jar.1=Brass is all good and shiny, and it does increase the jar a little bit, but I need a far bigger storage, and I need to make more experiments, meybe with thaumium?
+research_stage.thaumium_jar.2=Worked like a charm! Thaumium Reinforced Jar is a slightly more significant increase in storage. The book says that this new jar holds about three hundred and fifty vis inside. I actually like where this is going now!
+
+research_name.thaumadditions:eldritch_jar=Void Foritified Jars
+research_stage.eldritch_jar.1=Thaumium may be a good choice for storing liquid essentia more compactly, but I think this may not be enough. I need to experiment with void metal. Who knows what will happen anyway?
+research_stage.eldritch_jar.2=The structure of void metal plate seems to expand storage up to five hundred! I imagine these jars in my laboratory... But they are getting a little bit expensive now, arent they?
+
+research_name.thaumadditions:mithrillium_jar=Mithrillium Reinforced Jars
+research_stage.mithrillium_jar.1=Void metal was a fine choice for storing large quantities of essentia, but time comes, and I need a better storage, again! I remember something about mithrillium being a very ridiculous metal and I definitely remember it being better than void metal. I need to study this further...
+research_stage.mithrillium_jar.2=Upgrading void jar to a mithrillium was definitely worth some time and effort. This new baby holds ten hundred vis inside wich makes it as ridiculous as primordial pearls! I just can't think of how dense the vis is stored in such a small place at once!
+
+research_name.thaumadditions:adaminite_jar=Adaminite Foritified Jars
+research_stage.adaminite_jar.1=That great mithrillium upgrade was very wonderful, but I think that adaminite may conduct and hold essentia better than anything that I know of. This may be a bad and also an expensive idea as this may need quite a lot of battling involved.
+research_stage.adaminite_jar.2=Adaminite is very special! I think that this jar may hold twenty hundred points of essentia wich makes this a very dense point in space.
+research_stage.adaminite_jar.3=Adaminite is very special! I think that this jar may hold twenty hundred points of essentia wich makes this a very dense point in space. I hear someone called Endie, one of The Creators who built this world. He whispers that this jar is too dense and may be unstable under special cases: "I don't think that filling it entirely with flux is a good choice...". I can also hear that he is very surprised that I made it as this was a tough challenge that I had done.
 
 ############

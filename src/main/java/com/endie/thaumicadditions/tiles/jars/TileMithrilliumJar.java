@@ -7,6 +7,6 @@ public class TileMithrilliumJar extends TileAbstractJarFillable
 	@Override
 	public int getCapacity()
 	{
-		return 750;
+		return 1000;
 	}
 }

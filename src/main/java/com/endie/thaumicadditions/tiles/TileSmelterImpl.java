@@ -6,11 +6,13 @@ public class TileSmelterImpl extends TileAbstractSmelter
 {
 	public float efficiency;
 	public int speed;
+	public int maxVis;
 	
-	public TileSmelterImpl(float efficiency, int speed)
+	public TileSmelterImpl(float efficiency, int speed, int maxVis)
 	{
 		this.efficiency = efficiency;
 		this.speed = speed;
+		this.maxVis = maxVis;
 	}
 	
 	public TileSmelterImpl()
@@ -23,6 +25,7 @@ public class TileSmelterImpl extends TileAbstractSmelter
 		super.writeNBT(nbt);
 		nbt.setInteger("Speed", this.speed);
 		nbt.setFloat("Efficiency", this.efficiency);
+		nbt.setInteger("MaxVis", this.maxVis);
 	}
 	
 	@Override
@@ -31,6 +34,7 @@ public class TileSmelterImpl extends TileAbstractSmelter
 		super.readNBT(nbt);
 		this.speed = nbt.getInteger("Speed");
 		this.efficiency = nbt.getFloat("Efficiency");
+		this.maxVis = nbt.getInteger("MaxVis");
 	}
 	
 	@Override
@@ -43,5 +47,11 @@ public class TileSmelterImpl extends TileAbstractSmelter
 	public int getSpeed()
 	{
 		return speed;
+	}
+	
+	@Override
+	public int getCapacity()
+	{
+		return maxVis;
 	}
 }

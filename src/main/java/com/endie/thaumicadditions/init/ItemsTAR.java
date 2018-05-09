@@ -10,4 +10,7 @@ public class ItemsTAR
 	public static final ItemMaterial MITHRILLIUM_INGOT = new ItemMaterial("mithrillium_ingot", "ingotMithrillium");
 	public static final ItemMaterial ADAMINITE_INGOT = new ItemMaterial("adaminite_ingot", "ingotAdaminite");
 	public static final ItemMaterial MITHMINITE_INGOT = new ItemMaterial("mithminite_ingot", "ingotMithminite");
+	
+	public static final ItemMaterial MITHRILLIUM_PLATE = new ItemMaterial("mithrillium_plate");
+	public static final ItemMaterial ADAMINITE_PLATE = new ItemMaterial("adaminite_plate");
 }

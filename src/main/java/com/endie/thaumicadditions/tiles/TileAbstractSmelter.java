@@ -44,7 +44,6 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 	public InventoryDummy inv = new InventoryDummy(2);
 	public AspectList aspects = new AspectList();
 	public int vis;
-	private int maxVis = 256;
 	public int smeltTime = 100;
 	boolean speedBoost = false;
 	public int furnaceBurnTime;
@@ -69,6 +68,8 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 	 */
 	public abstract int getSpeed();
 	
+	public abstract int getCapacity();
+	
 	@Override
 	public void readNBT(NBTTagCompound nbt)
 	{
@@ -78,6 +79,7 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 		this.vis = this.aspects.visSize();
 		this.furnaceBurnTime = nbt.getShort("BurnTime");
 		this.currentItemBurnTime = nbt.getShort("CurrentBurnTime");
+		inv.readFromNBT(nbt.getCompoundTag("Items"));
 	}
 	
 	@Override
@@ -88,6 +90,7 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 		nbt.setBoolean("speedBoost", this.speedBoost);
 		nbt.setShort("CookTime", (short) this.furnaceCookTime);
 		this.aspects.writeToNBT(nbt);
+		nbt.setTag("Items", inv.writeToNBT(new NBTTagCompound()));
 	}
 	
 	@Override
@@ -217,10 +220,8 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 			return false;
 		}
 		int vs = al.visSize();
-		if(vs > this.maxVis - this.vis)
-		{
+		if(vs > getCapacity() - vis)
 			return false;
-		}
 		this.smeltTime = (int) (vs * 2 * (1.0f - 0.125f * this.bellows));
 		return true;
 	}
@@ -270,7 +271,7 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 					{
 						if(this.world.rand.nextFloat() + 1 >= (a == Aspect.FLUX ? this.getEfficiency() * 0.66f : this.getEfficiency()))
 							continue;
-						al.add(a, 1 + world.rand.nextInt(qq));
+						al.add(a, 1);
 					}
 				}
 				this.aspects.add(a, al.getAmount(a));
@@ -337,34 +338,34 @@ public abstract class TileAbstractSmelter extends TileSyncableTickable implement
 		{
 			this.aspects.remove(tag, amount);
 			this.vis = this.aspects.visSize();
-			this.markDirty();
+			sendChangesToNearby();
 			return true;
 		}
 		return false;
 	}
 	
 	@SideOnly(value = Side.CLIENT)
-	public int getCookProgressScaled(int par1)
+	public float getCookProgressScaled(int par1)
 	{
 		if(this.smeltTime <= 0)
-		{
 			this.smeltTime = 1;
-		}
-		return this.furnaceCookTime * par1 / this.smeltTime;
+		return this.furnaceCookTime * par1 / (float) this.smeltTime;
 	}
 	
 	@SideOnly(value = Side.CLIENT)
-	public int getVisScaled(int par1)
+	public float getVisScaled(int par1)
 	{
-		return this.vis * par1 / this.maxVis;
+		if(getCapacity() == 0)
+			return 0;
+		return this.vis * par1 / (float) this.getCapacity();
 	}
 	
 	@SideOnly(value = Side.CLIENT)
-	public int getBurnTimeRemainingScaled(int par1)
+	public float getBurnTimeRemainingScaled(int par1)
 	{
 		if(this.currentItemBurnTime == 0)
 			this.currentItemBurnTime = 200;
-		return this.furnaceBurnTime * par1 / this.currentItemBurnTime;
+		return this.furnaceBurnTime * par1 / (float) this.currentItemBurnTime;
 	}
 	
 	@Override
