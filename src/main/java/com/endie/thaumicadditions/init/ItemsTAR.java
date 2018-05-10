@@ -13,4 +13,5 @@ public class ItemsTAR
 	
 	public static final ItemMaterial MITHRILLIUM_PLATE = new ItemMaterial("mithrillium_plate");
 	public static final ItemMaterial ADAMINITE_PLATE = new ItemMaterial("adaminite_plate");
+	public static final ItemMaterial MITHMINITE_PLATE = new ItemMaterial("mithminite_plate");
 }
