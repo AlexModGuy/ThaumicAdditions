@@ -16,15 +16,15 @@ public abstract class TileAbstractJarFillable extends TileJarFillable
 	{
 		if(am == 0)
 			return am;
-		if(this.amount < getCapacity() && tt == this.aspect || this.amount == 0)
+		if(this.amount < getCapacity() && tt == aspect || amount == 0)
 		{
-			this.aspect = tt;
+			aspect = tt;
 			int added = Math.min(am, getCapacity() - this.amount);
-			this.amount += added;
+			amount += added;
 			am -= added;
 		}
-		this.syncTile(false);
-		this.markDirty();
+		syncTile(false);
+		markDirty();
 		return am;
 	}
 	
@@ -45,8 +45,8 @@ public abstract class TileAbstractJarFillable extends TileJarFillable
 	@Override
 	public void update()
 	{
-		if(!this.world.isRemote && ++this.absCount % 5 == 0 && this.amount < getCapacity())
-			this.fillAbstractJar();
+		if(!world.isRemote && ++absCount % 5 == 0 && amount < getCapacity())
+			fillAbstractJar();
 	}
 	
 	void fillAbstractJar()
