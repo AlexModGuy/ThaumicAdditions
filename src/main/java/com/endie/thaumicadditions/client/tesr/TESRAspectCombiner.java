@@ -24,8 +24,6 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 	public ResourceLocation texture = new ResourceLocation(InfoTAR.MOD_ID, "textures/models/aspect_combiner.png");
 	public ModelAspectCombiner model = new ModelAspectCombiner();
 	
-	public float maxVis = 3;
-	
 	@Override
 	public void renderTileEntityAt(TileAspectCombiner te, double x, double y, double z, float partialTicks, ResourceLocation destroyStage, float alpha)
 	{

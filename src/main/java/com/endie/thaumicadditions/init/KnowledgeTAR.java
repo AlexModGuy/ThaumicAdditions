@@ -39,7 +39,7 @@ public class KnowledgeTAR
 	public static final OnetimeCaller init = new OnetimeCaller(KnowledgeTAR::$init);
 	public static final OnetimeCaller insertAspects = new OnetimeCaller(KnowledgeTAR::$insertAspects);
 	
-	public static final Aspect GODLIKE = new Aspect("godium", 0xFF0000, new Aspect[] { Aspect.MAN, Aspect.DESIRE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/godium.png"), 1)
+	public static final Aspect CAELES = new Aspect("caeles", 0xFF0000, new Aspect[] { Aspect.MAN, Aspect.DESIRE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/caeles.png"), 1)
 	{
 		@Override
 		public int getColor()
@@ -72,16 +72,16 @@ public class KnowledgeTAR
 	
 	private static void $insertAspects()
 	{
-		appendAspects("ingotAdaminite", new AspectList().add(GODLIKE, 16));
+		appendAspects("ingotAdaminite", new AspectList().add(CAELES, 16));
 		
 		removeAspects(new ItemStack(ItemsTAR.MITHRILLIUM_INGOT), Aspect.TRAP);
-		appendAspects("ingotMithrillium", new AspectList().add(GODLIKE, 6));
+		appendAspects("ingotMithrillium", new AspectList().add(CAELES, 6));
 		
-		String prefix = addIfPresent("thaumictinkerer:ichor", new AspectList().add(GODLIKE, 5), "");
-		prefix = addIfPresent("thaumictinkerer:ichorium", new AspectList().add(GODLIKE, 8), prefix);
-		prefix = addIfPresent("draconicevolution:draconic_ingot", new AspectList().add(GODLIKE, 6), prefix);
-		prefix = addIfPresent("draconicevolution:draconic_block", new AspectList().add(GODLIKE, 54), prefix);
-		prefix = addIfPresent("draconicevolution:chaos_shard", new AspectList().add(GODLIKE, 16), prefix);
+		String prefix = addIfPresent("thaumictinkerer:ichor", new AspectList().add(CAELES, 5), "");
+		prefix = addIfPresent("thaumictinkerer:ichorium", new AspectList().add(CAELES, 8), prefix);
+		prefix = addIfPresent("draconicevolution:draconic_ingot", new AspectList().add(CAELES, 6), prefix);
+		prefix = addIfPresent("draconicevolution:draconic_block", new AspectList().add(CAELES, 54), prefix);
+		prefix = addIfPresent("draconicevolution:chaos_shard", new AspectList().add(CAELES, 16), prefix);
 	}
 	
 	private static void appendAspects(String oreDict, AspectList toAdd)

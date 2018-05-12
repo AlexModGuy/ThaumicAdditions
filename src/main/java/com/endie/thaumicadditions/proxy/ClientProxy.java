@@ -4,10 +4,12 @@ import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJ
 import com.endie.thaumicadditions.client.isr.ItemRenderJar;
 import com.endie.thaumicadditions.client.tesr.TESRAbstractJar;
 import com.endie.thaumicadditions.client.tesr.TESRAspectCombiner;
+import com.endie.thaumicadditions.client.tesr.TESRAuraCharger;
 import com.endie.thaumicadditions.client.texture.TextureThaumonomiconBG;
 import com.endie.thaumicadditions.init.BlocksTAR;
 import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
+import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.pengu.hammercore.client.render.item.ItemRenderingHandler;
 
 import net.minecraft.client.Minecraft;
@@ -30,5 +32,10 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileAspectCombiner.class, acom);
 		ItemRenderingHandler.INSTANCE.setItemRender(Item.getItemFromBlock(BlocksTAR.ASPECT_COMBINER), acom);
 		Minecraft.getMinecraft().getRenderItem().registerItem(Item.getItemFromBlock(BlocksTAR.ASPECT_COMBINER), 0, "chest");
+		
+		TESRAuraCharger cha = new TESRAuraCharger();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileAuraCharger.class, cha);
+		ItemRenderingHandler.INSTANCE.setItemRender(Item.getItemFromBlock(BlocksTAR.AURA_CHARGER), cha);
+		Minecraft.getMinecraft().getRenderItem().registerItem(Item.getItemFromBlock(BlocksTAR.AURA_CHARGER), 0, "chest");
 	}
 }

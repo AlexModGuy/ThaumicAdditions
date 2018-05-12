@@ -3,6 +3,7 @@ package com.endie.thaumicadditions.init;
 import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar;
 import com.endie.thaumicadditions.blocks.BlockAbstractSmelter;
 import com.endie.thaumicadditions.blocks.BlockAspectCombiner;
+import com.endie.thaumicadditions.blocks.BlockAuraCharger;
 import com.endie.thaumicadditions.blocks.BlockCraftingFurnace;
 import com.endie.thaumicadditions.tiles.jars.TileAdaminiteJar;
 import com.endie.thaumicadditions.tiles.jars.TileBrassJar;
@@ -19,6 +20,7 @@ public class BlocksTAR
 	public static final BlockAbstractSmelter MITHMINITE_SMELTER = new BlockAbstractSmelter("mithminite_smelter", 1.5F, 10, 4000);
 	
 	public static final BlockAspectCombiner ASPECT_COMBINER = new BlockAspectCombiner();
+	public static final BlockAuraCharger AURA_CHARGER = new BlockAuraCharger();
 	
 	public static final BlockAbstractEssentiaJar<TileBrassJar> BRASS_JAR = new BlockAbstractEssentiaJar<>(TileBrassJar.class, 275, "jar_brass");
 	public static final BlockAbstractEssentiaJar<TileThaumiumJar> THAUMIUM_JAR = new BlockAbstractEssentiaJar<>(TileThaumiumJar.class, 350, "jar_thaumium");
