@@ -10,6 +10,9 @@ tile.thaumadditions:crafting_furnace.name=Crafting Furnace
 tile.thaumadditions:mithrillium_smelter.name=Mithrillium Smeltery
 tile.thaumadditions:mithminite_smelter.name=Mithminite Smeltery
 tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
+
+tile.thaumadditions:aspect_combiner.name=Essentia Combiner
+
 tile.thaumadditions:jar_brass.name=Brass Warded Jar
 tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
 tile.thaumadditions:jar_eldritch.name=Void Foritified Jar
@@ -87,5 +90,9 @@ research_stage.adaminite_jar.3=Adaminite is very special! I think that this jar 
 research_name.thaumadditions:mithminite_jar=Mithminite Jars
 research_stage.mithminite_jar.1=Now that I know that adaminite may be awakened using mithrillium and some quicksilver, I may need to know if I can afford mithminite jars.
 research_stage.mithminite_jar.2=My theory was true, adaminite jar may be awakened using a complex infusion process involving mithminite alloy, this new (and I hope final) jar holds four thousand vis wich is twice as much as adaminite jar. I also noticed that this jar destroys excess vis that flows into it, this may be a very fine upgrade to my old Void Jars AND it doesn't explode from flux overfill.
+
+research_name.thaumadditions:aspect_combiner=Essentia Combining
+research_stage.aspect_combiner.1=I was always wondering if I could undo what a centrifuge does? If that is possible then I would be able to prepare for complex insusion crafting much easier!
+research_stage.aspect_combiner.2=I was experimenting with alchemical centrifuge, mithrillium and phial of permutatio, and I found a way to really mix two aspects to create new aspect. I call this Alchemical Aspect Combiner.
 
 ############
