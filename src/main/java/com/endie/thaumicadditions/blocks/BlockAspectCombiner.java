@@ -3,6 +3,7 @@ package com.endie.thaumicadditions.blocks;
 import com.endie.thaumicadditions.blocks.base.BlockTARDevice;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
 
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumBlockRenderType;
@@ -13,6 +14,7 @@ public class BlockAspectCombiner extends BlockTARDevice<TileAspectCombiner> impl
 	public BlockAspectCombiner()
 	{
 		super(Material.WOOD, TileAspectCombiner.class, "aspect_combiner");
+		setSoundType(SoundType.WOOD);
 		setHardness(2F);
 		setHarvestLevel("axe", 0);
 	}

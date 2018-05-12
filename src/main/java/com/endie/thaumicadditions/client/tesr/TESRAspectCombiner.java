@@ -7,8 +7,6 @@ import com.endie.thaumicadditions.client.models.ModelAspectCombiner;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
 import com.pengu.hammercore.client.render.tesr.TESR;
 import com.pengu.hammercore.client.utils.RenderBlocks;
-import com.pengu.hammercore.color.Rainbow;
-import com.pengu.hammercore.common.utils.ColorUtil;
 import com.pengu.hammercore.utils.ColorHelper;
 
 import net.minecraft.client.Minecraft;
@@ -26,20 +24,33 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 	public ResourceLocation texture = new ResourceLocation(InfoTAR.MOD_ID, "textures/models/aspect_combiner.png");
 	public ModelAspectCombiner model = new ModelAspectCombiner();
 	
+	public float maxVis = 3;
+	
 	@Override
 	public void renderTileEntityAt(TileAspectCombiner te, double x, double y, double z, float partialTicks, ResourceLocation destroyStage, float alpha)
 	{
-		GL11.glPushMatrix();
-		GL11.glTranslated(x + .5, y + 1.5, z + .5);
-		if(te.front != null && te.front.getAxis() == Axis.X)
-			GL11.glRotated(90, 0, 1, 0);
-		GL11.glRotated(180, 1, 0, 0);
-		bindTexture(texture);
-		model.render(null, 0, 0, 0, 0, 0, 1 / 16F);
+		for(int i = 0; i < (destroyStage != null ? 2 : 1); ++i)
+		{
+			GL11.glPushMatrix();
+			GL11.glTranslated(x + .5, y + 1.5, z + .5);
+			if(te.front != null && te.front.getAxis() == Axis.X)
+				GL11.glRotated(90, 0, 1, 0);
+			GL11.glRotated(180, 1, 0, 0);
+			bindTexture(i == 1 ? destroyStage : texture);
+			model.render(null, 0, 0, 0, 0, 0, 1 / 16F);
+			GL11.glPushMatrix();
+			GL11.glRotatef(te.prevRotation + (te.rotation - te.prevRotation) * partialTicks, 0, 1, 0);
+			model.shape2.render(1 / 16F);
+			GL11.glRotatef(45, 0, 1, 0);
+			model.shape2.render(1 / 16F);
+			GL11.glPopMatrix();
+			GL11.glPopMatrix();
+		}
+		
+		float vis = (te.prevVis + (te.vis - te.prevVis) * partialTicks) / 3;
+		
 		Aspect aa = te.inA;
 		Aspect ab = te.inB;
-		GL11.glPopMatrix();
-		
 		Integer rgb = aa != null || ab != null ? ((aa != null ? aa.getColor() : ab != null ? ab.getColor() : 0)) : null;
 		
 		if(te.output != null)
@@ -63,7 +74,7 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 			if(out != null)
 			{
 				int rgb3 = out.getColor();
-				float interp = te.craftingTime / (float) te.getMaxCraftTime();
+				float interp = Math.min(te.craftingTime / (float) (te.getMaxCraftTime() - 20), 1);
 				
 				r1 = ColorHelper.getRed(rgb) * (1 - interp);
 				g1 = ColorHelper.getGreen(rgb) * (1 - interp);
@@ -73,20 +84,20 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 				g2 = ColorHelper.getGreen(rgb3) * (interp);
 				b2 = ColorHelper.getBlue(rgb3) * (interp);
 				
-				rgb = ColorHelper.packRGB((r1 + r2) / 2, (g1 + g2) / 2, (b1 + b2) / 2);
+				rgb = ColorHelper.packARGB(1, (r1 + r2) / 2, (g1 + g2) / 2, (b1 + b2) / 2);
 			}
 		}
 		
-		if(rgb == null)
+		if(rgb == null || vis <= 0)
 			return;
 		
 		GL11.glPushMatrix();
-		GL11.glTranslated(x + 13.05 / 16F, y + 10.95 / 16F, z + 2.95 / 16F);
+		GL11.glTranslated(x + 13.05 / 16F, y + 5.05 / 16F + (5.8 * vis) / 16, z + 2.95 / 16F);
 		GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
 		RenderBlocks renderBlocks = RenderBlocks.forMod(InfoTAR.MOD_ID);
 		GL11.glDisable(2896);
 		Tessellator t = Tessellator.getInstance();
-		renderBlocks.setRenderBounds(0, 0, 0, 5.8 / 16F, 5.8 / 16F, 5.8 / 16F);
+		renderBlocks.setRenderBounds(0, 0, 0, 5.8 / 16F, (5.8 * vis) / 16F, 5.8 / 16F);
 		t.getBuffer().begin(7, DefaultVertexFormats.POSITION_TEX_LMAP_COLOR);
 		TextureAtlasSprite icon = Minecraft.getMinecraft().getTextureMapBlocks().getAtlasSprite("thaumcraft:blocks/animatedglow");
 		Minecraft.getMinecraft().getTextureManager().bindTexture(TextureMap.LOCATION_BLOCKS_TEXTURE);
@@ -114,6 +125,7 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 		GL11.glRotated(180, 1, 0, 0);
 		bindTexture(texture);
 		model.render(null, 0, 0, 0, 0, 0, 1 / 16F);
+		model.shape2.render(1 / 16F);
 		GL11.glPopMatrix();
 	}
 }

@@ -3,7 +3,10 @@ package com.endie.thaumicadditions.tiles;
 import com.pengu.hammercore.common.utils.SoundUtil;
 import com.pengu.hammercore.tile.TileSyncableTickable;
 
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
 import thaumcraft.api.ThaumcraftApiHelper;
@@ -13,22 +16,44 @@ import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.utils.BlockStateUtils;
+import thaumcraft.common.tiles.essentia.TileJarFillable;
 
 public class TileAspectCombiner extends TileSyncableTickable implements IEssentiaTransport, IAspectContainer
 {
 	public Aspect inA, inB, output;
-	public int craftingTime = 0;
+	public int craftingTime, prevCraftingTime;
 	public EnumFacing front;
+	
+	public int vis, prevVis;
+	
+	public float rotation, prevRotation;
+	
+	public boolean prevPowered;
+	public int toggle = 0;
 	
 	public int getMaxCraftTime()
 	{
-		return 200;
+		return 100;
 	}
 	
 	@Override
 	public void tick()
 	{
 		front = BlockStateUtils.getFacing(world.getBlockState(pos));
+		prevCraftingTime = craftingTime;
+		prevRotation = rotation;
+		
+		boolean powered = gettingPower();
+		boolean crafting = false;
+		
+		prevVis = vis;
+		vis = 0;
+		if(inA != null)
+			++vis;
+		if(inB != null)
+			++vis;
+		if(output != null)
+			++vis;
 		
 		Aspect cout = getOutput(inA, inB);
 		if(inA != null && inB != null && output == null && cout != null)
@@ -36,21 +61,42 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 			int max = getMaxCraftTime();
 			if(craftingTime < max)
 			{
-				++craftingTime;
-				if(craftingTime == 1)
-					sync();
-				if(atTickRate(10))
+				if(craftingTime == 0 && !world.isRemote)
+					sendChangesToNearby();
+				if(!powered)
+				{
+					craftingTime++;
+					crafting = true;
+				}
+				if(atTickRate(10) && !world.isRemote && !powered)
+				{
+					sendChangesToNearby();
 					SoundUtil.playSoundEffect(world, SoundsTC.pump.getRegistryName().toString(), pos, 1F, 1F, SoundCategory.BLOCKS);
+				}
 			}
 			if(craftingTime >= max)
 			{
 				output = cout;
-				inA = null;
-				inB = null;
+				if(!world.isRemote)
+				{
+					inA = null;
+					inB = null;
+					sendChangesToNearby();
+				}
 				craftingTime = 0;
 			}
 		}
 		
+		if(crafting != prevPowered)
+			toggle = 36;
+		
+		float cRot = (float) Math.sqrt((!crafting ? toggle / 36F : (36 - toggle) / 36F) * 81F) / 9F * 8F;
+		rotation += cRot;
+		
+		if(toggle != 0)
+			toggle += toggle < 0 ? 1 : -1;
+		
+		prevPowered = crafting;
 		if(world.isRemote)
 			return;
 		
@@ -97,18 +143,42 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 		
 		if(output != null)
 		{
-			IEssentiaTransport u = (IEssentiaTransport) ThaumcraftApiHelper.getConnectableTile(world, pos, EnumFacing.UP);
-			if(u != null && u.canInputFrom(EnumFacing.DOWN) && u.addEssentia(output, 1, EnumFacing.DOWN) == 1)
+			TileEntity te = world.getTileEntity(pos.up());
+			
+			if(te instanceof TileJarFillable)
 			{
-				output = null;
-				sendChangesToNearby();
+				TileJarFillable tjf = (TileJarFillable) te;
+				int cap = tjf instanceof TileAbstractJarFillable ? ((TileAbstractJarFillable) tjf).getCapacity() : TileAbstractJarFillable.CAPACITY;
+				
+				if(tjf.aspect == output && tjf.amount < cap)
+				{
+					tjf.amount++;
+					output = null;
+					sendChangesToNearby();
+					tjf.syncTile(true);
+				} else if(tjf.aspect == null && (tjf.aspectFilter == output || tjf.aspectFilter == null) && tjf.amount < cap)
+				{
+					tjf.aspect = output;
+					tjf.amount++;
+					output = null;
+					sendChangesToNearby();
+					tjf.syncTile(true);
+				}
+			} else
+			{
+				IEssentiaTransport u = (IEssentiaTransport) ThaumcraftApiHelper.getConnectableTile(world, pos, EnumFacing.UP);
+				if(u != null && u.canInputFrom(EnumFacing.DOWN) && u.addEssentia(output, 1, EnumFacing.DOWN) == 1)
+				{
+					output = null;
+					sendChangesToNearby();
+				}
 			}
 		}
 	}
 	
-	public void insert(IEssentiaTransport l, EnumFacing rf)
+	public boolean gettingPower()
 	{
-		
+		return world.isBlockIndirectlyGettingPowered(pos) > 0;
 	}
 	
 	public boolean canAccept(Aspect type)
@@ -131,6 +201,12 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 			nbt.setString("InA", inA.getTag());
 		if(inB != null)
 			nbt.setString("InB", inB.getTag());
+		nbt.setInteger("Vis", vis);
+		nbt.setInteger("PrevVis", prevVis);
+		nbt.setInteger("CraftingTime", craftingTime);
+		nbt.setFloat("Rotation", rotation);
+		nbt.setFloat("PrevRotation", prevRotation);
+		nbt.setInteger("Toggle", toggle);
 	}
 	
 	@Override
@@ -139,6 +215,12 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 		output = nbt.hasKey("Output") ? Aspect.getAspect(nbt.getString("Output")) : null;
 		inA = nbt.hasKey("InA") ? Aspect.getAspect(nbt.getString("InA")) : null;
 		inB = nbt.hasKey("InB") ? Aspect.getAspect(nbt.getString("InB")) : null;
+		vis = nbt.getInteger("Vis");
+		prevVis = nbt.getInteger("PrevVis");
+		craftingTime = nbt.getInteger("CraftingTime");
+		rotation = nbt.getFloat("Rotation");
+		prevRotation = nbt.getFloat("PrevRotation");
+		toggle = nbt.getInteger("Toggle");
 	}
 	
 	public static Aspect getOutput(Aspect a, Aspect b)
@@ -201,13 +283,10 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 	@Override
 	public int takeEssentia(Aspect a, int q, EnumFacing f)
 	{
-		if(canOutputTo(f) && q > 0)
+		if(canOutputTo(f) && q > 0 && output == a)
 		{
-			if(output == a)
-			{
-				output = null;
-				return 1;
-			}
+			output = null;
+			return 1;
 		}
 		return 0;
 	}
