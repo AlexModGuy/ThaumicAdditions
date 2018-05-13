@@ -1,5 +1,6 @@
 package com.endie.thaumicadditions;
 
+import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import com.endie.thaumicadditions.init.BlocksTAR;
@@ -21,7 +22,6 @@ import net.minecraftforge.fml.common.ModMetadata;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLFingerprintViolationEvent;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLLoadCompleteEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import thaumcraft.api.aspects.Aspect;
@@ -32,7 +32,8 @@ import thaumcraft.api.research.ResearchCategory;
 @Mod(modid = InfoTAR.MOD_ID, name = InfoTAR.MOD_NAME, version = InfoTAR.MOD_VERSION, certificateFingerprint = "4d7b29cd19124e986da685107d16ce4b49bc0a97", dependencies = "required-after:hammercore;required-after:thaumcraft@[6.1.BETA13,)")
 public class TAReconstructed
 {
-	public static final Logger LOG = org.apache.logging.log4j.LogManager.getLogger(InfoTAR.MOD_ID);
+	public static final Logger LOG = LogManager.getLogger(InfoTAR.MOD_NAME);
+	
 	@Instance
 	public static TAReconstructed instance;
 	public static CreativeTabs tab;
@@ -66,6 +67,8 @@ public class TAReconstructed
 		
 		SimpleRegistration.registerFieldItemsFrom(ItemsTAR.class, InfoTAR.MOD_ID, tab);
 		SimpleRegistration.registerFieldBlocksFrom(BlocksTAR.class, InfoTAR.MOD_ID, tab);
+		
+		KnowledgeTAR.CAELES.getColor();
 	}
 	
 	@EventHandler
@@ -79,6 +82,7 @@ public class TAReconstructed
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent e)
 	{
+		proxy.postInit();
 		KnowledgeTAR.init.call();
 		KnowledgeTAR.insertAspects.call();
 	}

@@ -84,13 +84,13 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 			if(craftingTime >= max)
 			{
 				output = cout;
+				craftingTime = 0;
 				if(!world.isRemote)
 				{
 					inA = null;
 					inB = null;
 					sendChangesToNearby();
 				}
-				craftingTime = 0;
 			}
 		}
 		

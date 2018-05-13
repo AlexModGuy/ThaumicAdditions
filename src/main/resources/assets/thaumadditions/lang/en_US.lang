@@ -2,7 +2,7 @@
 
 itemGroup.thaumadditions=Thaumic Additions: Reconstructed
 tc.research_category.THAUMADDITIONS=Thaumic Additions: Reconstructed
-tc.aspect.caeles=Caeles
+tc.aspect.caeles=God, Superpower
 
 ##BLOCKS##
 
@@ -13,6 +13,7 @@ tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
 
 tile.thaumadditions:aspect_combiner.name=Essentia Combiner
 tile.thaumadditions:aura_charger.name=Aura Charger
+tile.thaumadditions:crystal_crusher.name=Crystal Crusher
 
 tile.thaumadditions:jar_brass.name=Brass Warded Jar
 tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
@@ -34,6 +35,7 @@ item.thaumadditions:mithminite_ingot.name=Mithminite Ingot
 item.thaumadditions:mithrillium_plate.name=Mithrillium Plate
 item.thaumadditions:adaminite_plate.name=Adaminite Plate
 item.thaumadditions:mithminite_plate.name=Mithminite Plate
+item.thaumadditions:salt_essence.name=Vis Salt
 
 #########
 
@@ -42,6 +44,11 @@ item.thaumadditions:mithminite_plate.name=Mithminite Plate
 research_name.thaumadditions:thaumadds=Thaumic Additions
 research_stage.thaumadds.1=I found very strange theory, that seems to will to help me in my thaumic journey. It seems that I will find obvious things later that I can't think of without this strange observation...
 research_stage.thaumadds.2=I will note this down: Thaumic Additions is a magical expansion to my abilities that wills to help me in many possible ways. And how did I find it again?
+
+research_name.thaumadditions:essence_salt=Salty Vis
+research_stage.essence_salt.1=I was always wondering what vis crystals taste like... Considering that crystals are fragile, they may be easy to crush into salt? According to my theory this may just work...
+research_stage.essence_salt.2=Gah! The salt I just made using my hands was so unstable that it somehow disappeared?! I may need to try once more. For this I will need to jump from a high place on a crystal dropped on the ground.
+research_stage.essence_salt.3=Hm... This salt is much more stable, somehow. And I think each crystal's salt tastes differently! Considering that aspects contain magical powers, could I apply them to my food? <LINE>I will note how to get them: Jump on a dropped vis crystal from hight place.
 
 research_name.thaumadditions:mithrillium=Mithrillium Metal
 research_stage.mithrillium.1=I think I've found an improvement to Void Metal. This new metal not only restores itself faster, it seems to pulsate with high thaumic vibes. I should experiment more, I know that this metal is worth it.
@@ -97,6 +104,7 @@ research_stage.aspect_combiner.1=I was always wondering if I could undo what a c
 research_stage.aspect_combiner.2=I was experimenting with alchemical centrifuge, mithrillium and phial of permutatio, and I found a way to really mix two aspects to create new aspect. I call this Alchemical Aspect Combiner.
 
 research_name.thaumadditions:aura_charger=Aura Charger
-research_stage.aura_charger.1=
+research_stage.aura_charger.1=I was always wondering if I could replenish aura using alchemy and power of infusion. I will need some Auram aspect and Essentia Combiner to experiment with.
+research_stage.aura_charger.2=Aura Charger is an amazing block that restores vis in aura and caps at almost three times the base aura value. This device uses Auram essentia to restore 10 vis in the environment.
 
 ############

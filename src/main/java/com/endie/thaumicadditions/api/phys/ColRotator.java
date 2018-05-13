@@ -4,6 +4,7 @@ public class ColRotator
 {
 	public float degree;
 	public float prevDegree;
+	
 	public float friction = 1;
 	
 	public float currentSpeed;
@@ -35,7 +36,7 @@ public class ColRotator
 			currentSpeed -= Math.sqrt(currentSpeed - speed);
 		else if(speed > currentSpeed)
 			currentSpeed += Math.sqrt(speed - currentSpeed);
-		if(Math.abs(currentSpeed) - friction <= 4.0E-3)
+		if(Math.abs(currentSpeed) - friction <= 4.0E-3F)
 			currentSpeed = 0;
 		
 		prevDegree = degree;
