@@ -124,6 +124,8 @@ public class TESRAspectCombiner extends TESR<TileAspectCombiner>
 		bindTexture(texture);
 		model.render(null, 0, 0, 0, 0, 0, 1 / 16F);
 		model.shape2.render(1 / 16F);
+		GL11.glRotatef(45, 0, 1, 0);
+		model.shape2.render(1 / 16F);
 		GL11.glPopMatrix();
 	}
 }

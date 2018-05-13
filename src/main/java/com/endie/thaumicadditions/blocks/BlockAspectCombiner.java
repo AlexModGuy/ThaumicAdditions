@@ -7,6 +7,9 @@ import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.util.EnumBlockRenderType;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import thaumcraft.common.blocks.IBlockFacingHorizontal;
 
 public class BlockAspectCombiner extends BlockTARDevice<TileAspectCombiner> implements IBlockFacingHorizontal
@@ -23,6 +26,12 @@ public class BlockAspectCombiner extends BlockTARDevice<TileAspectCombiner> impl
 	public EnumBlockRenderType getRenderType(IBlockState state)
 	{
 		return EnumBlockRenderType.ENTITYBLOCK_ANIMATED;
+	}
+	
+	@Override
+	public boolean isSideSolid(IBlockState base_state, IBlockAccess world, BlockPos pos, EnumFacing side)
+	{
+		return false;
 	}
 	
 	@Override

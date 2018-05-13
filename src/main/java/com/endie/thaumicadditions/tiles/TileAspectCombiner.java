@@ -1,24 +1,31 @@
 package com.endie.thaumicadditions.tiles;
 
 import com.pengu.hammercore.common.utils.SoundUtil;
+import com.pengu.hammercore.tile.TileSyncable;
 import com.pengu.hammercore.tile.TileSyncableTickable;
+import com.pengu.hammercore.tile.iTileDroppable;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.SoundCategory;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
+import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.common.lib.SoundsTC;
 import thaumcraft.common.lib.utils.BlockStateUtils;
+import thaumcraft.common.tiles.TileThaumcraft;
 import thaumcraft.common.tiles.essentia.TileJarFillable;
 
-public class TileAspectCombiner extends TileSyncableTickable implements IEssentiaTransport, IAspectContainer
+public class TileAspectCombiner extends TileSyncableTickable implements IEssentiaTransport, IAspectContainer, iTileDroppable
 {
 	public Aspect inA, inB, output;
 	public int craftingTime, prevCraftingTime;
@@ -171,6 +178,10 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 				{
 					output = null;
 					sendChangesToNearby();
+					if(u instanceof TileSyncable)
+						((TileSyncable) u).sync();
+					else if(u instanceof TileThaumcraft)
+						((TileThaumcraft) u).syncTile(true);
 				}
 			}
 		}
@@ -393,5 +404,12 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 	public int containerContains(Aspect a)
 	{
 		return a == output ? 1 : 0;
+	}
+
+	@Override
+	public void createDrop(EntityPlayer player, World world, BlockPos pos)
+	{
+		if(!world.isRemote)
+			AuraHelper.polluteAura(world, pos, vis, true);
 	}
 }

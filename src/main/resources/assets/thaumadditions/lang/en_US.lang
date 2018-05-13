@@ -12,6 +12,7 @@ tile.thaumadditions:mithminite_smelter.name=Mithminite Smeltery
 tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
 
 tile.thaumadditions:aspect_combiner.name=Essentia Combiner
+tile.thaumadditions:aura_charger.name=Aura Charger
 
 tile.thaumadditions:jar_brass.name=Brass Warded Jar
 tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
@@ -94,5 +95,8 @@ research_stage.mithminite_jar.2=My theory was true, adaminite jar may be awakene
 research_name.thaumadditions:aspect_combiner=Essentia Combining
 research_stage.aspect_combiner.1=I was always wondering if I could undo what a centrifuge does? If that is possible then I would be able to prepare for complex insusion crafting much easier!
 research_stage.aspect_combiner.2=I was experimenting with alchemical centrifuge, mithrillium and phial of permutatio, and I found a way to really mix two aspects to create new aspect. I call this Alchemical Aspect Combiner.
+
+research_name.thaumadditions:aura_charger=Aura Charger
+research_stage.aura_charger.1=
 
 ############
