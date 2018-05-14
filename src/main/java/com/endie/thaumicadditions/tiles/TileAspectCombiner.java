@@ -1,12 +1,11 @@
 package com.endie.thaumicadditions.tiles;
 
 import com.pengu.hammercore.common.utils.SoundUtil;
+import com.pengu.hammercore.common.utils.WorldUtil;
 import com.pengu.hammercore.tile.TileSyncable;
 import com.pengu.hammercore.tile.TileSyncableTickable;
 import com.pengu.hammercore.tile.iTileDroppable;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -21,7 +20,6 @@ import thaumcraft.api.aspects.IAspectContainer;
 import thaumcraft.api.aspects.IEssentiaTransport;
 import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.common.lib.SoundsTC;
-import thaumcraft.common.lib.utils.BlockStateUtils;
 import thaumcraft.common.tiles.TileThaumcraft;
 import thaumcraft.common.tiles.essentia.TileJarFillable;
 
@@ -46,7 +44,7 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 	@Override
 	public void tick()
 	{
-		front = BlockStateUtils.getFacing(world.getBlockState(pos));
+		front = WorldUtil.getFacing(world.getBlockState(pos));
 		prevCraftingTime = craftingTime;
 		prevRotation = rotation;
 		
@@ -405,7 +403,7 @@ public class TileAspectCombiner extends TileSyncableTickable implements IEssenti
 	{
 		return a == output ? 1 : 0;
 	}
-
+	
 	@Override
 	public void createDrop(EntityPlayer player, World world, BlockPos pos)
 	{

@@ -1,14 +1,12 @@
 package com.endie.thaumicadditions.blocks;
 
 import java.util.List;
-import java.util.Random;
 
-import com.endie.thaumicadditions.blocks.base.BlockTARTile;
 import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
 import com.pengu.hammercore.common.blocks.iItemBlock;
+import com.pengu.hammercore.common.blocks.base.BlockTileHC;
 import com.pengu.hammercore.common.utils.SoundUtil;
 import com.pengu.hammercore.common.utils.WorldUtil;
-import com.pengu.hammercore.net.HCNetwork;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.SoundType;
@@ -22,7 +20,6 @@ import net.minecraft.init.SoundEvents;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockRenderLayer;
 import net.minecraft.util.EnumActionResult;
@@ -44,13 +41,11 @@ import thaumcraft.api.aura.AuraHelper;
 import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.blocks.ILabelable;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.client.fx.FXDispatcher;
 import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.lib.SoundsTC;
-import thaumcraft.common.tiles.devices.TileJarBrain;
 import thaumcraft.common.tiles.essentia.TileAlembic;
 
-public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends BlockTARTile<T> implements ILabelable, iItemBlock
+public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends BlockTileHC<T> implements ILabelable, iItemBlock
 {
 	public final int capacity;
 	
@@ -146,9 +141,6 @@ public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends
 		if(te instanceof TileAbstractJarFillable)
 		{
 			this.spawnFilledJar(worldIn, pos, state, (TileAbstractJarFillable) te);
-		} else if(te instanceof TileJarBrain)
-		{
-			this.spawnBrainJar(worldIn, pos, state, (TileJarBrain) te);
 		} else
 		{
 			super.harvestBlock(worldIn, player, pos, state, (TileEntity) null, stack);
@@ -168,16 +160,6 @@ public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends
 		}
 		if(te.blocked)
 			Block.spawnAsEntity(world, pos, new ItemStack(ItemsTC.jarBrace));
-		Block.spawnAsEntity(world, pos, drop);
-	}
-	
-	private void spawnBrainJar(World world, BlockPos pos, IBlockState state, TileJarBrain te)
-	{
-		ItemStack drop = new ItemStack(this, 1, this.getMetaFromState(state));
-		if(te.xp > 0)
-		{
-			drop.setTagInfo("xp", new NBTTagInt(te.xp));
-		}
 		Block.spawnAsEntity(world, pos, drop);
 	}
 	
@@ -324,28 +306,6 @@ public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends
 	}
 	
 	@Override
-	public float getEnchantPowerBonus(World world, BlockPos pos)
-	{
-		TileEntity te = world.getTileEntity(pos);
-		if(te != null && te instanceof TileJarBrain)
-		{
-			return 5.0f;
-		}
-		return super.getEnchantPowerBonus(world, pos);
-	}
-	
-	@Override
-	@SideOnly(value = Side.CLIENT)
-	public void randomDisplayTick(IBlockState state, World world, BlockPos pos, Random rand)
-	{
-		TileEntity tile = world.getTileEntity(pos);
-		if(tile != null && tile instanceof TileJarBrain && ((TileJarBrain) tile).xp >= ((TileJarBrain) tile).xpMax)
-		{
-			FXDispatcher.INSTANCE.spark(pos.getX() + 0.5f, pos.getY() + 0.8f, pos.getZ() + 0.5f, 3.0f, 0.2f + rand.nextFloat() * 0.2f, 1.0f, 0.3f + rand.nextFloat() * 0.2f, 0.5f);
-		}
-	}
-	
-	@Override
 	public boolean hasComparatorInputOverride(IBlockState state)
 	{
 		return true;
@@ -355,11 +315,6 @@ public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends
 	public int getComparatorInputOverride(IBlockState state, World world, BlockPos pos)
 	{
 		TileEntity tile = world.getTileEntity(pos);
-		if(tile != null && tile instanceof TileJarBrain)
-		{
-			float r = (float) ((TileJarBrain) tile).xp / (float) ((TileJarBrain) tile).xpMax;
-			return MathHelper.floor(r * 14.0f) + (((TileJarBrain) tile).xp > 0 ? 1 : 0);
-		}
 		if(tile != null && tile instanceof TileAbstractJarFillable)
 		{
 			float r = ((TileAbstractJarFillable) tile).amount / 250.0f;

@@ -1,7 +1,8 @@
 package com.endie.thaumicadditions.blocks;
 
-import com.endie.thaumicadditions.blocks.base.BlockTARDevice;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
+import com.pengu.hammercore.common.blocks.base.BlockDeviceHC;
+import com.pengu.hammercore.common.blocks.base.iBlockHorizontal;
 
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -10,9 +11,8 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
-import thaumcraft.common.blocks.IBlockFacingHorizontal;
 
-public class BlockAspectCombiner extends BlockTARDevice<TileAspectCombiner> implements IBlockFacingHorizontal
+public class BlockAspectCombiner extends BlockDeviceHC<TileAspectCombiner> implements iBlockHorizontal
 {
 	public BlockAspectCombiner()
 	{

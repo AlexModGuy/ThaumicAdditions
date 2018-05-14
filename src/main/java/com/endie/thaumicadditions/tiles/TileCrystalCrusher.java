@@ -4,23 +4,18 @@ import java.util.Objects;
 import java.util.Random;
 
 import com.endie.thaumicadditions.api.fx.ParticleHelperTAR;
-import com.endie.thaumicadditions.api.phys.ColRotator;
 import com.endie.thaumicadditions.init.ItemsTAR;
 import com.endie.thaumicadditions.inventory.container.ContainerCrystalCrusher;
 import com.endie.thaumicadditions.inventory.gui.GuiCrystalCrusher;
 import com.pengu.hammercore.common.inventory.InventoryDummy;
-import com.pengu.hammercore.net.HCNetwork;
 import com.pengu.hammercore.tile.TileSyncableTickable;
+import com.pengu.hammercore.utils.FrictionRotator;
 
-import net.minecraft.client.particle.ParticleBlockDust;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTSizeTracker;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumParticleTypes;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.items.ItemsTC;
 import thaumcraft.common.lib.events.EssentiaHandler;
@@ -30,7 +25,7 @@ public class TileCrystalCrusher extends TileSyncableTickable implements ISidedIn
 	public InventoryDummy inv = new InventoryDummy(2);
 	public int crushes, craftTime;
 	
-	public final ColRotator rotator = new ColRotator();
+	public final FrictionRotator rotator = new FrictionRotator();
 	{
 		rotator.degree = new Random().nextFloat() * 360;
 	}

@@ -3,24 +3,13 @@ package com.endie.thaumicadditions.client.tesr;
 import org.lwjgl.opengl.GL11;
 
 import com.endie.thaumicadditions.InfoTAR;
-import com.endie.thaumicadditions.api.phys.ColRotator;
-import com.endie.thaumicadditions.client.models.ModelAspectCombiner;
 import com.endie.thaumicadditions.client.models.ModelAuraCharger;
-import com.endie.thaumicadditions.tiles.TileAspectCombiner;
 import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.pengu.hammercore.client.render.tesr.TESR;
-import com.pengu.hammercore.client.utils.RenderBlocks;
-import com.pengu.hammercore.utils.ColorHelper;
+import com.pengu.hammercore.utils.FrictionRotator;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
-import net.minecraft.client.renderer.texture.TextureMap;
-import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.ResourceLocation;
-import thaumcraft.api.aspects.Aspect;
 
 public class TESRAuraCharger extends TESR<TileAuraCharger>
 {
@@ -30,7 +19,7 @@ public class TESRAuraCharger extends TESR<TileAuraCharger>
 	@Override
 	public void renderTileEntityAt(TileAuraCharger te, double x, double y, double z, float partialTicks, ResourceLocation destroyStage, float alpha)
 	{
-		ColRotator cr = te.rotator;
+		FrictionRotator cr = te.rotator;
 		for(int i = 0; i < (destroyStage != null ? 2 : 1); ++i)
 		{
 			GL11.glPushMatrix();

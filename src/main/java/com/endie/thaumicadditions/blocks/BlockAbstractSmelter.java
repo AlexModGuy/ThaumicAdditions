@@ -2,9 +2,11 @@ package com.endie.thaumicadditions.blocks;
 
 import java.util.Random;
 
-import com.endie.thaumicadditions.blocks.base.BlockTARDevice;
 import com.endie.thaumicadditions.tiles.TileAbstractSmelter;
 import com.endie.thaumicadditions.tiles.TileSmelterImpl;
+import com.pengu.hammercore.common.blocks.base.BlockDeviceHC;
+import com.pengu.hammercore.common.blocks.base.iBlockEnableable;
+import com.pengu.hammercore.common.blocks.base.iBlockHorizontal;
 import com.pengu.hammercore.common.utils.WorldUtil;
 import com.pengu.hammercore.core.gui.GuiManager;
 import com.pengu.hammercore.tile.TileSyncable;
@@ -27,12 +29,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import thaumcraft.api.aura.AuraHelper;
-import thaumcraft.common.blocks.IBlockEnabled;
-import thaumcraft.common.blocks.IBlockFacingHorizontal;
-import thaumcraft.common.lib.utils.BlockStateUtils;
 import thaumcraft.common.tiles.essentia.TileSmelter;
 
-public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implements IBlockEnabled, IBlockFacingHorizontal
+public class BlockAbstractSmelter extends BlockDeviceHC<TileSmelterImpl> implements iBlockEnableable, iBlockHorizontal
 {
 	public float efficiency;
 	public int speed;
@@ -45,7 +44,7 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 		this.capacity = capacity;
 		this.speed = speed;
 		setSoundType(SoundType.METAL);
-		setDefaultState(blockState.getBaseState().withProperty(IBlockFacingHorizontal.FACING, EnumFacing.NORTH).withProperty(IBlockEnabled.ENABLED, false));
+		setDefaultState(blockState.getBaseState().withProperty(iBlockHorizontal.FACING, EnumFacing.NORTH).withProperty(iBlockEnableable.ENABLED, false));
 	}
 	
 	@Override
@@ -68,7 +67,7 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 	@Override
 	public IBlockState getStateForPlacement(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer)
 	{
-		return getDefaultState().withProperty(IBlockFacingHorizontal.FACING, placer.getHorizontalFacing().getOpposite()).withProperty(IBlockEnabled.ENABLED, false);
+		return getDefaultState().withProperty(iBlockHorizontal.FACING, placer.getHorizontalFacing().getOpposite()).withProperty(iBlockEnableable.ENABLED, false);
 	}
 	
 	@Override
@@ -89,7 +88,7 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 	@Override
 	public int getLightValue(IBlockState state, IBlockAccess world, BlockPos pos)
 	{
-		return BlockStateUtils.isEnabled(world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos))) ? 13 : super.getLightValue(state, world, pos);
+		return WorldUtil.isEnabled(world.getBlockState(pos).getBlock().getMetaFromState(world.getBlockState(pos))) ? 13 : super.getLightValue(state, world, pos);
 	}
 	
 	@Override
@@ -115,11 +114,11 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 	
 	public static void setFurnaceState(World world, BlockPos pos, boolean state)
 	{
-		if(state == BlockStateUtils.isEnabled(world.getBlockState(pos)))
+		if(state == WorldUtil.isEnabled(world.getBlockState(pos)))
 			return;
 		TileEntity tileentity = world.getTileEntity(pos);
 		keepInventory = true;
-		world.setBlockState(pos, world.getBlockState(pos).withProperty(IBlockEnabled.ENABLED, state), 3);
+		world.setBlockState(pos, world.getBlockState(pos).withProperty(iBlockEnableable.ENABLED, state), 3);
 		if(tileentity != null)
 		{
 			tileentity.validate();
@@ -145,29 +144,33 @@ public class BlockAbstractSmelter extends BlockTARDevice<TileSmelterImpl> implem
 	@SideOnly(value = Side.CLIENT)
 	public void randomDisplayTick(IBlockState state, World w, BlockPos pos, Random r)
 	{
-		if(BlockStateUtils.isEnabled(state))
+		if(WorldUtil.isEnabled(state))
 		{
 			float f = pos.getX() + 0.5f;
 			float f1 = pos.getY() + 0.2f + r.nextFloat() * 5.0f / 16.0f;
 			float f2 = pos.getZ() + 0.5f;
 			float f3 = 0.52f;
 			float f4 = r.nextFloat() * 0.5f - 0.25f;
-			if(BlockStateUtils.getFacing(state) == EnumFacing.WEST)
+			
+			if(WorldUtil.getFacing(state) == EnumFacing.WEST)
 			{
 				w.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, f - f3, f1, f2 + f4, 0.0, 0.0, 0.0, new int[0]);
 				w.spawnParticle(EnumParticleTypes.FLAME, f - f3, f1, f2 + f4, 0.0, 0.0, 0.0, new int[0]);
 			}
-			if(BlockStateUtils.getFacing(state) == EnumFacing.EAST)
+			
+			if(WorldUtil.getFacing(state) == EnumFacing.EAST)
 			{
 				w.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, f + f3, f1, f2 + f4, 0.0, 0.0, 0.0, new int[0]);
 				w.spawnParticle(EnumParticleTypes.FLAME, f + f3, f1, f2 + f4, 0.0, 0.0, 0.0, new int[0]);
 			}
-			if(BlockStateUtils.getFacing(state) == EnumFacing.NORTH)
+			
+			if(WorldUtil.getFacing(state) == EnumFacing.NORTH)
 			{
 				w.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, f + f4, f1, f2 - f3, 0.0, 0.0, 0.0, new int[0]);
 				w.spawnParticle(EnumParticleTypes.FLAME, f + f4, f1, f2 - f3, 0.0, 0.0, 0.0, new int[0]);
 			}
-			if(BlockStateUtils.getFacing(state) == EnumFacing.SOUTH)
+			
+			if(WorldUtil.getFacing(state) == EnumFacing.SOUTH)
 			{
 				w.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, f + f4, f1, f2 + f3, 0.0, 0.0, 0.0, new int[0]);
 				w.spawnParticle(EnumParticleTypes.FLAME, f + f4, f1, f2 + f3, 0.0, 0.0, 0.0, new int[0]);

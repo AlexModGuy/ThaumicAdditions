@@ -2,11 +2,11 @@ package com.endie.thaumicadditions.tiles;
 
 import java.util.Random;
 
-import com.endie.thaumicadditions.api.phys.ColRotator;
 import com.endie.thaumicadditions.net.PacketBlockEvent;
 import com.pengu.hammercore.tile.TileSyncableTickable;
 import com.pengu.hammercore.tile.iTileDroppable;
 import com.pengu.hammercore.utils.ColorHelper;
+import com.pengu.hammercore.utils.FrictionRotator;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
@@ -34,7 +34,7 @@ public class TileAuraCharger extends TileSyncableTickable implements IEssentiaTr
 	protected int capacity = 10;
 	public int amount;
 	
-	public final ColRotator rotator = new ColRotator();
+	public final FrictionRotator rotator = new FrictionRotator();
 	{
 		rotator.degree = new Random().nextFloat() * 360;
 	}

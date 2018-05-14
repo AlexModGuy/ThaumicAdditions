@@ -1,7 +1,7 @@
 package com.endie.thaumicadditions.blocks;
 
-import com.endie.thaumicadditions.blocks.base.BlockTARDevice;
 import com.endie.thaumicadditions.tiles.TileCrystalCrusher;
+import com.pengu.hammercore.common.blocks.base.BlockDeviceHC;
 import com.pengu.hammercore.common.utils.WorldUtil;
 import com.pengu.hammercore.core.gui.GuiManager;
 import com.pengu.hammercore.tile.TileSyncable;
@@ -18,7 +18,7 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockCrystalCrusher extends BlockTARDevice<TileCrystalCrusher>
+public class BlockCrystalCrusher extends BlockDeviceHC<TileCrystalCrusher>
 {
 	public BlockCrystalCrusher()
 	{

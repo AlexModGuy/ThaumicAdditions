@@ -42,16 +42,16 @@ public class TextureThaumonomiconBG extends AbstractTexture implements ITickable
 	@Override
 	public void tick()
 	{
-//		GuiScreen gui = Minecraft.getMinecraft().currentScreen;
-//		if(!(gui instanceof GuiResearchBrowser))
-//			return;
-//		
-//		x++;
-//		int time = 10;
-//		if(x % time == 0)
-//			makeOffset(x / time);
-//		if(x >= baseTex.getWidth() * time)
-//			x = 0;
+		// GuiScreen gui = Minecraft.getMinecraft().currentScreen;
+		// if(!(gui instanceof GuiResearchBrowser))
+		// return;
+		//
+		// x++;
+		// int time = 10;
+		// if(x % time == 0)
+		// makeOffset(x / time);
+		// if(x >= baseTex.getWidth() * time)
+		// x = 0;
 		if(hasChanged)
 		{
 			hasChanged = false;
