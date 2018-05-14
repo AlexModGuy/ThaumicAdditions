@@ -1,7 +1,6 @@
 package com.endie.thaumicadditions.proxy;
 
 import com.endie.thaumicadditions.TAReconstructed;
-import com.endie.thaumicadditions.api.fx.ParticleHelperTAR;
 import com.endie.thaumicadditions.api.fx.TARParticleTypes;
 import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJarItem;
 import com.endie.thaumicadditions.client.ClientChainReactor;
@@ -19,6 +18,7 @@ import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.endie.thaumicadditions.tiles.TileCrystalCrusher;
 import com.pengu.hammercore.client.render.item.ItemRenderingHandler;
 import com.pengu.hammercore.utils.ColorHelper;
+import com.pengu.hammercore.utils.NBTUtils;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.ParticleBreaking;
@@ -63,7 +63,7 @@ public class ClientProxy extends CommonProxy
 	@Override
 	public void postInit()
 	{
-		Minecraft.getMinecraft().effectRenderer.registerParticle(TARParticleTypes.COLORED_ITEM_CRACK.getParticleID(), (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, args) -> new ParticleColoredBreaking(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, new ItemStack(ParticleHelperTAR.toNBT(args))));
+		Minecraft.getMinecraft().effectRenderer.registerParticle(TARParticleTypes.COLORED_ITEM_CRACK.getParticleID(), (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, args) -> new ParticleColoredBreaking(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, new ItemStack(NBTUtils.toNBT(args))));
 	}
 	
 	@Override

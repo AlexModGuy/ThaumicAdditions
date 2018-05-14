@@ -7,6 +7,7 @@ import java.util.function.BiConsumer;
 import com.endie.thaumicadditions.api.EdibleAspect;
 import com.endie.thaumicadditions.init.ItemsTAR;
 import com.pengu.hammercore.common.utils.SoundUtil;
+import com.pengu.hammercore.event.FoodEatenEvent;
 import com.pengu.hammercore.utils.ColorHelper;
 
 import net.minecraft.creativetab.CreativeTabs;
@@ -45,12 +46,12 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 	}
 	
 	@SubscribeEvent(priority = EventPriority.LOWEST)
-	public void foodEaten(LivingEntityUseItemEvent.Finish e)
+	public void foodEaten(FoodEatenEvent e)
 	{
-		if(e.getEntityLiving() instanceof EntityPlayerMP)
+		if(e.getEntityPlayer() instanceof EntityPlayerMP)
 		{
-			EntityPlayerMP mp = (EntityPlayerMP) e.getEntityLiving();
-			ItemStack item = e.getItem();
+			EntityPlayerMP mp = (EntityPlayerMP) e.getEntityPlayer();
+			ItemStack item = e.getOriginStack();
 			AspectList al;
 			if(!item.isEmpty() && item.getItem() instanceof ItemFood && (al = EdibleAspect.getSalt(item)).visSize() > 0)
 				for(Aspect a : al.getAspectsSortedByAmount())

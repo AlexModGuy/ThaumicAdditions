@@ -7,7 +7,7 @@ git_commit=https://github.com/EndieDargon/ThaumicAdditions/commit/{{hash}}
 forge_version=14.23.3.2678
 minecraft_version=1.12.2
 mcp=snapshot_20170624
-hc_version=1.9.9.5.9
+hc_version=1.9.9.6
 jei_version=4.8.5.159
 
 #Mod info

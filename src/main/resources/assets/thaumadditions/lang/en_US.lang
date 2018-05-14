@@ -2,7 +2,11 @@
 
 itemGroup.thaumadditions=Thaumic Additions: Reconstructed
 tc.research_category.THAUMADDITIONS=Thaumic Additions: Reconstructed
+tc.aspect.fluctus=Wave, Ripple
+tc.aspect.sonus=Sound, Noise
+tc.aspect.exitium=Destruction, Damage
 tc.aspect.caeles=God, Superpower
+tc.aspect.draco=Dragon
 
 ##BLOCKS##
 
@@ -106,5 +110,9 @@ research_stage.aspect_combiner.2=I was experimenting with alchemical centrifuge,
 research_name.thaumadditions:aura_charger=Aura Charger
 research_stage.aura_charger.1=I was always wondering if I could replenish aura using alchemy and power of infusion. I will need some Auram aspect and Essentia Combiner to experiment with.
 research_stage.aura_charger.2=Aura Charger is an amazing block that restores vis in aura and caps at almost three times the base aura value. This device uses Auram essentia to restore 10 vis in the environment.
+
+research_name.thaumadditions:crystal_crusher=Crystal Crusher
+research_stage.crystal_crusher.1=I was wondering if crystal crushing may be automated... I am tired of jumping on a crystal to break it into salt. I will need some mechanisms to experiment with.
+research_stage.crystal_crusher.2=I accidentally broke Simple Arcane Mechanism but I think that I know a way how to do this! I need to infuse a complex arcane mechanism with all primal crystals, a few thaumium plates, arcane stone slabs and some... salt? It uses Machina from nearby jars to operate.
 
 ############

@@ -23,17 +23,17 @@ public class EdibleAspect
 	
 	static
 	{
-		addEatCall(Aspect.WATER, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 10 + (count * count) / 2, (int) Math.cbrt(count) - 1, false, false)));
-		addEatCall(Aspect.TRAP, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.LIGHT, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 40 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.DARKNESS, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 10 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.FLUX, (player, count) -> player.addPotionEffect(new PotionEffect(PotionFluxTaint.instance, 10 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.ALCHEMY, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 10 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.ENERGY, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20 + (count * count) / 2, 1, false, false)));
-		addEatCall(Aspect.TOOL, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 20 + (count * count) / 2, 1, false, false)));
+		addEatCall(Aspect.WATER, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.WATER_BREATHING, 10 + (count * count), 0, false, false)));
+		addEatCall(Aspect.TRAP, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.SLOWNESS, 10 + (count * count), 1, false, false)));
+		addEatCall(Aspect.SENSES, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.NIGHT_VISION, 400 + count * count, 0, false, false)));
+		addEatCall(Aspect.DARKNESS, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.BLINDNESS, 10 + (count * count), 0, false, false)));
+		addEatCall(Aspect.FLUX, (player, count) -> player.addPotionEffect(new PotionEffect(PotionFluxTaint.instance, 10 + (count * count), 0, false, false)));
+		addEatCall(Aspect.ALCHEMY, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.NAUSEA, 10 + (count * count), 0, false, false)));
+		addEatCall(Aspect.ENERGY, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.STRENGTH, 20 + (count * count), (int) Math.sqrt(count), false, false)));
+		addEatCall(Aspect.TOOL, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.HASTE, 20 + (count * count), (int) Math.sqrt(count), false, false)));
 		addEatCall(Aspect.DEATH, (player, count) -> player.attackEntityFrom(DamageSource.MAGIC, 1 + (float) Math.sqrt(count)));
 		addEatCall(Aspect.LIFE, (player, count) -> player.heal(1 + (float) Math.sqrt(count)));
-		addEatCall(Aspect.MOTION, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 10 + (count * count) / 2, 0, false, false)));
+		addEatCall(Aspect.MOTION, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 10 + (count * count), count * 3 / MAX_ESSENTIA, false, false)));
 	}
 	
 	public static void addEatCall(Aspect asp, BiConsumer<EntityPlayerMP, Integer> c)
