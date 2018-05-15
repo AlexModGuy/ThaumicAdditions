@@ -6,15 +6,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import org.apache.commons.lang3.ArrayUtils;
+//import org.apache.commons.lang3.ArrayUtils;
 
 import com.endie.thaumicadditions.InfoTAR;
+import static com.endie.thaumicadditions.api.AspectUtil.*;
 import com.endie.thaumicadditions.recipes.RecipeApplySalt;
 import com.endie.thaumicadditions.recipes.RecipeClearSalt;
 import com.endie.thaumicadditions.recipes.RecipeMixSalts;
 import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.pengu.hammercore.recipeAPI.helper.RecipeRegistry;
 import com.pengu.hammercore.recipeAPI.helper.RegisterRecipes;
+import com.pengu.hammercore.utils.ArrayHelper;
 import com.pengu.hammercore.utils.OnetimeCaller;
 
 import net.minecraft.block.Block;
@@ -31,7 +33,6 @@ import thaumcraft.api.blocks.BlocksTC;
 import thaumcraft.api.crafting.InfusionRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
-import thaumcraft.common.items.resources.ItemCrystalEssence;
 
 @RegisterRecipes(modid = InfoTAR.MOD_ID)
 public class RecipesTAR extends RecipeRegistry
@@ -98,13 +99,6 @@ public class RecipesTAR extends RecipeRegistry
 	
 	static ResourceLocation defaultGroup = new ResourceLocation("");
 	
-	public static ItemStack crystalEssence(Aspect a)
-	{
-		ItemStack is = new ItemStack(ItemsTC.crystalEssence);
-		((ItemCrystalEssence) ItemsTC.crystalEssence).setAspects(is, new AspectList().add(a, 1));
-		return is;
-	}
-	
 	private static void addShapedArcaneRecipe(String path, String res, int vis, AspectList crystals, ItemStack result, Object... recipe)
 	{
 		ThaumcraftApi.addArcaneCraftingRecipe(new ResourceLocation(InfoTAR.MOD_ID, path), new ShapedArcaneRecipe(defaultGroup, res, vis, crystals, result, recipe));
@@ -148,11 +142,11 @@ public class RecipesTAR extends RecipeRegistry
 	
 	public static String[] getFakeRecipes(Item it, String... appends)
 	{
-		return ArrayUtils.addAll(getFakeRecipesFor(it), appends);
+		return ArrayHelper.merge(getFakeRecipesFor(it), appends);
 	}
 	
 	public static String[] getFakeRecipesPre(Item it, String... prepends)
 	{
-		return ArrayUtils.addAll(prepends, getFakeRecipesFor(it));
+		return ArrayHelper.merge(prepends, getFakeRecipesFor(it));
 	}
 }

@@ -8,10 +8,11 @@ import java.util.stream.Collectors;
 import com.endie.lib.utils.Joiner;
 import com.endie.thaumicadditions.InfoTAR;
 import com.endie.thaumicadditions.TAReconstructed;
+import com.endie.thaumicadditions.api.AspectUtil;
+import com.endie.thaumicadditions.api.CustomColoredAspect;
 import com.endie.thaumicadditions.api.ResearchAddendumBuilder;
 import com.endie.thaumicadditions.api.ResearchEntryBuilder;
 import com.endie.thaumicadditions.api.ResearchStageBuilder;
-import com.endie.thaumicadditions.items.ItemSaltEssence;
 import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.pengu.hammercore.color.Rainbow;
 import com.pengu.hammercore.utils.OnetimeCaller;
@@ -33,7 +34,6 @@ import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchEntry.EnumResearchMeta;
 import thaumcraft.api.research.ResearchStage.Knowledge;
-import thaumcraft.common.items.consumables.ItemPhial;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.research.ResearchManager;
 
@@ -41,25 +41,19 @@ public class KnowledgeTAR
 {
 	public static final OnetimeCaller init = new OnetimeCaller(KnowledgeTAR::$init);
 	public static final OnetimeCaller insertAspects = new OnetimeCaller(KnowledgeTAR::$insertAspects);
+	public static final OnetimeCaller clInit = new OnetimeCaller(KnowledgeTAR::$);
 	
 	public static final Aspect FLUCTUS = new Aspect("fluctus", 0xA8A8A8, new Aspect[] { Aspect.MOTION, Aspect.WATER }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/fluctus.png"), 1);
-	public static final Aspect SONUS = new Aspect("sonus", 0x00A8F2, new Aspect[] { FLUCTUS, Aspect.AIR }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/sonus.png"), 1);
+	public static final Aspect SONUS = new Aspect("sonus", 0xFFAA00, new Aspect[] { FLUCTUS, Aspect.AIR }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/sonus.png"), 1);
 	public static final Aspect EXITIUM = new Aspect("exitium", 0x777777, new Aspect[] { Aspect.ENTROPY, Aspect.TOOL }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/exitium.png"), 1);
-	public static final Aspect CAELES = new Aspect("caeles", 0xFF0000, new Aspect[] { Aspect.MAN, Aspect.DESIRE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/caeles.png"), 1)
-	{
-		@Override
-		public int getColor()
-		{
-			return Rainbow.doIt(hashCode() * hashCode(), 20000L);
-		}
-	};
-	public static final Aspect DRACO = new Aspect("draco", 0x9030FF, new Aspect[] { CAELES, Aspect.LIFE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/draco.png"), 1);
+	public static final Aspect CAELES = new CustomColoredAspect("caeles", 0xFF0000, new Aspect[] { Aspect.MAN, Aspect.DESIRE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/caeles.png"), 1, a -> Rainbow.doIt(a.hashCode() * a.hashCode(), 20000L));
+	public static final Aspect DRACO = new Aspect("draco", 0x00BCFF, new Aspect[] { CAELES, Aspect.LIFE }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/draco.png"), 1);
 	
 	private static void $init()
 	{
 		new REB().setBaseInfo("TAR_THAUMADDS", "thaumadds", 0, 0, new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png")).setMeta(EnumResearchMeta.HIDDEN, EnumResearchMeta.SPIKY).setStages(new RSB().setText("research_stage.thaumadds.1").setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, TAReconstructed.RES_CAT, 1)).build(), new RSB().setText("research_stage.thaumadds.2").build()).setParents("FIRSTSTEPS").buildAndRegister();
 		
-		new REB().setBaseInfo("TAR_ESSENCE_SALT", "essence_salt", -1, -1, ItemSaltEssence.createSalt(Aspect.AURA)).setStages(new RSB().setText("research_stage.essence_salt.1").setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, TAReconstructed.RES_CAT, 1)).setConsumedItems(new ItemStack(ItemsTC.crystalEssence)).build(), new RSB().setText("research_stage.essence_salt.2").setConsumedItems(new ItemStack(ItemsTAR.SALT_ESSENCE)).build(), new RSB().setText("research_stage.essence_salt.3").build()).setParents("TAR_THAUMADDS").buildAndRegister();
+		new REB().setBaseInfo("TAR_ESSENCE_SALT", "essence_salt", -1, -1, AspectUtil.salt(Aspect.AURA)).setStages(new RSB().setText("research_stage.essence_salt.1").setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, TAReconstructed.RES_CAT, 1)).setConsumedItems(new ItemStack(ItemsTC.crystalEssence)).build(), new RSB().setText("research_stage.essence_salt.2").setConsumedItems(new ItemStack(ItemsTAR.SALT_ESSENCE)).build(), new RSB().setText("research_stage.essence_salt.3").build()).setParents("TAR_THAUMADDS").buildAndRegister();
 		new REB().setBaseInfo("TAR_CRYSTAL_CRUSHER", "crystal_crusher", -1, -3, new ItemStack(BlocksTAR.CRYSTAL_CRUSHER)).setStages(new RSB().setText("research_stage.crystal_crusher.1").setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, TAReconstructed.RES_CAT, 1)).setConsumedItems(new ItemStack(ItemsTC.mechanismSimple)).setRequiredCraft(new ItemStack(ItemsTC.mechanismComplex)).build(), new RSB().setText("research_stage.crystal_crusher.2").setRecipes(InfoTAR.MOD_ID + ":crystal_crusher").build()).setParents("TAR_ESSENCE_SALT", "METALLURGY@2", "BASEARTIFICE").setRewardItems(new ItemStack(ItemsTC.plate, 3, 0), new ItemStack(ItemsTC.plate, 2, 1)).buildAndRegister();
 		
 		new REB().setBaseInfo("TAR_MITHRILLIUM", "mithrillium", 1, -2, new ItemStack(ItemsTAR.MITHRILLIUM_INGOT)).setMeta(EnumResearchMeta.ROUND, EnumResearchMeta.SPIKY).setStages(new RSB().setText("research_stage.mithrillium.1").setConsumedItems(new ItemStack(ItemsTC.ingots, 1, 1)).setKnow(new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("INFUSION"), 1), new Knowledge(EnumKnowledgeType.OBSERVATION, TAReconstructed.RES_CAT, 1)).build(), new RSB().setText("research_stage.mithrillium.2").setRecipes(RecipesTAR.getFakeRecipesPre(ItemsTAR.MITHRILLIUM_NUGGET, RecipesTAR.getFakeRecipesPre(ItemsTAR.MITHRILLIUM_PLATE, InfoTAR.MOD_ID + ":mithrillium_ingot"))).build()).setParents("TAR_THAUMADDS", "INFUSION").buildAndRegister();
@@ -77,13 +71,14 @@ public class KnowledgeTAR
 		new REB().setBaseInfo("TAR_ADAMINITE_JAR", "adaminite_jar", 4, -3, new ItemStack(BlocksTAR.ADAMINITE_JAR)).setMeta(EnumResearchMeta.HEX, EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.adaminite_jar.1").setRequiredCraft(new ItemStack(BlocksTAR.MITHRILLIUM_JAR), new ItemStack(ItemsTAR.ADAMINITE_PLATE)).setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, ResearchCategories.getResearchCategory("ALCHEMY"), 1)).build(), new RSB().setText("research_stage.adaminite_jar.2").setRequiredCraft(new ItemStack(BlocksTAR.ADAMINITE_JAR)).setRecipes(InfoTAR.MOD_ID + ":adaminite_jar").build(), new RSB().setText("research_stage.adaminite_jar.3").setRecipes(InfoTAR.MOD_ID + ":adaminite_jar").build()).setParents("TAR_MITHRILLIUM_JAR", "TAR_ADAMINITE").buildAndRegister();
 		new REB().setBaseInfo("TAR_MITHMINITE_JAR", "mithminite_jar", 4, -5, new ItemStack(BlocksTAR.MITHMINITE_JAR)).setMeta(EnumResearchMeta.HEX, EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.mithminite_jar.1").setRequiredCraft(new ItemStack(BlocksTAR.ADAMINITE_JAR), new ItemStack(ItemsTAR.MITHMINITE_PLATE)).setKnow(new Knowledge(EnumKnowledgeType.OBSERVATION, ResearchCategories.getResearchCategory("ALCHEMY"), 1)).build(), new RSB().setText("research_stage.mithminite_jar.2").setRecipes(InfoTAR.MOD_ID + ":mithminite_jar").build()).setParents("TAR_ADAMINITE_JAR", "TAR_MITHMINITE").buildAndRegister();
 		
-		new REB().setBaseInfo("TAR_ASPECT_COMBINER", "aspect_combiner", 3, -1, new ItemStack(BlocksTAR.ASPECT_COMBINER)).setMeta(EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.aspect_combiner.1").setRequiredCraft(new ItemStack(BlocksTC.centrifuge), new ItemStack(ItemsTAR.MITHRILLIUM_INGOT)).setConsumedItems(ItemPhial.makeFilledPhial(Aspect.EXCHANGE)).setKnow(new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("ALCHEMY"), 1)).build(), new RSB().setText("research_stage.aspect_combiner.2").setRecipes(InfoTAR.MOD_ID + ":aspect_combiner").build()).setParents("CENTRIFUGE", "TAR_MITHRILLIUM").buildAndRegister();
-		new REB().setBaseInfo("TAR_AURA_CHARGER", "aura_charger", 3, -3, new ItemStack(BlocksTAR.AURA_CHARGER)).setMeta(EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.aura_charger.1").setRequiredCraft(new ItemStack(BlocksTAR.ASPECT_COMBINER), new ItemStack(ItemsTAR.ADAMINITE_NUGGET)).setConsumedItems(ItemPhial.makeFilledPhial(TileAuraCharger.AURA)).setKnow(new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("AUROMANCY"), 1), new Knowledge(EnumKnowledgeType.OBSERVATION, ResearchCategories.getResearchCategory("ALCHEMY"), 1), new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("INFUSION"), 1)).build(), new RSB().setText("research_stage.aura_charger.2").setRecipes(InfoTAR.MOD_ID + ":aura_charger").build()).setParents("TAR_ASPECT_COMBINER", "TAR_ADAMINITE").buildAndRegister();
+		new REB().setBaseInfo("TAR_ASPECT_COMBINER", "aspect_combiner", 3, -1, new ItemStack(BlocksTAR.ASPECT_COMBINER)).setMeta(EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.aspect_combiner.1").setRequiredCraft(new ItemStack(BlocksTC.centrifuge), new ItemStack(ItemsTAR.MITHRILLIUM_INGOT)).setConsumedItems(AspectUtil.phial(Aspect.EXCHANGE)).setKnow(new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("ALCHEMY"), 1)).build(), new RSB().setText("research_stage.aspect_combiner.2").setRecipes(InfoTAR.MOD_ID + ":aspect_combiner").build()).setParents("CENTRIFUGE", "TAR_MITHRILLIUM").buildAndRegister();
+		new REB().setBaseInfo("TAR_AURA_CHARGER", "aura_charger", 3, -3, new ItemStack(BlocksTAR.AURA_CHARGER)).setMeta(EnumResearchMeta.HIDDEN).setStages(new RSB().setText("research_stage.aura_charger.1").setRequiredCraft(new ItemStack(BlocksTAR.ASPECT_COMBINER), new ItemStack(ItemsTAR.ADAMINITE_NUGGET)).setConsumedItems(AspectUtil.phial(TileAuraCharger.AURA)).setKnow(new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("AUROMANCY"), 1), new Knowledge(EnumKnowledgeType.OBSERVATION, ResearchCategories.getResearchCategory("ALCHEMY"), 1), new Knowledge(EnumKnowledgeType.THEORY, ResearchCategories.getResearchCategory("INFUSION"), 1)).build(), new RSB().setText("research_stage.aura_charger.2").setRecipes(InfoTAR.MOD_ID + ":aura_charger").build()).setParents("TAR_ASPECT_COMBINER", "TAR_ADAMINITE").buildAndRegister();
 	}
 	
 	private static void $insertAspects()
 	{
 		appendAspects("ingotAdaminite", new AspectList().add(CAELES, 16));
+		appendAspects(new ItemStack(BlocksTC.jarNormal), new AspectList().add(Aspect.VOID, 4).add(Aspect.ALCHEMY, 8));
 		
 		removeAspects(new ItemStack(ItemsTAR.MITHRILLIUM_INGOT), Aspect.TRAP);
 		appendAspects("ingotMithrillium", new AspectList().add(CAELES, 6));
@@ -201,5 +196,10 @@ public class KnowledgeTAR
 		{
 			TAReconstructed.LOG.error(e);
 		}
+	}
+	
+	private static void $()
+	{
+		
 	}
 }

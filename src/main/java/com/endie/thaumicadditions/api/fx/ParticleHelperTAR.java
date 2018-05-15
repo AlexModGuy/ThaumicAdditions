@@ -10,6 +10,6 @@ public class ParticleHelperTAR
 {
 	public static void spawnItemCrack(World world, double x, double y, double z, double motionX, double motionY, double motionZ, ItemStack stack)
 	{
-		HCNetwork.spawnParticle(world, TARParticleTypes.COLORED_ITEM_CRACK, x, y, z, motionX, motionY, motionZ, NBTUtils.toIA(stack.serializeNBT()));
+		HCNetwork.spawnParticle(world, TARParticleTypes.ITEMSTACK_CRACK, x, y, z, motionX, motionY, motionZ, NBTUtils.toIA(stack.serializeNBT()));
 	}
 }

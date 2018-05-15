@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
+import com.endie.thaumicadditions.init.KnowledgeTAR;
+import com.endie.thaumicadditions.init.PotionsTAR;
+
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemFood;
@@ -20,6 +23,7 @@ public class EdibleAspect
 {
 	public static final int MAX_ESSENTIA = 32;
 	public static final Map<Aspect, BiConsumer<EntityPlayerMP, Integer>> EAT_FUNCTIONS = new HashMap<>();
+	public static final Map<AspectList, BiConsumer<EntityPlayerMP, AspectList>> COMPLEX_FUNCTIONS = new HashMap<>();
 	
 	static
 	{
@@ -34,6 +38,33 @@ public class EdibleAspect
 		addEatCall(Aspect.DEATH, (player, count) -> player.attackEntityFrom(DamageSource.MAGIC, 1 + (float) Math.sqrt(count)));
 		addEatCall(Aspect.LIFE, (player, count) -> player.heal(1 + (float) Math.sqrt(count)));
 		addEatCall(Aspect.MOTION, (player, count) -> player.addPotionEffect(new PotionEffect(MobEffects.SPEED, 10 + (count * count), count * 3 / MAX_ESSENTIA, false, false)));
+		addEatCall(KnowledgeTAR.SONUS, (player, count) -> player.addPotionEffect(new PotionEffect(PotionsTAR.SOUND_SENSIVITY, 120 + (count * count), count * 25 / MAX_ESSENTIA, false, false)));
+	}
+	
+	public static void execute(EntityPlayerMP mp, AspectList al)
+	{
+		if(mp == null || al == null || al.visSize() == 0)
+			return;
+		final AspectList alt = al = al.copy();
+		
+		// First, process all combinations, and remove their aspects
+		COMPLEX_FUNCTIONS.keySet().stream().filter(a -> AspectUtil.containsAll(alt, a)).forEach(a ->
+		{
+			BiConsumer<EntityPlayerMP, AspectList> bi = COMPLEX_FUNCTIONS.get(alt);
+			if(bi != null)
+			{
+				bi.accept(mp, alt);
+				alt.remove(a);
+			}
+		});
+		
+		// Second, process all leftovers from processing combinations.
+		for(Aspect a : alt.getAspectsSortedByAmount())
+		{
+			BiConsumer<EntityPlayerMP, Integer> cons = EdibleAspect.EAT_FUNCTIONS.get(a);
+			if(cons != null)
+				cons.accept(mp, alt.getAmount(a));
+		}
 	}
 	
 	public static void addEatCall(Aspect asp, BiConsumer<EntityPlayerMP, Integer> c)

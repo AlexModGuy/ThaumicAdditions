@@ -2,13 +2,12 @@ package com.endie.thaumicadditions.items;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.BiConsumer;
 
+import com.endie.thaumicadditions.api.AspectUtil;
 import com.endie.thaumicadditions.api.EdibleAspect;
 import com.endie.thaumicadditions.init.ItemsTAR;
 import com.pengu.hammercore.common.utils.SoundUtil;
 import com.pengu.hammercore.event.FoodEatenEvent;
-import com.pengu.hammercore.utils.ColorHelper;
 
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
@@ -23,7 +22,6 @@ import net.minecraft.util.NonNullList;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.event.entity.living.LivingEntityUseItemEvent;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
@@ -54,12 +52,7 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 			ItemStack item = e.getOriginStack();
 			AspectList al;
 			if(!item.isEmpty() && item.getItem() instanceof ItemFood && (al = EdibleAspect.getSalt(item)).visSize() > 0)
-				for(Aspect a : al.getAspectsSortedByAmount())
-				{
-					BiConsumer<EntityPlayerMP, Integer> cons = EdibleAspect.EAT_FUNCTIONS.get(a);
-					if(cons != null)
-						cons.accept(mp, al.getAmount(a));
-				}
+				EdibleAspect.execute(mp, al);
 		}
 	}
 	
@@ -122,35 +115,14 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 		}
 	}
 	
-	public static ItemStack createSalt(Aspect aspect)
-	{
-		ItemStack i = new ItemStack(ItemsTAR.SALT_ESSENCE);
-		ItemsTAR.SALT_ESSENCE.setAspects(i, new AspectList().add(aspect, 1));
-		return i;
-	}
-	
 	public int getItemColor(ItemStack stack, int layer)
 	{
 		if(layer == 0)
 		{
 			AspectList al = getAspects(stack);
-			if(al != null && !al.aspects.isEmpty())
-			{
-				Aspect[] all = al.getAspects();
-				float r = 0, g = 0, b = 0;
-				for(Aspect a : all)
-				{
-					int rgb = a.getColor();
-					r += ColorHelper.getRed(rgb);
-					g += ColorHelper.getGreen(rgb);
-					b += ColorHelper.getBlue(rgb);
-				}
-				r /= all.length;
-				g /= all.length;
-				b /= all.length;
-				return ColorHelper.packRGB(r, g, b);
-			}
+			return AspectUtil.getColor(al, true);
 		}
+		
 		return 0xFFFFFF;
 	}
 	

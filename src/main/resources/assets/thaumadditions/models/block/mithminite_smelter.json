@@ -4,6 +4,9 @@
         "top": "thaumcraft:blocks/smelter_top",
         "front": "thaumadditions:blocks/smelter_mithminite/front",
         "side": "thaumadditions:blocks/smelter_mithminite/side",
-		"down": "thaumadditions:blocks/mithminite_block"
+		"down": "thaumadditions:blocks/mithminite_block",
+		
+		"crystal_water_still": "thaumadditions:blocks/crystal_water_still",
+		"crystal_water_flow": "thaumadditions:blocks/crystal_water_flow"
     }
 }

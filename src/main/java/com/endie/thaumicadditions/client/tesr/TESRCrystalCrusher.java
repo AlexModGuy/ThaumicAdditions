@@ -19,6 +19,9 @@ public class TESRCrystalCrusher extends TESR<TileCrystalCrusher>
 	@Override
 	public void renderTileEntityAt(TileCrystalCrusher te, double x, double y, double z, float partialTicks, ResourceLocation destroyStage, float alpha)
 	{
+		float lift = te.craftTime / 100F * 180F;
+		lift = (float) Math.sin(Math.toRadians(lift));
+		
 		FrictionRotator cr = te.rotator;
 		for(int i = 0; i < (destroyStage != null ? 2 : 1); ++i)
 		{
@@ -29,7 +32,7 @@ public class TESRCrystalCrusher extends TESR<TileCrystalCrusher>
 			bindTexture(i == 1 ? destroyStage : texture);
 			model.shape1.render(1 / 16F);
 			GL11.glPushMatrix();
-			GL11.glTranslatef(0, 1 / 16F, 0);
+			GL11.glTranslatef(0, 2 / 16F * lift, 0);
 			GL11.glRotatef(cr.getActualRotation(partialTicks), 0, 1, 0);
 			model.shape3.render(1 / 16F);
 			GL11.glPopMatrix();

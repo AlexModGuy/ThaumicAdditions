@@ -6,6 +6,7 @@ import com.endie.thaumicadditions.blocks.BlockAspectCombiner;
 import com.endie.thaumicadditions.blocks.BlockAuraCharger;
 import com.endie.thaumicadditions.blocks.BlockCraftingFurnace;
 import com.endie.thaumicadditions.blocks.BlockCrystalCrusher;
+import com.endie.thaumicadditions.blocks.BlockCrystalWater;
 import com.endie.thaumicadditions.tiles.jars.TileAdaminiteJar;
 import com.endie.thaumicadditions.tiles.jars.TileBrassJar;
 import com.endie.thaumicadditions.tiles.jars.TileEldritchJar;
@@ -19,6 +20,8 @@ public class BlocksTAR
 	public static final BlockAbstractSmelter MITHRILLIUM_SMELTER = new BlockAbstractSmelter("mithrillium_smelter", 1F, 20, 1000);
 	public static final BlockAbstractSmelter ADAMINITE_SMELTER = new BlockAbstractSmelter("adaminite_smelter", 1.2F, 15, 2000);
 	public static final BlockAbstractSmelter MITHMINITE_SMELTER = new BlockAbstractSmelter("mithminite_smelter", 1.5F, 10, 4000);
+	
+	public static final BlockCrystalWater CRYSTAL_WATER = new BlockCrystalWater();
 	
 	public static final BlockAspectCombiner ASPECT_COMBINER = new BlockAspectCombiner();
 	public static final BlockAuraCharger AURA_CHARGER = new BlockAuraCharger();

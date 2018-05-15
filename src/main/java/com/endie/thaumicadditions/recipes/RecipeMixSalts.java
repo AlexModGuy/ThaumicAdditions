@@ -1,5 +1,6 @@
 package com.endie.thaumicadditions.recipes;
 
+import com.endie.thaumicadditions.api.AspectUtil;
 import com.endie.thaumicadditions.api.EdibleAspect;
 import com.endie.thaumicadditions.init.ItemsTAR;
 
@@ -52,14 +53,7 @@ public class RecipeMixSalts extends Impl<IRecipe> implements IRecipe
 				aspects.add(al);
 		}
 		
-		if(aspects.visSize() > 1 && aspects.visSize() <= EdibleAspect.MAX_ESSENTIA && salts > 1)
-		{
-			ItemStack res = new ItemStack(ItemsTAR.SALT_ESSENCE, 1);
-			ItemsTAR.SALT_ESSENCE.setAspects(res, aspects);
-			return res;
-		}
-		
-		return ItemStack.EMPTY;
+		return aspects.visSize() > 1 && aspects.visSize() <= EdibleAspect.MAX_ESSENTIA && salts > 1 ? AspectUtil.salt(aspects) : ItemStack.EMPTY;
 	}
 	
 	@Override

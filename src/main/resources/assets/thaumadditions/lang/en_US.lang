@@ -28,6 +28,17 @@ tile.thaumadditions:jar_mithminite.name=Mithminite Jar
 
 ##########
 
+##FLUIDS##
+
+fluid.thaumadditions:crystal_water=Crystal Water
+
+##########
+
+##FLUIDS##
+
+potion.thaumadditions:sonus=Sound Sensivity
+
+##########
 
 ##ITEMS##
 
