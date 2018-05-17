@@ -63,11 +63,11 @@ public class TileAuraCharger extends TileSyncableTickable implements IEssentiaTr
 		
 		if(world.isBlockIndirectlyGettingPowered(pos) > 0)
 			return;
-		if(world.isRemote)
-			PacketBlockEvent.performBlockEvent(world, pos, 1, 0);
 		
 		if(amount > 0 && vis < base * 2.5)
 		{
+			if(world.isRemote)
+				PacketBlockEvent.performBlockEvent(world, pos, 1, 0);
 			
 			if(atTickRate(100))
 			{
