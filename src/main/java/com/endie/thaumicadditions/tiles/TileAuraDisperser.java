@@ -98,7 +98,7 @@ public class TileAuraDisperser extends TileSyncableTickable implements iTileDrop
 		if(aspects != null)
 		{
 			properties.put("time_left", timer);
-			properties.put("Aspects", "");
+			properties.put("aspects", aspects.visSize());
 			for(Aspect a : aspects.getAspectsSortedByName())
 				properties.put(a.getName(), aspects.getAmount(a));
 		}

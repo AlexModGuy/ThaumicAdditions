@@ -8,7 +8,6 @@ import com.endie.thaumicadditions.tiles.TileCrystalBore;
 import com.pengu.hammercore.client.render.tesr.TESR;
 
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.EnumFacing;
 import net.minecraft.util.ResourceLocation;
 
 public class TESRCrystalBore extends TESR<TileCrystalBore>

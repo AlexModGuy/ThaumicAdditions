@@ -2,7 +2,13 @@ package com.endie.thaumicadditions.tiles;
 
 import java.util.Random;
 
+import com.endie.thaumicadditions.client.ChainReaction;
+import com.endie.thaumicadditions.client.ClientChainReactor;
+import com.endie.thaumicadditions.client.runnable.ThunderRunnable;
+import com.endie.thaumicadditions.client.runnable.VisSparkleRunnable;
+import com.endie.thaumicadditions.init.KnowledgeTAR;
 import com.endie.thaumicadditions.net.PacketBlockEvent;
+import com.pengu.hammercore.net.pkt.thunder.Thunder.Layer;
 import com.pengu.hammercore.tile.TileSyncableTickable;
 import com.pengu.hammercore.tile.iTileDroppable;
 import com.pengu.hammercore.utils.ColorHelper;
@@ -13,6 +19,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -56,11 +63,11 @@ public class TileAuraCharger extends TileSyncableTickable implements IEssentiaTr
 		
 		if(world.isBlockIndirectlyGettingPowered(pos) > 0)
 			return;
+		if(world.isRemote)
+			PacketBlockEvent.performBlockEvent(world, pos, 1, 0);
 		
 		if(amount > 0 && vis < base * 2.5)
 		{
-			if(world.isRemote)
-				PacketBlockEvent.performBlockEvent(world, pos, 1, 0);
 			
 			if(atTickRate(100))
 			{
@@ -258,39 +265,41 @@ public class TileAuraCharger extends TileSyncableTickable implements IEssentiaTr
 					
 					visSparkle(pos.getX() + cos * .3F + .5F, pos.getY() + .5F, pos.getZ() + sin * .3F + .5F, pos.getX() + .5F + cos * getRNG().nextFloat() * 6, pos.getY() + 1.5F + getRNG().nextFloat() * 4, pos.getZ() + .5F + sin * getRNG().nextFloat() * 6, AURA.getColor());
 					
-					/* if(getRNG().nextInt(100) == 0) { Vec3d veca = new
-					 * Vec3d(pos.getX() + .5F + cos, pos.getY() + .5F +
-					 * getRNG().nextFloat(), pos.getZ() + .5F + sin); Vec3d vecb
-					 * = new Vec3d(pos.getX() + .5F + cos, veca.y + 1.5 +
-					 * getRNG().nextFloat(), pos.getZ() + .5F + sin); Vec3d vecc
-					 * = new Vec3d(pos.getX() + .5F + cos * .3, pos.getY() +
-					 * .5F, pos.getZ() + .5F + sin * .3);
-					 * 
-					 * Vec3d vecd = veca.add(veca.subtract(vecc));
-					 * 
-					 * ChainReaction ra = new ChainReaction(new
-					 * ThunderRunnable(world, vecc, veca, getRNG().nextLong(),
-					 * 10, 0F, new Layer(771, AURA.getColor(), true), new
-					 * Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 0);
-					 * 
-					 * ChainReaction rb = new ChainReaction(new
-					 * ThunderRunnable(world, veca, vecb, getRNG().nextLong(),
-					 * 10, 0F, new Layer(771, AURA.getColor(), true), new
-					 * Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 7);
-					 * ChainReaction rb_a = new ChainReaction(new
-					 * VisSparkleRunnable(veca.x, veca.y, veca.z, vecd.x,
-					 * vecd.y, vecd.z, KnowledgeTAR.CAELES.getColor()), 0);
-					 * 
-					 * ChainReaction rc = new ChainReaction(new
-					 * ThunderRunnable(world, vecb, vecc, getRNG().nextLong(),
-					 * 10, 1F, new Layer(771, AURA.getColor(), true), new
-					 * Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 7);
-					 * ChainReaction rc_a = new ChainReaction(new
-					 * VisSparkleRunnable(vecb.x, vecb.y, vecb.z, vecb.x, vecb.y
-					 * + 2, vecb.z, KnowledgeTAR.CAELES.getColor()), 0);
-					 * 
-					 * ClientChainReactor.REACTOR.addChain(ra, rb, rb_a, rc,
-					 * rc_a); } */
+					// if(getRNG().nextInt(100) == 0)
+					// {
+					// Vec3d veca = new Vec3d(pos.getX() + .5F + cos, pos.getY()
+					// + .5F + getRNG().nextFloat(), pos.getZ() + .5F + sin);
+					// Vec3d vecb = new Vec3d(pos.getX() + .5F + cos, veca.y +
+					// 1.5 + getRNG().nextFloat(), pos.getZ() + .5F + sin);
+					// Vec3d vecc = new Vec3d(pos.getX() + .5F + cos * .3,
+					// pos.getY() + .5F, pos.getZ() + .5F + sin * .3);
+					//
+					// Vec3d vecd = veca.add(veca.subtract(vecc));
+					//
+					// ChainReaction ra = new ChainReaction(new
+					// ThunderRunnable(world, vecc, veca, getRNG().nextLong(),
+					// 10, 10F, new Layer(771, AURA.getColor(), true), new
+					// Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 0);
+					//
+					// ChainReaction rb = new ChainReaction(new
+					// ThunderRunnable(world, veca, vecb, getRNG().nextLong(),
+					// 10, 10F, new Layer(771, AURA.getColor(), true), new
+					// Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 7);
+					// ChainReaction rb_a = new ChainReaction(new
+					// VisSparkleRunnable(veca.x, veca.y, veca.z, vecd.x,
+					// vecd.y, vecd.z, KnowledgeTAR.CAELES.getColor()), 0);
+					//
+					// ChainReaction rc = new ChainReaction(new
+					// ThunderRunnable(world, vecb, vecc, getRNG().nextLong(),
+					// 10, 10F, new Layer(771, AURA.getColor(), true), new
+					// Layer(771, KnowledgeTAR.CAELES.getColor(), true)), 7);
+					// ChainReaction rc_a = new ChainReaction(new
+					// VisSparkleRunnable(vecb.x, vecb.y, vecb.z, vecb.x, vecb.y
+					// + 2, vecb.z, KnowledgeTAR.CAELES.getColor()), 0);
+					//
+					// ClientChainReactor.REACTOR.addChain(ra, rb, rb_a, rc,
+					// rc_a);
+					// }
 				}
 			}
 		}

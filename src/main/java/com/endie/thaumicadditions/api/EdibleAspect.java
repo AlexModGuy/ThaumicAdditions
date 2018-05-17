@@ -45,10 +45,10 @@ public class EdibleAspect
 		
 		addEatCall(Aspect.LIFE, (player, count) ->
 		{
-			boolean healthy = player.getHealth() < player.getMaxHealth();
+			boolean healthy = player.getMaxHealth() - player.getHealth() < .5F;
 			if(!healthy)
 				player.heal(1 + (float) Math.sqrt(count));
-			return healthy;
+			return !healthy;
 		});
 	}
 	
@@ -95,7 +95,7 @@ public class EdibleAspect
 				used.add(a, alt.getAmount(a));
 		}
 		
-		return used.visSize() == 0 ? origin : used;
+		return used;
 	}
 	
 	public static void addEatCall(Aspect asp, BiFunction<EntityLivingBase, Integer, Boolean> c)
