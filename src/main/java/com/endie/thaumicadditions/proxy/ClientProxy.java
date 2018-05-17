@@ -5,10 +5,13 @@ import com.endie.thaumicadditions.TAReconstructed;
 import com.endie.thaumicadditions.api.fx.TARParticleTypes;
 import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJarItem;
 import com.endie.thaumicadditions.client.ClientChainReactor;
+import com.endie.thaumicadditions.client.FXHandlerClient;
 import com.endie.thaumicadditions.client.isr.ItemRenderJar;
 import com.endie.thaumicadditions.client.tesr.TESRAbstractJar;
 import com.endie.thaumicadditions.client.tesr.TESRAspectCombiner;
 import com.endie.thaumicadditions.client.tesr.TESRAuraCharger;
+import com.endie.thaumicadditions.client.tesr.TESRAuraDisperser;
+import com.endie.thaumicadditions.client.tesr.TESRCrystalBore;
 import com.endie.thaumicadditions.client.tesr.TESRCrystalCrusher;
 import com.endie.thaumicadditions.client.texture.TextureThaumonomiconBG;
 import com.endie.thaumicadditions.init.BlocksTAR;
@@ -16,14 +19,17 @@ import com.endie.thaumicadditions.init.ItemsTAR;
 import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
 import com.endie.thaumicadditions.tiles.TileAuraCharger;
+import com.endie.thaumicadditions.tiles.TileAuraDisperser;
+import com.endie.thaumicadditions.tiles.TileCrystalBore;
 import com.endie.thaumicadditions.tiles.TileCrystalCrusher;
 import com.pengu.hammercore.client.render.item.ItemRenderingHandler;
+import com.pengu.hammercore.common.blocks.base.iBlockHorizontal;
+import com.pengu.hammercore.common.blocks.base.iBlockOrientable;
 import com.pengu.hammercore.utils.ColorHelper;
 import com.pengu.hammercore.utils.NBTUtils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleBreaking;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -46,6 +52,8 @@ public class ClientProxy extends CommonProxy
 	public void preInit()
 	{
 		ModelLoader.setCustomStateMapper(BlocksTAR.CRYSTAL_WATER, new StateMap.Builder().ignore(BlockFluidBase.LEVEL).build());
+		ModelLoader.setCustomStateMapper(BlocksTAR.ASPECT_COMBINER, new StateMap.Builder().ignore(iBlockHorizontal.FACING).build());
+		ModelLoader.setCustomStateMapper(BlocksTAR.CRYSTAL_BORE, new StateMap.Builder().ignore(iBlockOrientable.FACING).build());
 	}
 	
 	@Override
@@ -60,6 +68,8 @@ public class ClientProxy extends CommonProxy
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemsTAR.SALT_ESSENCE::getItemColor, ItemsTAR.SALT_ESSENCE);
 		
 		// Add custom TESRs
+		
+		ClientRegistry.bindTileEntitySpecialRenderer(TileAuraDisperser.class, new TESRAuraDisperser());
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileAbstractJarFillable.class, new TESRAbstractJar());
 		ItemRenderingHandler.INSTANCE.applyItemRender(new ItemRenderJar(), i -> i instanceof BlockAbstractJarItem || i instanceof BlockJarItem);
@@ -78,6 +88,11 @@ public class ClientProxy extends CommonProxy
 		ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalCrusher.class, crycr);
 		ItemRenderingHandler.INSTANCE.setItemRender(Item.getItemFromBlock(BlocksTAR.CRYSTAL_CRUSHER), crycr);
 		Minecraft.getMinecraft().getRenderItem().registerItem(Item.getItemFromBlock(BlocksTAR.CRYSTAL_CRUSHER), 0, "chest");
+		
+		TESRCrystalBore crybo = new TESRCrystalBore();
+		ClientRegistry.bindTileEntitySpecialRenderer(TileCrystalBore.class, crybo);
+		ItemRenderingHandler.INSTANCE.setItemRender(Item.getItemFromBlock(BlocksTAR.CRYSTAL_BORE), crybo);
+		Minecraft.getMinecraft().getRenderItem().registerItem(Item.getItemFromBlock(BlocksTAR.CRYSTAL_BORE), 0, "chest");
 		
 		// Fluid state mapping.
 		mapFluid(BlocksTAR.CRYSTAL_WATER);
@@ -132,6 +147,12 @@ public class ClientProxy extends CommonProxy
 	public int getItemColor(ItemStack stack, int layer)
 	{
 		return Minecraft.getMinecraft().getItemColors().getColorFromItemstack(stack, layer);
+	}
+	
+	@Override
+	protected FXHandler createFX()
+	{
+		return new FXHandlerClient();
 	}
 	
 	private static void mapFluid(BlockFluidBase fluidBlock)

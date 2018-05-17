@@ -1,7 +1,7 @@
 ## Thaumic Additions English Translation (by EndieDargon)
 
 itemGroup.thaumadditions=Thaumic Additions: Reconstructed
-tc.research_category.THAUMADDITIONS=Thaumic Additions: Reconstructed
+tc.research_category.THAUMADDITIONS=Thaumic Additions
 tc.aspect.fluctus=Wave, Ripple
 tc.aspect.sonus=Sound, Noise
 tc.aspect.exitium=Destruction, Damage
@@ -18,6 +18,8 @@ tile.thaumadditions:adaminite_smelter.name=Adaminite Smeltery
 tile.thaumadditions:aspect_combiner.name=Essentia Combiner
 tile.thaumadditions:aura_charger.name=Aura Charger
 tile.thaumadditions:crystal_crusher.name=Crystal Crusher
+tile.thaumadditions:aura_disperser.name=Aura Disperser
+tile.thaumadditions:crystal_bore.name=Crystal Bore
 
 tile.thaumadditions:jar_brass.name=Brass Warded Jar
 tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
@@ -125,5 +127,13 @@ research_stage.aura_charger.2=Aura Charger is an amazing block that restores vis
 research_name.thaumadditions:crystal_crusher=Crystal Crusher
 research_stage.crystal_crusher.1=I was wondering if crystal crushing may be automated... I am tired of jumping on a crystal to break it into salt. I will need some mechanisms to experiment with.
 research_stage.crystal_crusher.2=I accidentally broke Simple Arcane Mechanism but I think that I know a way how to do this! I need to infuse a complex arcane mechanism with all primal crystals, a few thaumium plates, arcane stone slabs and some... salt? It uses Machina from nearby jars to operate.
+
+research_name.thaumadditions:aura_disperser=Aura Disperser
+research_stage.aura_disperser.1=Using salt with food is very useful but I may want to apply this to an area of entities, maybe my farm. I'd love to know more about this...
+research_stage.aura_disperser.2=Aura Disperser is a machine that uses vis salts and applies them to a small area to where it's facing. May be good for many uses, like farms, mob grinders, traps and other things.
+
+research_name.thaumadditions:crystal_bore=Crystal Bore
+research_stage.crystal_bore.1=I need to mine crystals without destroying one crystal, and I don't see any ways to do this yet... And I also need to automate it, if possible. I will keep studying some golemancy to understand this better.
+research_stage.crystal_bore.2=I discovered a new device: Crystal Bore! It is capable of mining crystals in front of it at slight cost of vis in nearby aura. It may be disabled using redstone signal, and it can output items to adjacent chest of the back side.
 
 ############

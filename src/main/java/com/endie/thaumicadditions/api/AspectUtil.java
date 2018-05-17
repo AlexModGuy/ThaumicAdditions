@@ -4,6 +4,7 @@ import com.endie.thaumicadditions.init.ItemsTAR;
 import com.pengu.hammercore.utils.ColorHelper;
 
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.items.ItemsTC;
@@ -105,5 +106,12 @@ public class AspectUtil
 		ItemStack is = new ItemStack(ItemsTC.crystalEssence, count);
 		((ItemCrystalEssence) ItemsTC.crystalEssence).setAspects(is, new AspectList().add(a, 1));
 		return is;
+	}
+	
+	public static NBTTagCompound writeALToNBT(AspectList list, NBTTagCompound nbt)
+	{
+		if(list != null)
+			list.writeToNBT(nbt);
+		return nbt;
 	}
 }

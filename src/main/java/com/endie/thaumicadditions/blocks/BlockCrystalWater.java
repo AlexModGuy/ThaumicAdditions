@@ -1,5 +1,7 @@
 package com.endie.thaumicadditions.blocks;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.endie.thaumicadditions.api.fx.TARParticleTypes;
@@ -25,9 +27,25 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 	}
 	
 	@Override
+	public void onBlockAdded(World world, BlockPos pos, IBlockState state)
+	{
+		super.onBlockAdded(world, pos, state);
+		
+		if(!world.isUpdateScheduled(pos, this))
+			world.scheduleUpdate(pos, this, tickRate);
+	}
+	
+	@Override
 	public void updateTick(World world, BlockPos pos, IBlockState state, Random rand)
 	{
 		super.updateTick(world, pos, state, rand);
+		
+		// Skip non-source blocks.
+		if(state.getValue(LEVEL) > 0)
+			return;
+		
+		if(!world.isUpdateScheduled(pos, this))
+			world.scheduleUpdate(pos, this, tickRate);
 		
 		if(!world.isRemote && rand.nextInt(50) == 0)
 			for(int x = -1; x <= 1; x += 2)
@@ -49,16 +67,19 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 			IBlockState state = world.getBlockState(pos);
 			int size = state.getValue(BlockCrystal.SIZE);
 			
+			int sources = 0;
 			for(int x = -1; x <= 1; x += 2)
 				for(int z = -1; z <= 1; z += 2)
 				{
 					BlockPos ppos = pos.add(x, -1, z);
 					IBlockState ibs = world.getBlockState(ppos);
-					if(ibs.getBlock() != BlocksTAR.CRYSTAL_WATER || ibs.getValue(LEVEL) > 0)
+					if(ibs.getBlock() != BlocksTAR.CRYSTAL_WATER)
 						return false;
+					if(ibs.getValue(LEVEL) == 0)
+						sources++;
 				}
 			
-			return size < 3;
+			return size < 3 && sources >= 2;
 		}
 		return false;
 	}
@@ -71,7 +92,21 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 			int size = state.getValue(BlockCrystal.SIZE);
 			int sx = world.rand.nextInt(2) * 2 - 1;
 			int sz = world.rand.nextInt(2) * 2 - 1;
-			BlockPos bp = pos.add(sx, -1, sz);
+			
+			List<BlockPos> poses = new ArrayList<>();
+			for(int x = -1; x <= 1; x += 2)
+				for(int z = -1; z <= 1; z += 2)
+				{
+					BlockPos ppos = pos.add(x, -1, z);
+					IBlockState ibs = world.getBlockState(ppos);
+					if(ibs.getBlock() == BlocksTAR.CRYSTAL_WATER && ibs.getValue(LEVEL) == 0)
+						poses.add(ppos);
+				}
+			
+			if(poses.isEmpty())
+				return;
+			
+			BlockPos bp = poses.remove(world.rand.nextInt(poses.size()));
 			world.setBlockToAir(bp);
 			world.setBlockState(pos, state.withProperty(BlockCrystal.SIZE, size + 1), 3);
 			
