@@ -23,6 +23,7 @@ import com.pengu.hammercore.utils.NBTUtils;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.particle.Particle;
 import net.minecraft.client.particle.ParticleBreaking;
 import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
@@ -35,6 +36,8 @@ import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.BlockFluidBase;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import thaumcraft.client.fx.ParticleEngine;
+import thaumcraft.client.fx.particles.FXGeneric;
 import thaumcraft.common.blocks.essentia.BlockJarItem;
 
 public class ClientProxy extends CommonProxy
@@ -84,6 +87,45 @@ public class ClientProxy extends CommonProxy
 	public void postInit()
 	{
 		Minecraft.getMinecraft().effectRenderer.registerParticle(TARParticleTypes.ITEMSTACK_CRACK.getParticleID(), (particleID, worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, args) -> new ParticleColoredBreaking(worldIn, xCoordIn, yCoordIn, zCoordIn, xSpeedIn, ySpeedIn, zSpeedIn, new ItemStack(NBTUtils.toNBT(args))));
+		
+		Minecraft.getMinecraft().effectRenderer.registerParticle(TARParticleTypes.POLLUTION.getParticleID(), (particleID, w, x, y, z, x2, y2, z2, args) ->
+		{
+			FXGeneric fb = new FXGeneric(w, x, y, z, (w.rand.nextFloat() - w.rand.nextFloat()) * 0.005, 0.02, (w.rand.nextFloat() - w.rand.nextFloat()) * 0.005);
+			fb.setMaxAge(400 + w.rand.nextInt(100));
+			fb.setRBGColorF(1F, .3F, .9F);
+			fb.setAlphaF(.5F, 0);
+			fb.setGridSize(16);
+			fb.setParticles(56, 1, 1);
+			fb.setScale(2, 5);
+			fb.setLayer(1);
+			fb.setSlowDown(1);
+			fb.setWind(0.001);
+			fb.setRotationSpeed(w.rand.nextFloat(), w.rand.nextBoolean() ? -1 : 1);
+			ParticleEngine.addEffect(w, fb);
+			return null;
+		});
+		
+		Minecraft.getMinecraft().effectRenderer.registerParticle(TARParticleTypes.COLOR_CLOUD.getParticleID(), (particleID, worldIn, x, y, z, x2, y2, z2, args) ->
+		{
+			int red = args.length > 1 ? args[0] : 255;
+			int green = args.length > 2 ? args[1] : 255;
+			int blue = args.length > 3 ? args[2] : 255;
+			int alpha = args.length > 4 ? args[3] : 0;
+			int a = 200 + worldIn.rand.nextInt(100);
+			FXGeneric fb = new FXGeneric(worldIn, x, y, z, (x2 - x) / (a * .9), (y2 - y) / (a * .9), (z2 - z) / (a * .9));
+			fb.setMaxAge(a);
+			fb.setRBGColorF(red / 255F, green / 255F, blue / 255F);
+			fb.setAlphaF(alpha == 0 ? .3F : alpha / 255F, 0);
+			fb.setGridSize(16);
+			fb.setParticles(56, 1, 1);
+			fb.setScale(2, 5);
+			fb.setLayer(0);
+			fb.setSlowDown(1);
+			fb.setNoClip(args.length > 5 ? args[4] > 0 : false);
+			fb.setRotationSpeed(worldIn.rand.nextFloat(), worldIn.rand.nextBoolean() ? -1 : 1);
+			ParticleEngine.addEffect(worldIn, fb);
+			return null;
+		});
 	}
 	
 	@Override

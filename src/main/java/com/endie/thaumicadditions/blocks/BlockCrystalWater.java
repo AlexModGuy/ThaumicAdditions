@@ -2,9 +2,11 @@ package com.endie.thaumicadditions.blocks;
 
 import java.util.Random;
 
+import com.endie.thaumicadditions.api.fx.TARParticleTypes;
 import com.endie.thaumicadditions.init.BlocksTAR;
 import com.endie.thaumicadditions.init.FluidsTAR;
 import com.pengu.hammercore.api.iNoItemBlock;
+import com.pengu.hammercore.net.HCNetwork;
 
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -27,7 +29,7 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 	{
 		super.updateTick(world, pos, state, rand);
 		
-		if(world.rand.nextInt(2000) == 0)
+		if(!world.isRemote && rand.nextInt(50) == 0)
 			for(int x = -1; x <= 1; x += 2)
 				for(int z = -1; z <= 1; z += 2)
 				{
@@ -69,8 +71,11 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 			int size = state.getValue(BlockCrystal.SIZE);
 			int sx = world.rand.nextInt(2) * 2 - 1;
 			int sz = world.rand.nextInt(2) * 2 - 1;
-			world.setBlockToAir(pos.add(sx, -1, sz));
+			BlockPos bp = pos.add(sx, -1, sz);
+			world.setBlockToAir(bp);
 			world.setBlockState(pos, state.withProperty(BlockCrystal.SIZE, size + 1), 3);
+			
+			HCNetwork.spawnParticle(world, TARParticleTypes.COLOR_CLOUD, bp.getX() + .5, bp.getY() + .7, bp.getZ() + .5, pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, 0, 255, 255, 255, 1);
 		}
 	}
 }

@@ -103,6 +103,8 @@ public class ItemRenderJar implements iItemRender
 	
 	public static void renderLiquidInItem(int amount, Aspect aspect, int cap, double x, double y, double z)
 	{
+		if(aspect == null)
+			return;
 		GL11.glPushMatrix();
 		GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
 		RenderBlocks renderBlocks = RenderBlocks.forMod(InfoTAR.MOD_ID);
