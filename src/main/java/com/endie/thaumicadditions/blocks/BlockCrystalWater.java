@@ -107,7 +107,8 @@ public class BlockCrystalWater extends BlockFluidClassic implements iNoItemBlock
 				return;
 			
 			BlockPos bp = poses.remove(world.rand.nextInt(poses.size()));
-			world.setBlockToAir(bp);
+			if(world.rand.nextBoolean())
+				world.setBlockToAir(bp);
 			world.setBlockState(pos, state.withProperty(BlockCrystal.SIZE, size + 1), 3);
 			
 			HCNetwork.spawnParticle(world, TARParticleTypes.COLOR_CLOUD, bp.getX() + .5, bp.getY() + .7, bp.getZ() + .5, pos.getX() + .5, pos.getY() + .5, pos.getZ() + .5, 0, 255, 255, 255, 1);

@@ -27,8 +27,6 @@ public class PotionSoundSensivity extends PotionBaseTAR
 		
 		if(amplifier > 20)
 			amt = .01F;
-		else if(amplifier > 8 && entityLivingBaseIn.getRNG().nextBoolean())
-			amt = entityLivingBaseIn.getRNG().nextFloat() * .5F;
 		else
 			amt += amplifier / 8F;
 		

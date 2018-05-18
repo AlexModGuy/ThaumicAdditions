@@ -37,7 +37,7 @@ public class TileCrystalBore extends TileSyncableTickable
 	@Override
 	public void tick()
 	{
-		rotator.friction = .35F;
+		rotator.friction = .25F;
 		rotator.update();
 		
 		oldFace = face;

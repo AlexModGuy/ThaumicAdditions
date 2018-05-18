@@ -1,17 +1,18 @@
 package com.endie.thaumicadditions.init;
 
+import static com.endie.thaumicadditions.api.AspectUtil.crystalEssence;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-//import org.apache.commons.lang3.ArrayUtils;
+// import org.apache.commons.lang3.ArrayUtils;
 
 import com.endie.thaumicadditions.InfoTAR;
 import com.endie.thaumicadditions.api.AspectUtil;
-
-import static com.endie.thaumicadditions.api.AspectUtil.*;
+import com.endie.thaumicadditions.api.blueprint.BlueprintBuilder;
 import com.endie.thaumicadditions.recipes.RecipeApplySalt;
 import com.endie.thaumicadditions.recipes.RecipeClearSalt;
 import com.endie.thaumicadditions.recipes.RecipeMixSalts;
@@ -29,10 +30,16 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fluids.Fluid;
+import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.UniversalBucket;
 import thaumcraft.api.ThaumcraftApi;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.blocks.BlocksTC;
+import thaumcraft.api.crafting.CrucibleRecipe;
 import thaumcraft.api.crafting.InfusionRecipe;
 import thaumcraft.api.crafting.ShapedArcaneRecipe;
 import thaumcraft.api.items.ItemsTC;
@@ -53,6 +60,8 @@ public class RecipesTAR extends RecipeRegistry
 	{
 		infusing();
 		arcaneCrafting();
+		crucible();
+		multiblock();
 	}
 	
 	@Override
@@ -95,6 +104,29 @@ public class RecipesTAR extends RecipeRegistry
 		addShapedArcaneRecipe("eldritch_jar", "TAR_ELDRITCH_JAR", 150, new AspectList().add(Aspect.WATER, 6), new ItemStack(BlocksTAR.ELDRITCH_JAR), "gpg", "gjg", "ggg", 'g', "paneGlass", 'p', new ItemStack(ItemsTC.plate, 1, 3), 'j', BlocksTAR.THAUMIUM_JAR);
 		addShapedArcaneRecipe("mithrillium_jar", "TAR_MITHRILLIUM_JAR", 750, new AspectList().add(Aspect.WATER, 12), new ItemStack(BlocksTAR.MITHRILLIUM_JAR), "gpg", "gjg", "ggg", 'g', "paneGlass", 'p', new ItemStack(ItemsTAR.MITHRILLIUM_PLATE), 'j', BlocksTAR.ELDRITCH_JAR);
 		addShapedArcaneRecipe("adaminite_jar", "TAR_ADAMINITE_JAR@2", 1000, new AspectList().add(Aspect.WATER, 24), new ItemStack(BlocksTAR.ADAMINITE_JAR), "gpg", "gjg", "ggg", 'g', "paneGlass", 'p', new ItemStack(ItemsTAR.ADAMINITE_PLATE), 'j', BlocksTAR.MITHRILLIUM_JAR);
+	}
+	
+	private void crucible()
+	{
+		addCrucibleRecipe("crystal_water", "TAR_CRYSTAL_WATER", FluidUtil.getFilledBucket(new FluidStack(FluidsTAR.CRYSTAL_WATER, Fluid.BUCKET_VOLUME)), new ItemStack(Items.WATER_BUCKET), new AspectList().add(Aspect.CRYSTAL, 10).add(Aspect.DESIRE, 4).add(Aspect.EXCHANGE, 6));
+	}
+	
+	private void multiblock()
+	{
+		{
+			BlueprintBuilder b = new BlueprintBuilder(3, 2, 3).center(1, 0, 1);
+			for(int x = -1; x < 2; x++)
+				for(int z = -1; z < 2; z++)
+					b.part(x, 0, z, BlocksTAR.CRYSTAL_WATER, null);
+			b.part(0, 0, 0, new ItemStack(Blocks.STONE), null);
+			b.part(0, 1, 0, new ItemStack(BlocksTC.crystalOrder), null);
+			ThaumcraftApi.addMultiblockRecipeToCatalog(new ResourceLocation(InfoTAR.MOD_ID, "mb.crystal_acceleration"), b.build("TAR_CRYSTAL_WATER", new ItemStack(ItemsTC.crystalEssence)));
+		}
+	}
+	
+	private static void addCrucibleRecipe(String path, String research, ItemStack output, Object catalyst, AspectList aspects)
+	{
+		ThaumcraftApi.addCrucibleRecipe(new ResourceLocation(InfoTAR.MOD_ID, path), new CrucibleRecipe(research, output, catalyst, aspects));
 	}
 	
 	private static void addInfusionRecipe(String path, Object output, String research, int instability, Object catalyst, AspectList aspects, Object... inputs)

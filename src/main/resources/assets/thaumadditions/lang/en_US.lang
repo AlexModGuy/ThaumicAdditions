@@ -136,4 +136,8 @@ research_name.thaumadditions:crystal_bore=Crystal Bore
 research_stage.crystal_bore.1=I need to mine crystals without destroying one crystal, and I don't see any ways to do this yet... And I also need to automate it, if possible. I will keep studying some golemancy to understand this better.
 research_stage.crystal_bore.2=I discovered a new device: Crystal Bore! It is capable of mining crystals in front of it at slight cost of vis in nearby aura. It may be disabled using redstone signal, and it can output items to adjacent chest of the back side.
 
+research_name.thaumadditions:crystal_water=Liquid Crystal
+research_stage.crystal_water.1=My theory is that I could add some aspects to water to make it react to crystal in some way.
+research_stage.crystal_water.2=Crystal Water is able to speed up the growth of crystal surrounded by eight blocks of this fluid. Each time a crystal grows it MAY consume the water. I will bookmark one of the structures that need to be built.
+
 ############
