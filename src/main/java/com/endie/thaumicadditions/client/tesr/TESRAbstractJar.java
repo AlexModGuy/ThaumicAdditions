@@ -6,6 +6,7 @@ import com.endie.thaumicadditions.InfoTAR;
 import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJarItem;
 import com.endie.thaumicadditions.client.isr.ItemRenderJar;
 import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
+import com.pengu.hammercore.annotations.AtTESR;
 import com.pengu.hammercore.client.render.tesr.TESR;
 import com.pengu.hammercore.client.utils.RenderBlocks;
 import com.pengu.hammercore.utils.ColorHelper;
@@ -27,6 +28,7 @@ import thaumcraft.client.lib.UtilsFX;
 import thaumcraft.client.renderers.models.block.ModelJar;
 import thaumcraft.common.config.ModConfig;
 
+@AtTESR(TileAbstractJarFillable.class)
 public class TESRAbstractJar extends TESR<TileAbstractJarFillable>
 {
 	private ModelJar model = new ModelJar();
@@ -93,7 +95,8 @@ public class TESRAbstractJar extends TESR<TileAbstractJarFillable>
 				GL11.glRotatef(rot, 0.0f, 0.0f, 1.0f);
 			GL11.glScaled(0.021, 0.021, 0.021);
 			GL11.glRotatef(180.0f, 0.0f, 1.0f, 0.0f);
-			UtilsFX.drawTag(-8, -8, tile.aspectFilter);
+			if(tile.aspectFilter != null)
+				UtilsFX.drawTag(-8, -8, tile.aspectFilter);
 			GL11.glPopMatrix();
 			GL11.glPopMatrix();
 		}

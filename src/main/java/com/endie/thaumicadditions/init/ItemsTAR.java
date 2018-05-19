@@ -1,5 +1,6 @@
 package com.endie.thaumicadditions.init;
 
+import com.endie.thaumicadditions.items.ItemDNASample;
 import com.endie.thaumicadditions.items.ItemMaterial;
 import com.endie.thaumicadditions.items.ItemSaltEssence;
 
@@ -17,4 +18,6 @@ public class ItemsTAR
 	public static final ItemMaterial MITHMINITE_PLATE = new ItemMaterial("mithminite_plate");
 	
 	public static final ItemSaltEssence SALT_ESSENCE = new ItemSaltEssence();
+	
+	public static final ItemDNASample ENTITY_CELL = new ItemDNASample();
 }

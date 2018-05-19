@@ -44,7 +44,6 @@ public class TAReconstructed
 	@Instance
 	public static TAReconstructed instance;
 	public static CreativeTabs tab;
-	private static final ResourceLocation BACK_OVER = new ResourceLocation("thaumcraft", "textures/gui/gui_research_back_over.png");
 	@SidedProxy(serverSide = "com.endie.thaumicadditions.proxy.CommonProxy", clientSide = "com.endie.thaumicadditions.proxy.ClientProxy")
 	public static CommonProxy proxy;
 	
@@ -87,7 +86,7 @@ public class TAReconstructed
 	public void init(FMLInitializationEvent e)
 	{
 		proxy.init();
-		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, BACK_OVER);
+		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/gui_research_back_over.png"));
 		RecipesTAR.init.call();
 		PotionsTAR.register.call();
 	}

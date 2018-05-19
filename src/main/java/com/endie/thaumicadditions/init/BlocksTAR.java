@@ -9,6 +9,7 @@ import com.endie.thaumicadditions.blocks.BlockCraftingFurnace;
 import com.endie.thaumicadditions.blocks.BlockCrystalBore;
 import com.endie.thaumicadditions.blocks.BlockCrystalCrusher;
 import com.endie.thaumicadditions.blocks.BlockCrystalWater;
+import com.endie.thaumicadditions.blocks.BlockEntitySummoner;
 import com.endie.thaumicadditions.tiles.jars.TileAdaminiteJar;
 import com.endie.thaumicadditions.tiles.jars.TileBrassJar;
 import com.endie.thaumicadditions.tiles.jars.TileEldritchJar;
@@ -29,6 +30,7 @@ public class BlocksTAR
 	public static final BlockAuraCharger AURA_CHARGER = new BlockAuraCharger();
 	public static final BlockCrystalCrusher CRYSTAL_CRUSHER = new BlockCrystalCrusher();
 	public static final BlockCrystalBore CRYSTAL_BORE = new BlockCrystalBore();
+	public static final BlockEntitySummoner ENTITY_SUMMONER = new BlockEntitySummoner();
 	
 	public static final BlockAbstractEssentiaJar<TileBrassJar> BRASS_JAR = new BlockAbstractEssentiaJar<>(TileBrassJar.class, 275, "jar_brass");
 	public static final BlockAbstractEssentiaJar<TileThaumiumJar> THAUMIUM_JAR = new BlockAbstractEssentiaJar<>(TileThaumiumJar.class, 350, "jar_thaumium");

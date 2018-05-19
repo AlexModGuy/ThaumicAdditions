@@ -1,0 +1,1 @@
+{ "parent": "item/generated", "textures": { "layer0": "thaumadditions:items/dna_sample/base", "layer1": "thaumadditions:items/dna_sample/layer_1", "layer2": "thaumadditions:items/dna_sample/layer_2" } }

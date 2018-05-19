@@ -74,10 +74,10 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 	{
 		if(mp.getEntityBoundingBox() != null && fall >= 3F && ThaumcraftCapabilities.knowsResearch(mp, "TAR_ESSENCE_SALT@2"))
 		{
-			List<EntityItem> items = mp.world.getEntitiesWithinAABB(EntityItem.class, mp.getEntityBoundingBox().grow(.5));
+			List<EntityItem> items = mp.world.getEntitiesWithinAABB(EntityItem.class, mp.getEntityBoundingBox().grow(1));
 			
 			if(items != null)
-				for(EntityItem e : items)
+				eic: for(EntityItem e : items)
 				{
 					ItemStack stack = e.getItem();
 					if(!stack.isEmpty() && stack.getItem() == ItemsTC.crystalEssence)
@@ -100,7 +100,10 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 							ni.motionY = e.motionY;
 							ni.motionZ = e.motionZ;
 							if(stack.isEmpty())
+							{
 								e.setDead();
+								continue eic;
+							}
 							e.world.spawnEntity(ni);
 							SoundUtil.playSoundEffect(e.world, SoundsTC.crystal.getRegistryName().toString(), e.getPosition(), 1F, .8F, SoundCategory.PLAYERS);
 						}

@@ -45,7 +45,7 @@ public class BlueprintBuilder
 	
 	public BlueprintBuilder part(int x, int y, int z, Object in, Object out)
 	{
-		parts[y + cy][x + cx][z + cz] = new Part(in, out);
+		parts[parts.length - (y + cy) - 1][x + cx][z + cz] = new Part(in, out);
 		return this;
 	}
 	

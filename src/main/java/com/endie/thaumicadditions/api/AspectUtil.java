@@ -114,4 +114,9 @@ public class AspectUtil
 			list.writeToNBT(nbt);
 		return nbt;
 	}
+	
+	public static AspectList primals(int i)
+	{
+		return new AspectList().add(Aspect.AIR, i).add(Aspect.WATER, i).add(Aspect.ORDER, i).add(Aspect.ENTROPY, i).add(Aspect.FIRE, i).add(Aspect.EARTH, i);
+	}
 }

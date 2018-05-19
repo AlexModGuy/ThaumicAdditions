@@ -6,18 +6,16 @@ import com.endie.thaumicadditions.api.AspectUtil;
 import com.endie.thaumicadditions.proxy.FXHandler;
 import com.endie.thaumicadditions.tiles.TileAuraDisperser;
 import com.pengu.hammercore.common.utils.WorldUtil;
+import com.pengu.hammercore.utils.FrictionRotator;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.renderer.RenderGlobal;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.EnumFacing.Axis;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.World;
 
 public class FXHandlerClient extends FXHandler
 {
@@ -74,6 +72,24 @@ public class FXHandlerClient extends FXHandler
 				particle1.setRBGColorF(f5 * f4, f * f4, f1 * f4);
 				particle1.multiplyVelocity((float) d18);
 			}
+		}
+	}
+	
+	@Override
+	public void renderMob(Entity entity, FrictionRotator rotator, double posX, double posY, double posZ, float partialTicks)
+	{
+		if(entity != null)
+		{
+			GlStateManager.pushMatrix();
+			float f = 0.53125F / Math.max(entity.width, entity.height);
+			GlStateManager.translate(0.0F, 0.4F, 0.0F);
+			GlStateManager.rotate(rotator.getActualRotation(partialTicks), 0F, 1F, 0F);
+			GlStateManager.translate(0F, -.2F, 0F);
+			GlStateManager.rotate(-30F, 1F, 0F, 0F);
+			GlStateManager.scale(f, f, f);
+			entity.setLocationAndAngles(posX, posY, posZ, 0.0F, 0.0F);
+			Minecraft.getMinecraft().getRenderManager().doRenderEntity(entity, 0.0D, 0.0D, 0.0D, 0.0F, partialTicks, false);
+			GlStateManager.popMatrix();
 		}
 	}
 }

@@ -95,7 +95,8 @@ public class TileCrystalBore extends TileSyncableTickable
 		{
 			state = state.withProperty(BlockCrystal.SIZE, co - 1);
 			world.setBlockState(pos.offset(face), state);
-			SoundUtil.playSoundEffect(world, SoundsTC.crystal.getRegistryName().toString(), pos, .3F, .8F, SoundCategory.BLOCKS);
+			if(!world.isRemote)
+				SoundUtil.playSoundEffect(world, SoundsTC.crystal.getRegistryName().toString(), pos, .3F, .8F, SoundCategory.BLOCKS);
 			return AspectUtil.crystalEssence(((BlockCrystal) state.getBlock()).aspect);
 		}
 		return ItemStack.EMPTY;

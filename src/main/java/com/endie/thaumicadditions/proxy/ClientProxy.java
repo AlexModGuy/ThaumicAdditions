@@ -7,7 +7,6 @@ import com.endie.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJ
 import com.endie.thaumicadditions.client.ClientChainReactor;
 import com.endie.thaumicadditions.client.FXHandlerClient;
 import com.endie.thaumicadditions.client.isr.ItemRenderJar;
-import com.endie.thaumicadditions.client.tesr.TESRAbstractJar;
 import com.endie.thaumicadditions.client.tesr.TESRAspectCombiner;
 import com.endie.thaumicadditions.client.tesr.TESRAuraCharger;
 import com.endie.thaumicadditions.client.tesr.TESRAuraDisperser;
@@ -16,7 +15,6 @@ import com.endie.thaumicadditions.client.tesr.TESRCrystalCrusher;
 import com.endie.thaumicadditions.client.texture.TextureThaumonomiconBG;
 import com.endie.thaumicadditions.init.BlocksTAR;
 import com.endie.thaumicadditions.init.ItemsTAR;
-import com.endie.thaumicadditions.tiles.TileAbstractJarFillable;
 import com.endie.thaumicadditions.tiles.TileAspectCombiner;
 import com.endie.thaumicadditions.tiles.TileAuraCharger;
 import com.endie.thaumicadditions.tiles.TileAuraDisperser;
@@ -66,12 +64,12 @@ public class ClientProxy extends CommonProxy
 		
 		// Adding custom color handlers
 		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemsTAR.SALT_ESSENCE::getItemColor, ItemsTAR.SALT_ESSENCE);
+		Minecraft.getMinecraft().getItemColors().registerItemColorHandler(ItemsTAR.ENTITY_CELL::getColor, ItemsTAR.ENTITY_CELL);
 		
 		// Add custom TESRs
 		
 		ClientRegistry.bindTileEntitySpecialRenderer(TileAuraDisperser.class, new TESRAuraDisperser());
 		
-		ClientRegistry.bindTileEntitySpecialRenderer(TileAbstractJarFillable.class, new TESRAbstractJar());
 		ItemRenderingHandler.INSTANCE.applyItemRender(new ItemRenderJar(), i -> i instanceof BlockAbstractJarItem || i instanceof BlockJarItem);
 		
 		TESRAspectCombiner acom = new TESRAspectCombiner();
