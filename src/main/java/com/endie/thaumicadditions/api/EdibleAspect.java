@@ -42,6 +42,8 @@ public class EdibleAspect
 		addEatCall(Aspect.DEATH, (player, count) -> player.attackEntityFrom(DamageSource.MAGIC, 1 + (float) Math.sqrt(count)));
 		addEatCall(Aspect.MOTION, (player, count) -> addPotionEffect(player, MobEffects.SPEED, 10 + (count * count), count * 3 / MAX_ESSENTIA));
 		addEatCall(KnowledgeTAR.SONUS, (player, count) -> addPotionEffect(player, PotionsTAR.SOUND_SENSIVITY, 120 + (count * count), count * 21 / MAX_ESSENTIA));
+		addEatCall(Aspect.DESIRE, (player, count) -> addPotionEffect(player, MobEffects.HUNGER, 100 + (count * count), count * 5 / MAX_ESSENTIA));
+		addEatCall(Aspect.PROTECT, (player, count) -> addPotionEffect(player, MobEffects.RESISTANCE, 200 + (count * count) * 2, count * 10 / MAX_ESSENTIA));
 		
 		addEatCall(Aspect.LIFE, (player, count) ->
 		{

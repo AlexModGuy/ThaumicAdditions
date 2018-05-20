@@ -21,6 +21,7 @@ tile.thaumadditions:crystal_crusher.name=Crystal Crusher
 tile.thaumadditions:aura_disperser.name=Aura Disperser
 tile.thaumadditions:crystal_bore.name=Crystal Bore
 tile.thaumadditions:entity_summoner.name=Entity Summoner
+tile.thaumadditions:purishroom.name=Puriflower
 
 tile.thaumadditions:jar_brass.name=Brass Warded Jar
 tile.thaumadditions:jar_thaumium.name=Thaumium Reinforced Jar
@@ -168,6 +169,10 @@ research_stage.thaumadditions:enchanted_golden_apple.2=Surprisingly enchanted go
 research_name.thaumadditions:mob_summoning=Entity Recreation
 research_stage.thaumadditions:mob_summoning.1=I have a theory of entity recreation that involves vis and a fourth dimension. I need to capture a mob to use it as a 'sample', or a template.
 research_stage.thaumadditions:mob_summoning.2=I am slowly progressing through this study. I think that now that I have a way to capture mobs, I will need to recreate them, somehow.
-research_stage.thaumadditions:mob_summoning.3=
+research_stage.thaumadditions:mob_summoning.3=I found how to summon entities using a sample that I can capture using Entity Cell. Now I need to infuse thaumium block with few items and a crap tonn of aspects.
+
+research_name.thaumadditions:puriflower=Puriflower
+research_stage.thaumadditions:puriflower.1=I was experimenting with vishrooms and how useless they are, trying to find a use to it. I may utilize it in aura cleaning, as they seem to be a powerful source of vis.
+research_stage.thaumadditions:puriflower.2=Infusing vishroom with auram, herba and praecantatio results in a quite different plant: puriflower. It has very special ability: slowly absorb flux from aura. If I place a lot of them, then dealing with flux won't be a problem.
 
 ############

@@ -23,9 +23,11 @@ import net.minecraft.util.SoundCategory;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.entity.living.LivingFallEvent;
+import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerFlyableFallEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent.ItemPickupEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.aspects.IEssentiaContainerItem;
@@ -57,17 +59,64 @@ public class ItemSaltEssence extends Item implements IEssentiaContainerItem
 	}
 	
 	@SubscribeEvent
+	public void itemPickupEvent(EntityItemPickupEvent ev)
+	{
+		float fall = ev.getEntityPlayer().fallDistance;
+		if(ev.getEntityPlayer() instanceof EntityPlayerMP)
+		{
+			EntityPlayerMP mp = (EntityPlayerMP) ev.getEntityPlayer();
+			if(mp.getEntityBoundingBox() != null && fall >= 3F && ThaumcraftCapabilities.knowsResearch(mp, "TAR_ESSENCE_SALT@2"))
+			{
+				EntityItem e = ev.getItem();
+				ItemStack stack = e.getItem();
+				if(!stack.isEmpty() && stack.getItem() == ItemsTC.crystalEssence)
+				{
+					NBTTagCompound nbt = e.getEntityData();
+					float crack = nbt.getFloat("CrystalCrack");
+					crack += fall - 1;
+					
+					int shrinks = 0;
+					while(crack > 4 && !stack.isEmpty())
+					{
+						++shrinks;
+						crack -= 4;
+						stack.shrink(1);
+						ItemStack salt = new ItemStack(ItemsTAR.SALT_ESSENCE);
+						salt.setTagCompound(stack.getTagCompound().copy());
+						EntityItem ni = new EntityItem(e.world, e.posX, e.posY, e.posZ, salt);
+						ni.motionX = e.motionX;
+						ni.motionY = e.motionY;
+						ni.motionZ = e.motionZ;
+						if(stack.isEmpty())
+						{
+							e.setDead();
+							return;
+						}
+						e.world.spawnEntity(ni);
+						SoundUtil.playSoundEffect(e.world, SoundsTC.crystal.getRegistryName().toString(), e.getPosition(), 1F, .8F, SoundCategory.PLAYERS);
+					}
+					
+					nbt.setFloat("CrystalCrack", crack);
+					
+					if(shrinks == 0)
+						SoundUtil.playSoundEffect(e.world, SoundsTC.crystal.getRegistryName().toString(), e.getPosition(), 1F, .2F, SoundCategory.PLAYERS);
+				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
 	public void handleFlyingFall(PlayerFlyableFallEvent e)
 	{
-		if(e.getEntityPlayer() instanceof EntityPlayerMP)
-			invokeFall((EntityPlayerMP) e.getEntityPlayer(), e.getDistance());
+		// if(e.getEntityPlayer() instanceof EntityPlayerMP)
+		// invokeFall((EntityPlayerMP) e.getEntityPlayer(), e.getDistance());
 	}
 	
 	@SubscribeEvent
 	public void handleFall(LivingFallEvent e)
 	{
-		if(e.getEntityLiving() instanceof EntityPlayerMP)
-			invokeFall((EntityPlayerMP) e.getEntityLiving(), e.getDistance());
+		// if(e.getEntityLiving() instanceof EntityPlayerMP)
+		// invokeFall((EntityPlayerMP) e.getEntityLiving(), e.getDistance());
 	}
 	
 	public void invokeFall(EntityPlayerMP mp, float fall)
