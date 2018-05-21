@@ -1,7 +1,7 @@
 #Project info
 author=EndieDargon
 start_git_commit=b82b47b58abd7a7f66144f2e0fe2269a74fc8d35
-git_commit=https://github.com/EndieDargon/ThaumicAdditions/commit/{{hash}}
+git_commit=https://github.com/Zeitheron/ThaumicAdditions/commit/{{hash}}
 
 #Runtime info
 forge_version=14.23.3.2678
@@ -11,9 +11,10 @@ hc_version=1.9.9.6
 jei_version=4.8.5.159
 
 #Mod info
-mod_id=modid
-mod_id_fancy=ModName
-mod_name=Mod Name
+trusted_build=true
+mod_id=thaumadds
+mod_id_fancy=ThaumicAdditions
+mod_name=Thaumic Additions: Reconstructed
 mod_version=1a
 cf_project=232564
 release_type=alpha

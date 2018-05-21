@@ -49,6 +49,7 @@ minecraft {
 	replace 'required-after:hammercore', "required-after:hammercore@[${config.hc_version},)"
     replace '@VERSION@', "${config.mod_version}"
 	replace '@FINGERPRINT@', project.findProperty('signSHA1')
+	replace 'DEV_BUILD', config.trusted_build == "true" ? "TRUSTED_BUILD" : "PUBLIC_BUILD"
 }
 
 repositories {

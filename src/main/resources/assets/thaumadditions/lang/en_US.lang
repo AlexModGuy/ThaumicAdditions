@@ -7,6 +7,9 @@ tc.aspect.sonus=Sound, Noise
 tc.aspect.exitium=Destruction, Damage
 tc.aspect.caeles=God, Superpower
 tc.aspect.draco=Dragon
+tc.aspect.infernum=Hell, Demons
+tc.aspect.ventus=Air, Wind
+tc.aspect.visum=Sight
 
 ##BLOCKS##
 
@@ -132,7 +135,7 @@ research_stage.thaumadditions:mithrillium_jar.2=Upgrading void jar to a mithrill
 research_name.thaumadditions:adaminite_jar=Adaminite Foritified Jars
 research_stage.thaumadditions:adaminite_jar.1=That great mithrillium upgrade was very wonderful, but I think that adaminite may conduct and hold essentia better than anything that I know of. This may be a bad and also an expensive idea as this may need quite a lot of battling involved.
 research_stage.thaumadditions:adaminite_jar.2=Adaminite is very special! I think that this jar may hold twenty hundred points of essentia wich makes this a very dense point in space.
-research_stage.thaumadditions:adaminite_jar.3=Adaminite is very special! I think that this jar may hold twenty hundred points of essentia wich makes this a very dense point in space. I hear someone called Endie, one of The Creators who built this world. He whispers that this jar is too dense and may be unstable under special cases: "I don't think that filling it entirely with flux is a good choice...". I can also hear that he is very surprised that I made it as this was a tough challenge that I had done.
+research_stage.thaumadditions:adaminite_jar.3=Adaminite is very special! I think that this jar may hold twenty hundred points of essentia wich makes this a very dense point in space. I hear someone called Zeitheron, one of The Creators who built this world. He whispers that this jar is too dense and may be unstable under special cases: "I don't think that filling it entirely with flux is a good choice...". I can also hear that he is very surprised that I made it as this was a tough challenge that I had done.
 
 research_name.thaumadditions:mithminite_jar=Mithminite Jars
 research_stage.thaumadditions:mithminite_jar.1=Now that I know that adaminite may be awakened using mithrillium and some quicksilver, I may need to know if I can afford mithminite jars.
