@@ -98,8 +98,8 @@ processResources
 }
 
 task DownloadThaumcraft(type: Download) {
-    src 'https://minecraft.curseforge.com/projects/thaumcraft/files/2558648/download'
-    dest new File("libs/Thaumcraft-1.12.2-6.1.BETA13.jar")
+    src 'https://minecraft.curseforge.com/projects/thaumcraft/files/2564655/download'
+    dest new File("libs/Thaumcraft-1.12.2-6.1.BETA14.jar")
     overwrite false
 }
 

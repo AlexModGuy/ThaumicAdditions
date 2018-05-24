@@ -52,7 +52,7 @@ public class TileCrystalCrusher extends TileSyncableTickable implements ISidedIn
 				ParticleHelperTAR.spawnItemCrack(world, pos.getX() + .1 + getRNG().nextFloat() * .8, pos.getY() + 4 / 16D, pos.getZ() + .1 + getRNG().nextFloat() * .8, (getRNG().nextFloat() - getRNG().nextFloat()) * .3, 0, (getRNG().nextFloat() - getRNG().nextFloat()) * .3, inv.getStackInSlot(0));
 			}
 			if(!world.isRemote && atTickRate(10))
-				sync();
+				sendChangesToNearby();
 			if(!world.isRemote && craftTime >= 100)
 				craft();
 		} else if(craftTime > 0)

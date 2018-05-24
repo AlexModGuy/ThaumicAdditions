@@ -6,6 +6,9 @@ import com.pengu.hammercore.common.blocks.iItemBlock;
 import com.pengu.hammercore.common.blocks.base.BlockTileHC;
 import com.pengu.hammercore.common.utils.SoundUtil;
 import com.pengu.hammercore.common.utils.WorldUtil;
+import com.pengu.hammercore.utils.ColorHelper;
+import com.zeitheron.thaumicadditions.api.AspectUtil;
+import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.GenericMath;
 import com.zeitheron.thaumicadditions.tiles.TileAbstractJarFillable;
 
 import net.minecraft.block.Block;
@@ -358,7 +361,27 @@ public class BlockAbstractEssentiaJar<T extends TileAbstractJarFillable> extends
 		public double getDurabilityForDisplay(ItemStack stack)
 		{
 			AspectList al = this.getAspects(stack);
-			return al == null ? 0.0 : (double) (al.visSize() / block.capacity);
+			return al == null ? 0.0 : 1 - al.visSize() / (double) block.capacity;
+		}
+		
+		@Override
+		public int getRGBDurabilityForDisplay(ItemStack stack)
+		{
+			AspectList al = this.getAspects(stack);
+			
+			if(al != null)
+			{
+				float percent = (float) getDurabilityForDisplay(stack);
+				int rgb = AspectUtil.getColor(al, true);
+				
+				float r = ColorHelper.getRed(rgb);
+				float g = ColorHelper.getGreen(rgb);
+				float b = ColorHelper.getBlue(rgb);
+				
+				return ColorHelper.packRGB(r, g, b);
+			}
+			
+			return super.getRGBDurabilityForDisplay(stack);
 		}
 		
 		@Override

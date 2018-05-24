@@ -11,7 +11,7 @@ public class TileMithminiteJar extends TileAbstractJarFillable
 	@Override
 	public int getCapacity()
 	{
-		return 4000;
+		return 4005;
 	}
 	
 	@Override
@@ -25,11 +25,13 @@ public class TileMithminiteJar extends TileAbstractJarFillable
 			this.aspect = tt;
 			this.amount += am;
 			am = 0;
-			if(amount > getCapacity())
+			
+			int overfill = amount - 4000;
+			if(overfill > 0)
 			{
-				if(this.world.rand.nextInt(250 - amount + getCapacity()) == 0)
+				if(this.world.rand.nextInt(250 - overfill) == 0)
 					AuraHelper.polluteAura(getWorld(), getPos(), 1F, true);
-				amount = getCapacity();
+				amount -= overfill;
 			}
 		}
 		if(up)

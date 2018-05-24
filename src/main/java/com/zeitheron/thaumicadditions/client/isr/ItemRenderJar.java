@@ -69,7 +69,7 @@ public class ItemRenderJar implements iItemRender
 			GL11.glTranslatef(0.0f, 0, 0.315f);
 			if(ModConfig.CONFIG_GRAPHICS.crooked)
 				GL11.glRotatef(rot, 0.0f, 0.0f, 1.0f);
-			UtilsFX.renderQuadCentered(TESRAbstractJar.TEX_LABEL, 0.5f, 1.0f, 1.0f, 1.0f, -99, 771, 1.0f);
+			UtilsFX.renderQuadCentered(TESRAbstractJar.TEX_LABEL, 0.5f, 1.0f, 1.0f, 1.0f, -99, 771, 1F);
 			GL11.glPopMatrix();
 			GL11.glPushMatrix();
 			GL11.glTranslatef(0.0f, 0, 0.316f);
@@ -91,11 +91,9 @@ public class ItemRenderJar implements iItemRender
 		if(amount > 0 && cap > 0 && aspect != null)
 		{
 			GL11.glPushMatrix();
-			GL11.glDisable(2884);
 			GL11.glTranslatef(.5F, .01F, .5F);
 			GL11.glRotatef(180.0f, 1.0f, 0.0f, 0.0f);
 			GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
-			GL11.glDisable(2896);
 			renderLiquidInItem(amount, aspect, cap, 0, 0, 0);
 			GL11.glPopMatrix();
 		}

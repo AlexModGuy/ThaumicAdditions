@@ -45,7 +45,7 @@ public class TAReconstructed
 	@Instance
 	public static TAReconstructed instance;
 	public static CreativeTabs tab;
-	@SidedProxy(serverSide = "com.endie.thaumicadditions.proxy.CommonProxy", clientSide = "com.endie.thaumicadditions.proxy.ClientProxy")
+	@SidedProxy(serverSide = "com.zeitheron.thaumicadditions.proxy.CommonProxy", clientSide = "com.zeitheron.thaumicadditions.proxy.ClientProxy")
 	public static CommonProxy proxy;
 	
 	public static ResearchCategory RES_CAT;

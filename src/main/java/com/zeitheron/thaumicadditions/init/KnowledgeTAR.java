@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.endie.lib.utils.Joiner;
+import com.pengu.hammercore.annotations.MCFBus;
 import com.pengu.hammercore.color.Rainbow;
 import com.pengu.hammercore.utils.OnetimeCaller;
 import com.zeitheron.thaumicadditions.InfoTAR;
@@ -22,9 +23,11 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.event.CommandEvent;
 import net.minecraftforge.fluids.Fluid;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import thaumcraft.api.ThaumcraftApiHelper;
 import thaumcraft.api.aspects.Aspect;
@@ -37,9 +40,11 @@ import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchEntry;
 import thaumcraft.api.research.ResearchEntry.EnumResearchMeta;
 import thaumcraft.api.research.ResearchStage.Knowledge;
+import thaumcraft.common.lib.CommandThaumcraft;
 import thaumcraft.common.lib.crafting.ThaumcraftCraftingManager;
 import thaumcraft.common.lib.research.ResearchManager;
 
+@MCFBus
 public class KnowledgeTAR
 {
 	public static final OnetimeCaller init = new OnetimeCaller(KnowledgeTAR::$init);
@@ -54,6 +59,27 @@ public class KnowledgeTAR
 	public static final Aspect INFERNUM = new Aspect("infernum", 0xFF2314, new Aspect[] { Aspect.FIRE, Aspect.DEATH }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/infernum.png"), 1);
 	public static final Aspect VENTUS = new Aspect("ventus", 0xFCFCCF, new Aspect[] { Aspect.AIR, Aspect.FLIGHT }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/ventus.png"), 1);
 	public static final Aspect VISUM = new Aspect("visum", 0x45CF35, new Aspect[] { Aspect.SENSES, Aspect.CRYSTAL }, new ResourceLocation(InfoTAR.MOD_ID, "textures/aspects/visum.png"), 1);
+	
+	@SubscribeEvent
+	public void commandEvent(CommandEvent ce)
+	{
+		if(ce.getCommand() instanceof CommandThaumcraft && ce.getParameters().length > 0 && ce.getParameters()[0].equalsIgnoreCase("reload"))
+		{
+			new Thread(() ->
+			{
+				while(TAReconstructed.RES_CAT.research.containsKey("TAR_THAUMADDS"))
+					try
+					{
+						Thread.sleep(10L);
+					} catch(InterruptedException e)
+					{
+						e.printStackTrace();
+					}
+				
+				$init();
+			}).start();
+		}
+	}
 	
 	private static void $init()
 	{

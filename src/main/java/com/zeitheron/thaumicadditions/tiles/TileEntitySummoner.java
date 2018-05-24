@@ -63,6 +63,8 @@ public class TileEntitySummoner extends TileSyncableTickable implements IAspectC
 			nbt.removeTag("Fire");
 			nbt.removeTag("UUID");
 			nbt.removeTag("Health");
+			nbt.removeTag("Leashed");
+			nbt.removeTag("Leash");
 			
 			nbt.setString("id", sample.getTagCompound().getCompoundTag("Entity").getString("Id"));
 			cachedEntity = AnvilChunkLoader.readWorldEntity(nbt, world, false);
@@ -97,7 +99,7 @@ public class TileEntitySummoner extends TileSyncableTickable implements IAspectC
 			{
 				if(cooldown == 0 && !world.isRemote && atTickRate(20) && performSpawn())
 				{
-					cooldown += 180 + getRNG().nextInt(200);
+					cooldown += 80 + getRNG().nextInt(50);
 					accumulated.remove(requirements);
 					
 					rotator.speedup(10F);

@@ -19,10 +19,11 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.util.ITooltipFlag;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityList.EntityEggInfo;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -32,11 +33,10 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.NonNullList;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
-import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.math.RayTraceResult.Type;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.util.text.TextComponentTranslation;
 import net.minecraft.util.text.TextFormatting;
 import net.minecraft.world.World;
@@ -159,6 +159,16 @@ public class ItemDNASample extends Item
 			NBTTagCompound sampled = sampleNBT(null, entity);
 			if(sampled != null && !sampled.hasNoTags())
 			{
+				NBTTagCompound data = sampled.getCompoundTag("Data");
+				
+				// Prevent lead dupe
+				if(data.getBoolean("Leashed"))
+				{
+					data.setBoolean("Leashed", false);
+					data.removeTag("Leash");
+					WorldUtil.spawnItemStack(player.world, entity.posX, entity.posY, entity.posZ, new ItemStack(Items.LEAD));
+				}
+				
 				nbt.setTag("Entity", sampled);
 				SoundUtil.playSoundEffect(player.world, SoundsTC.poof.getRegistryName().toString(), player.getPosition(), 1F, 1F, SoundCategory.PLAYERS);
 				entity.setDead();
