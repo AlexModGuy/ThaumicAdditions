@@ -1,17 +1,18 @@
 package com.zeitheron.thaumicadditions.client.util.tesseract;
 
+import javax.vecmath.Vector4f;
+
 import org.lwjgl.opengl.GL11;
 
 import com.pengu.hammercore.utils.ColorHelper;
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.TrigMath;
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.matrix.Matrix4f;
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.vector.Vector3f;
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.vector.Vector4f;
+import com.zeitheron.thaumicadditions.client.util.planemath.Matrix4f;
+import com.zeitheron.thaumicadditions.client.util.planemath.TrigMath;
 
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
+import net.minecraft.util.math.Vec3d;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -61,7 +62,7 @@ public class Plane
 	private static void project(BufferBuilder buffer, Vector4f vector, int u, int v, int color)
 	{
 		double scalar = 1.0 / (double) (vector.getW() + 1.0f);
-		Vector3f vector1 = vector.toVector3().mul(scalar);
-		buffer.pos(vector1.getX(), vector1.getY(), vector1.getZ()).tex(u, v).color(ColorHelper.getRed(color), ColorHelper.getGreen(color), ColorHelper.getBlue(color), ColorHelper.getAlpha(color)).endVertex();
+		Vec3d vector1 = new Vec3d(vector.getX(), vector.getY(), vector.getZ()).scale(scalar);
+		buffer.pos(vector1.x, vector1.y, vector1.z).tex(u, v).color(ColorHelper.getRed(color), ColorHelper.getGreen(color), ColorHelper.getBlue(color), ColorHelper.getAlpha(color)).endVertex();
 	}
 }

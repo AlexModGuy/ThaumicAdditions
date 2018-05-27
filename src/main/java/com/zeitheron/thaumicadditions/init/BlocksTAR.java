@@ -10,7 +10,7 @@ import com.zeitheron.thaumicadditions.blocks.BlockCrystalBore;
 import com.zeitheron.thaumicadditions.blocks.BlockCrystalCrusher;
 import com.zeitheron.thaumicadditions.blocks.BlockCrystalWater;
 import com.zeitheron.thaumicadditions.blocks.BlockEntitySummoner;
-import com.zeitheron.thaumicadditions.blocks.BlockPurishroom;
+import com.zeitheron.thaumicadditions.blocks.BlockPuriflower;
 import com.zeitheron.thaumicadditions.tiles.jars.TileAdaminiteJar;
 import com.zeitheron.thaumicadditions.tiles.jars.TileBrassJar;
 import com.zeitheron.thaumicadditions.tiles.jars.TileEldritchJar;
@@ -32,7 +32,7 @@ public class BlocksTAR
 	public static final BlockCrystalCrusher CRYSTAL_CRUSHER = new BlockCrystalCrusher();
 	public static final BlockCrystalBore CRYSTAL_BORE = new BlockCrystalBore();
 	public static final BlockEntitySummoner ENTITY_SUMMONER = new BlockEntitySummoner();
-	public static final BlockPurishroom PURIFLOWER = new BlockPurishroom();
+	public static final BlockPuriflower PURIFLOWER = new BlockPuriflower();
 	
 	public static final BlockAbstractEssentiaJar<TileBrassJar> BRASS_JAR = new BlockAbstractEssentiaJar<>(TileBrassJar.class, 275, "jar_brass");
 	public static final BlockAbstractEssentiaJar<TileThaumiumJar> THAUMIUM_JAR = new BlockAbstractEssentiaJar<>(TileThaumiumJar.class, 350, "jar_thaumium");

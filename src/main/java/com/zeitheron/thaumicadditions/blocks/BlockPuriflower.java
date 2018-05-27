@@ -12,12 +12,12 @@ import net.minecraft.world.World;
 import thaumcraft.client.fx.FXDispatcher;
 import thaumcraft.common.world.aura.AuraHandler;
 
-public class BlockPurishroom extends BlockBush
+public class BlockPuriflower extends BlockBush
 {
-	public BlockPurishroom()
+	public BlockPuriflower()
 	{
 		setSoundType(SoundType.PLANT);
-		setUnlocalizedName("purishroom");
+		setUnlocalizedName("puriflower");
 		lightValue = 8;
 	}
 	

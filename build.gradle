@@ -206,7 +206,7 @@ task makeChangelog(type: se.bjurr.gitchangelog.plugin.gradle.GitChangelogTask) {
 <h1>Changes:</h1>
   <ul>
     {{#commits}}
-    <li> <a href="${config.gitCommit}" target=_blank> {{{message}}}</a>
+    <li> <a href="${config.git_commit}" target=_blank> {{{message}}}</a>
 </li>
     {{/commits}}
   </ul>

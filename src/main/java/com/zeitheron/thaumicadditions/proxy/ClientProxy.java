@@ -6,12 +6,10 @@ import com.pengu.hammercore.common.blocks.base.iBlockOrientable;
 import com.pengu.hammercore.utils.ColorHelper;
 import com.pengu.hammercore.utils.NBTUtils;
 import com.zeitheron.thaumicadditions.InfoTAR;
-import com.zeitheron.thaumicadditions.SProt;
 import com.zeitheron.thaumicadditions.TAReconstructed;
 import com.zeitheron.thaumicadditions.api.fx.TARParticleTypes;
 import com.zeitheron.thaumicadditions.blocks.BlockAbstractEssentiaJar.BlockAbstractJarItem;
 import com.zeitheron.thaumicadditions.client.ClientChainReactor;
-import com.zeitheron.thaumicadditions.client.FXHandlerClient;
 import com.zeitheron.thaumicadditions.client.isr.ItemRenderJar;
 import com.zeitheron.thaumicadditions.client.tesr.TESRAspectCombiner;
 import com.zeitheron.thaumicadditions.client.tesr.TESRAuraCharger;
@@ -21,6 +19,8 @@ import com.zeitheron.thaumicadditions.client.tesr.TESRCrystalCrusher;
 import com.zeitheron.thaumicadditions.client.texture.TextureThaumonomiconBG;
 import com.zeitheron.thaumicadditions.init.BlocksTAR;
 import com.zeitheron.thaumicadditions.init.ItemsTAR;
+import com.zeitheron.thaumicadditions.proxy.fx.FXHandler;
+import com.zeitheron.thaumicadditions.proxy.fx.FXHandlerClient;
 import com.zeitheron.thaumicadditions.tiles.TileAspectCombiner;
 import com.zeitheron.thaumicadditions.tiles.TileAuraCharger;
 import com.zeitheron.thaumicadditions.tiles.TileAuraDisperser;
@@ -47,27 +47,6 @@ import thaumcraft.common.blocks.essentia.BlockJarItem;
 
 public class ClientProxy extends CommonProxy
 {
-	public static final String BUILD = "DEV_BUILD";
-	
-	@Override
-	public void construct()
-	{
-		if(BUILD.contains("TRUSTED"))
-		{
-			TAReconstructed.LOG.warn("You are running trusted build " + InfoTAR.MOD_VERSION + "@" + SProt.BUILD_COPY + ". We must check that everything is OK before continuing!");
-			String err = SProt.playErr();
-			if(err != null)
-			{
-				TAReconstructed.LOG.error("Uh oh! Zeitheron detected that you can't play with this test build!");
-				throw new RuntimeException(err);
-			}
-			TAReconstructed.LOG.info("Zeitheron checked everything, you are allowed ;)");
-		} else if(BUILD.contains("DEV"))
-			TAReconstructed.LOG.info("Welcome to Minecraft, my dear developer!");
-		else
-			TAReconstructed.LOG.info("You are running general public build " + InfoTAR.MOD_VERSION + ". You're allright! ;)");
-	}
-	
 	@Override
 	public void preInit()
 	{

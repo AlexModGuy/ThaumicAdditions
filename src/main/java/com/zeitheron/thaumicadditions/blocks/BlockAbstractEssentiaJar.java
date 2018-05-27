@@ -8,7 +8,6 @@ import com.pengu.hammercore.common.utils.SoundUtil;
 import com.pengu.hammercore.common.utils.WorldUtil;
 import com.pengu.hammercore.utils.ColorHelper;
 import com.zeitheron.thaumicadditions.api.AspectUtil;
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.GenericMath;
 import com.zeitheron.thaumicadditions.tiles.TileAbstractJarFillable;
 
 import net.minecraft.block.Block;

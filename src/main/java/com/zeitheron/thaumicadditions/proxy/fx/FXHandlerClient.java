@@ -1,11 +1,10 @@
-package com.zeitheron.thaumicadditions.client;
+package com.zeitheron.thaumicadditions.proxy.fx;
 
 import java.util.Random;
 
 import com.pengu.hammercore.common.utils.WorldUtil;
 import com.pengu.hammercore.utils.FrictionRotator;
 import com.zeitheron.thaumicadditions.api.AspectUtil;
-import com.zeitheron.thaumicadditions.proxy.FXHandler;
 import com.zeitheron.thaumicadditions.tiles.TileAuraDisperser;
 
 import net.minecraft.client.Minecraft;

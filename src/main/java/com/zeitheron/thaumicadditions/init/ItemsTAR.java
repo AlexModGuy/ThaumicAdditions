@@ -17,6 +17,8 @@ public class ItemsTAR
 	public static final ItemMaterial ADAMINITE_PLATE = new ItemMaterial("adaminite_plate");
 	public static final ItemMaterial MITHMINITE_PLATE = new ItemMaterial("mithminite_plate");
 	
+	public static final ItemMaterial ZEITH_SCALES = new ItemMaterial("zeith_scale", "scalesDragon", "scaleDragon");
+	
 	public static final ItemSaltEssence SALT_ESSENCE = new ItemSaltEssence();
 	
 	public static final ItemDNASample ENTITY_CELL = new ItemDNASample();

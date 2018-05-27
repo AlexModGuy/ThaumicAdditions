@@ -7,23 +7,24 @@ import net.minecraftforge.oredict.OreDictionary;
 
 public class ItemMaterial extends Item implements iRegisterListener
 {
-	private final String OD;
+	private final String[] OD;
 	
 	public ItemMaterial(String name)
 	{
-		this(name, null);
+		this(name, new String[0]);
 	}
 	
-	public ItemMaterial(String name, String od)
+	public ItemMaterial(String name, String... ods)
 	{
 		setUnlocalizedName(name);
-		this.OD = od;
+		this.OD = ods;
 	}
 	
 	@Override
 	public void onRegistered()
 	{
 		if(OD != null)
-			OreDictionary.registerOre(OD, this);
+			for(String o : OD)
+				OreDictionary.registerOre(o, this);
 	}
 }

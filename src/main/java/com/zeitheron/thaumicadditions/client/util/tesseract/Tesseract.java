@@ -1,6 +1,6 @@
 package com.zeitheron.thaumicadditions.client.util.tesseract;
 
-import com.zeitheron.thaumicadditions.shaded.flowpoweredmath.vector.Vector4f;
+import javax.vecmath.Vector4f;
 
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;

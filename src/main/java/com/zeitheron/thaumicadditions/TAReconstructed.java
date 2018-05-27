@@ -37,7 +37,7 @@ import thaumcraft.api.aspects.AspectList;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
 
-@Mod(modid = InfoTAR.MOD_ID, name = InfoTAR.MOD_NAME, version = InfoTAR.MOD_VERSION, certificateFingerprint = "4d7b29cd19124e986da685107d16ce4b49bc0a97", dependencies = "required-after:hammercore;required-after:thaumcraft@[6.1.BETA13,)")
+@Mod(modid = InfoTAR.MOD_ID, name = InfoTAR.MOD_NAME, version = InfoTAR.MOD_VERSION, certificateFingerprint = "4d7b29cd19124e986da685107d16ce4b49bc0a97", dependencies = "required-after:hammercore;required-after:thaumcraft@[6.1.BETA14,)")
 public class TAReconstructed
 {
 	public static final Logger LOG = LogManager.getLogger(InfoTAR.MOD_NAME);
@@ -63,7 +63,7 @@ public class TAReconstructed
 	@EventHandler
 	public void construct(FMLConstructionEvent e)
 	{
-		proxy.construct();		
+		proxy.construct();
 	}
 	
 	@EventHandler

@@ -1,4 +1,4 @@
-package com.zeitheron.thaumicadditions.proxy;
+package com.zeitheron.thaumicadditions.proxy.fx;
 
 import com.pengu.hammercore.net.HCNetwork;
 import com.pengu.hammercore.utils.FrictionRotator;
