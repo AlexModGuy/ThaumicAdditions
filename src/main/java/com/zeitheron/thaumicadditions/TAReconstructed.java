@@ -1,5 +1,7 @@
 package com.zeitheron.thaumicadditions;
 
+import java.util.Arrays;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,8 +36,11 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import thaumcraft.api.aspects.Aspect;
 import thaumcraft.api.aspects.AspectList;
+import thaumcraft.api.internal.WeightedRandomLoot;
+import thaumcraft.api.items.ItemsTC;
 import thaumcraft.api.research.ResearchCategories;
 import thaumcraft.api.research.ResearchCategory;
+import thaumcraft.common.entities.monster.EntityPech;
 
 @Mod(modid = InfoTAR.MOD_ID, name = InfoTAR.MOD_NAME, version = InfoTAR.MOD_VERSION, certificateFingerprint = "4d7b29cd19124e986da685107d16ce4b49bc0a97", dependencies = "required-after:hammercore;required-after:thaumcraft@[6.1.BETA14,)")
 public class TAReconstructed
@@ -93,9 +98,12 @@ public class TAReconstructed
 	public void init(FMLInitializationEvent e)
 	{
 		proxy.init();
-		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(Aspect.MAGIC, 5).add(Aspect.TOOL, 5).add(Aspect.EARTH, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/gui_research_back_over.png"));
+		RES_CAT = ResearchCategories.registerCategory("THAUMADDITIONS", "UNLOCKINFUSION", new AspectList().add(KnowledgeTAR.FLUCTUS, 5).add(KnowledgeTAR.VISUM, 5).add(KnowledgeTAR.EXITIUM, 3), new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/thaumonomicon_icon.png"), CommonProxy.TEXTURE_THAUMONOMICON_BG, new ResourceLocation(InfoTAR.MOD_ID, "textures/gui/gui_research_back_over.png"));
 		RecipesTAR.init.call();
 		PotionsTAR.register.call();
+		
+		WeightedRandomLoot.lootBagRare.add(new WeightedRandomLoot(new ItemStack(ItemsTAR.ZEITH_SCALES), 1));
+		EntityPech.tradeInventory.get(2).add(Arrays.asList(5, new ItemStack(ItemsTAR.ZEITH_SCALES)));
 	}
 	
 	@EventHandler

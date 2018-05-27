@@ -141,10 +141,12 @@ public class KnowledgeTAR
 		appendAspects(new ItemStack(Blocks.NETHER_BRICK_STAIRS), new AspectList().add(INFERNUM, 10));
 		appendAspects(new ItemStack(Blocks.NETHER_BRICK_FENCE), new AspectList().add(INFERNUM, 5));
 		appendAspects(new ItemStack(Blocks.PISTON), new AspectList().add(FLUCTUS, 10).add(VENTUS, 10));
+		appendAspects(new ItemStack(ItemsTAR.ZEITH_SCALES), new AspectList().add(Aspect.MIND, 15).add(DRACO, 15).add(Aspect.LIFE, 15).add(CAELES, 2).add(Aspect.AURA, 20));
 		
 		String prefix = addIfPresent("thaumictinkerer:ichor", new AspectList().add(CAELES, 5), "");
 		prefix = addIfPresent("thaumictinkerer:ichorium", new AspectList().add(CAELES, 8), prefix);
 		prefix = addIfPresent("draconicevolution:draconic_ingot", new AspectList().add(CAELES, 6).add(DRACO, 18), prefix);
+		prefix = addIfPresent("draconicevolution:dragon_heart", new AspectList().add(CAELES, 20).add(DRACO, 100), prefix);
 		prefix = addIfPresent("draconicevolution:draconic_block", new AspectList().add(CAELES, 54).add(DRACO, 18 * 9), prefix);
 		prefix = addIfPresent("draconicevolution:chaos_shard", new AspectList().add(CAELES, 16).add(EXITIUM, 96), prefix);
 	}

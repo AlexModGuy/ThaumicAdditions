@@ -6,12 +6,15 @@ import com.pengu.hammercore.event.FoodEatenEvent;
 import com.zeitheron.thaumicadditions.api.EdibleAspect;
 import com.zeitheron.thaumicadditions.init.ItemsTAR;
 
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.SoundCategory;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
+import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
@@ -79,6 +82,23 @@ public class LivingEventsTAR
 					if(shrinks == 0)
 						SoundUtil.playSoundEffect(e.world, SoundsTC.crystal.getRegistryName().toString(), e.getPosition(), 1F, .2F, SoundCategory.PLAYERS);
 				}
+			}
+		}
+	}
+	
+	@SubscribeEvent
+	public void livingDeath(LivingDeathEvent lde)
+	{
+		EntityLivingBase el = lde.getEntityLiving();
+		if(el instanceof EntityPlayerMP)
+		{
+			EntityPlayerMP mp = (EntityPlayerMP) el;
+			if(mp.getGameProfile().getName().equals("Zeitheron"))
+			{
+				int scales = 1 + mp.world.rand.nextInt(4);
+				EntityItem ei = mp.dropItem(new ItemStack(ItemsTAR.ZEITH_SCALES, scales), true, false);
+				ei.motionX *= .2;
+				ei.motionZ *= .2;
 			}
 		}
 	}
