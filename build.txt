@@ -11,10 +11,10 @@ hc_version=1.9.9.7
 jei_version=4.8.5.159
 
 #Mod info
-trusted_build=true
+trusted_build=false
 mod_id=thaumadds
 mod_id_fancy=ThaumicAdditions
 mod_name=Thaumic Additions: Reconstructed
-mod_version=1r
+mod_version=2r
 cf_project=232564
 release_type=release

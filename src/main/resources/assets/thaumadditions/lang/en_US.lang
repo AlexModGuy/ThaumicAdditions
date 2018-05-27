@@ -71,6 +71,8 @@ item.thaumadditions:zeith_scale.tip=Drops from a mystical scalie
 item.thaumadditions:dna_sample.name=Entity Cell
 item.thaumadditions:dna_sample.blank=Blank
 item.thaumadditions:dna_sample.entity=Entity
+item.thaumadditions:recharge_charm.name=Recharge Charm
+item.thaumadditions:recharge_charm.tooltip0=No recipe/research YET!
 
 #########
 
